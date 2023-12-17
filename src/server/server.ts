@@ -1,6 +1,10 @@
 import express, { Application } from 'express';
 import cors from 'cors';
 
+/* Database */
+import { Database } from '../database';
+
+/* Utils */
 import { Http } from './utils';
 
 class Server {
@@ -67,8 +71,8 @@ class Server {
      * or rejects if an error occurs.
      */
     private async database(): Promise<void> {
-        // const db = new Database();
-        // await db.connect();
+        const db = new Database();
+        await db.connect();
     }
 
     /**
@@ -83,6 +87,7 @@ class Server {
         this.routes();
 
         this.app.listen(this.port, () => {
+            console.log(`Server listening on port ${ process.env.PORT || 9000 }`);
             // Logger.log.info(`Server listening on port ${ process.env.PORT || 9000 }`);
             // Logger.logtial.flush();
         });
