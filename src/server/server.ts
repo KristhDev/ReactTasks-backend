@@ -1,8 +1,15 @@
 import express, { Application } from 'express';
+import useragent from 'express-useragent';
 import cors from 'cors';
 
 /* Database */
 import { Database } from '../database';
+
+/* Console */
+import { Logger } from './console';
+
+/* Middlewares */
+import { loggerRequest, loggerResponse } from './middlewares';
 
 /* Utils */
 import { Http } from './utils';
@@ -32,7 +39,7 @@ class Server {
      * @return {void} Nothing is returned
      */
     private middlewares(): void {
-        // this.app.use(useragent.express());
+        this.app.use(useragent.express());
         this.app.use(cors());
         // this.app.use(fileUpload({
         //     limits: { fileSize: 50 * 1024 * 1024 },
@@ -40,7 +47,8 @@ class Server {
         //     tempFileDir : '/tmp/'
         // }));
         this.app.use(express.json());
-        // this.app.use(requestLogger);
+        this.app.use(loggerRequest);
+        this.app.use(loggerResponse);
     }
 
     /**
@@ -87,9 +95,7 @@ class Server {
         this.routes();
 
         this.app.listen(this.port, () => {
-            console.log(`Server listening on port ${ process.env.PORT || 9000 }`);
-            // Logger.log.info(`Server listening on port ${ process.env.PORT || 9000 }`);
-            // Logger.logtial.flush();
+            Logger.info(`Server listening on port ${ process.env.PORT || 9000 }`);
         });
     }
 }
