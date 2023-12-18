@@ -7,7 +7,7 @@ import { checkAuth } from '../middlewares';
 import { validateRequest } from '../../../server';
 
 /* Controllers */
-import { SignUpController, SignInController, SignOutController } from '../controllers';
+import { SignUpController, SignInController, SignOutController, RefreshAuth } from '../controllers';
 
 /* Routes */
 import { usersRoutes } from './routes';
@@ -27,6 +27,12 @@ router.post(
     usersRoutes.SIGN_IN,
     (req, res, next) => validateRequest(req, res, next, SignInSchema), 
     SignInController.handler
+);
+
+router.get(
+    usersRoutes.REFRESH,
+    checkAuth,
+    RefreshAuth.handler
 );
 
 router.post(
