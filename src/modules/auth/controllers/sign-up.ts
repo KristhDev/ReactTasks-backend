@@ -18,6 +18,13 @@ import { SignUpSchema } from '../schemas';
 import { JWT } from '../utils';
 
 class SignUpController {
+    /**
+     * Handles the request for signing up a user.
+     *
+     * @param {TypedRequestBody<typeof SignUpSchema>} req - The request object containing the user's information.
+     * @param {Response} res - The response object to send the result.
+     * @returns {Promise<JsonResponse>} The JSON response containing the result of the sign up operation.
+     */
     public static async handler(req: TypedRequestBody<typeof SignUpSchema>, res: Response): Promise<JsonResponse> {
         const body = req.body;
 
