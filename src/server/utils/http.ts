@@ -10,15 +10,14 @@ class Http {
     public static INTERNAL_SERVER_ERROR: number = 500;
 
     /**
-     * Sends a response with the provided message, status code, and response object.
+     * Sends a response with the specified data and status code.
      *
-     * @param {string} msg - The message to include in the response.
-     * @param {number} status - The status code to set for the response.
-     * @param {Response} res - The response object to send the response on.
-     * @return {JsonResponse} The JSON response object.
+     * @param {Response} res - The response object.
+     * @param {{ [key: string]: any, status: number }} data - The data to be sent in the response.
+     * @return {JsonResponse} The JSON response.
      */
-    public static sendResp(msg: string, status: number, res: Response): JsonResponse {
-        return res.status(status).json({ msg, status });
+    public static sendResp(res: Response, data: { [key: string]: any, status: number }): JsonResponse {
+        return res.status(data.status).json(data);
     }
 
     /**

@@ -8,6 +8,9 @@ import { Database } from '../database';
 /* Console */
 import { Logger } from './console';
 
+/* Routers */
+import { authRouter } from '../modules/auth';
+
 /* Middlewares */
 import { loggerRequest, loggerResponse } from './middlewares';
 
@@ -58,7 +61,7 @@ class Server {
      * @return {void} This function does not return anything.
      */
     private routes(): void {
-        // this.app.use('/api/auth', authRouter);
+        this.app.use('/api/auth', authRouter);
         // this.app.use('/api/assists', assistsRouter);
         // this.app.use('/api/groups', publicGroupsRouter);
         // this.app.use('/api/teachers', publicTeachersRouter);

@@ -1,0 +1,1 @@
+export { default as SignUpController } from './sign-up';

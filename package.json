@@ -13,13 +13,19 @@
   "author": "KristhDev",
   "license": "ISC",
   "dependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.5",
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-useragent": "^1.0.15",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.0.3",
     "winston": "^3.11.0",
-    "winston-timestamp-colorize": "^1.1.0"
+    "winston-timestamp-colorize": "^1.1.0",
+    "zod": "^3.22.4",
+    "zod-express-middleware": "^1.4.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
