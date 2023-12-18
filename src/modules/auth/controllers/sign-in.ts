@@ -1,5 +1,4 @@
-import { Response } from 'express';
-import { TypedRequestBody } from 'zod-express-middleware';
+import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 
 /* Adapters */
@@ -25,7 +24,7 @@ class SignInController {
      * @param {Response} res - The response object.
      * @return {Promise<JsonResponse>} A promise that resolves to a JSON response.
      */
-    public static async handler(req: TypedRequestBody<typeof SignInSchema>, res: Response): Promise<JsonResponse> {
+    public static async handler(req: Request<any, any, typeof SignInSchema._type>, res: Response): Promise<JsonResponse> {
         const { email, password } = req.body;
 
         try {
@@ -44,7 +43,7 @@ class SignInController {
             })
         } 
         catch (error) {
-            return Http.internalServerError(res);
+            return Http.internalServerError(res, error as Error);
         }
     }
 }

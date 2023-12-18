@@ -3,7 +3,7 @@ import { Schema, model } from 'mongoose';
 /* Interfaces */
 import { IUser } from '../interfaces';
 
-const useSchema = new Schema({
+const userSchema = new Schema({
     name: {
         required: [ true, 'El nombre es requerido.' ],
         type: String
@@ -23,6 +23,6 @@ const useSchema = new Schema({
     collection: 'users'
 });
 
-const User = model<IUser>('User', useSchema);
+const User = model<IUser>('User', userSchema);
 
 export default User;

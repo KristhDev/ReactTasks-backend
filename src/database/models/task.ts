@@ -24,7 +24,6 @@ const taskSchema = new Schema({
 }, {
     timestamps: true,
     collection: 'tasks',
-    id: true
 });
 
 const Task = model<ITask>('Task', taskSchema);

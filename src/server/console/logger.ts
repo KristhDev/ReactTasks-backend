@@ -114,7 +114,7 @@ class Logger {
                 format: Logger.consoleLoggerFormat()
             }),
             new transports.File({
-                filename: `./logs/jw-reports-notifications-server-${ Logger.loggerFormatDate(new Date()) }.log`,
+                filename: `./logs/reacttask-backend-${ Logger.loggerFormatDate(new Date()) }.log`,
                 format: Logger.fileLoggerFormat()
             }),
         ],

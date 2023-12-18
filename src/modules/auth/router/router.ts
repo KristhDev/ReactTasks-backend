@@ -1,11 +1,13 @@
 import { Router } from 'express';
-// import { validateRequestBody } from 'zod-express-middleware';
+
+/* Middlewares */
+import { checkAuth } from '../middlewares';
 
 /* Server */
 import { validateRequest } from '../../../server';
 
 /* Controllers */
-import { SignUpController, SignInController } from '../controllers';
+import { SignUpController, SignInController, SignOutController } from '../controllers';
 
 /* Routes */
 import { usersRoutes } from './routes';
@@ -25,6 +27,12 @@ router.post(
     usersRoutes.SIGN_IN,
     (req, res, next) => validateRequest(req, res, next, SignInSchema), 
     SignInController.handler
+);
+
+router.post(
+    usersRoutes.SIGN_OUT,
+    checkAuth,
+    SignOutController.handler
 );
 
 export default router;
