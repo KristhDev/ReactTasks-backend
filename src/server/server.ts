@@ -10,6 +10,7 @@ import { Logger } from './console';
 
 /* Routers */
 import { authRouter } from '../modules/auth';
+import { taskRouter } from '../modules/tasks';
 
 /* Middlewares */
 import { loggerRequest, loggerResponse } from './middlewares';
@@ -62,7 +63,7 @@ class Server {
      */
     private routes(): void {
         this.app.use('/api/auth', authRouter);
-        // this.app.use('/api/assists', assistsRouter);
+        this.app.use('/api/tasks', taskRouter);
         // this.app.use('/api/groups', publicGroupsRouter);
         // this.app.use('/api/teachers', publicTeachersRouter);
 

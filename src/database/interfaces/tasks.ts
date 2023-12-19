@@ -4,6 +4,7 @@ export interface ITask {
     title: string;
     description: string;
     image?: string;
+    deadline: string;
     createdAt?: string;
     updatedAt?: string;
 }

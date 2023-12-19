@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose';
+import { mongoosePagination, Pagination } from 'mongoose-paginate-ts';
 
 /* Interfaces */
 import { ITask } from '../interfaces';
@@ -20,12 +21,19 @@ const taskSchema = new Schema({
     image: {
         type: String,
         required: false
+    },
+    deadline: {
+        type: String,
+        required: [ true, 'La fecha de expiración es requerida.' ]
     }
 }, {
     timestamps: true,
     collection: 'tasks',
 });
 
-const Task = model<ITask>('Task', taskSchema);
+taskSchema.index({ title: 'text', description: 'text' });
+taskSchema.plugin(mongoosePagination);
+
+const Task = model<ITask, Pagination<ITask>>('Task', taskSchema);
 
 export default Task;
