@@ -1,5 +1,3 @@
-import { Request } from 'express';
-
 /* Adapters */
 import { taskEndpointAdapter } from '../adapters';
 
@@ -8,9 +6,10 @@ import { Task } from '../../../database';
 
 /* Interfaces */
 import { Http, JsonResponse } from '../../../server';
+import { IndexTaskRequest } from '../interfaces';
 
-class IndexController {
-    public static async handler(req: Request<any, any, any, { query?: string, page?: number }>, res: JsonResponse): Promise<JsonResponse> {
+class IndexTaskController {
+    public static async handler(req: IndexTaskRequest, res: JsonResponse): Promise<JsonResponse> {
         try {
             const { user } = (req as any).auth;
             const query = req.query.query || '';
@@ -41,4 +40,4 @@ class IndexController {
     }
 }
 
-export default IndexController;
+export default IndexTaskController;

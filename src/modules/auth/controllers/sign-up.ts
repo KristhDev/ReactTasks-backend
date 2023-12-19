@@ -1,4 +1,3 @@
-import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 
 /* Adapters */
@@ -10,8 +9,8 @@ import { Http, JsonResponse } from '../../../server';
 /* Database */
 import { User } from '../../../database';
 
-/* Schemas */
-import { SignUpSchema } from '../schemas';
+/* Interfaces */
+import { SignUpRequest } from '../interfaces';
 
 /* Utils */
 import { JWT } from '../utils';
@@ -20,11 +19,11 @@ class SignUpController {
     /**
      * Handles the request for signing up a user.
      *
-     * @param {TypedRequestBody<typeof SignUpSchema>} req - The request object containing the user's information.
+     * @param {SignUpRequest} req - The request object containing the user's information.
      * @param {Response} res - The response object to send the result.
      * @returns {Promise<JsonResponse>} The JSON response containing the result of the sign up operation.
      */
-    public static async handler(req: Request<any, any, typeof SignUpSchema._type>, res: Response): Promise<JsonResponse> {
+    public static async handler(req: SignUpRequest, res: JsonResponse): Promise<JsonResponse> {
         const body = req.body;
 
         try {

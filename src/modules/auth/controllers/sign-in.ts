@@ -1,4 +1,3 @@
-import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 
 /* Adapters */
@@ -10,8 +9,8 @@ import { User } from '../../../database';
 /* Server */
 import { Http, JsonResponse } from '../../../server';
 
-/* Schemas */
-import { SignInSchema } from '../schemas';
+/* Interfaces */
+import { SignInRequest } from '../interfaces';
 
 /* Utils */
 import { JWT } from '../utils';
@@ -20,11 +19,11 @@ class SignInController {
     /**
      * Handles the request to sign in a user.
      *
-     * @param {TypedRequestBody<typeof SignInSchema>} req - The request object containing the typed body.
+     * @param {SignInRequest} req - The request object containing the typed body.
      * @param {Response} res - The response object.
      * @return {Promise<JsonResponse>} A promise that resolves to a JSON response.
      */
-    public static async handler(req: Request<any, any, typeof SignInSchema._type>, res: Response): Promise<JsonResponse> {
+    public static async handler(req: SignInRequest, res: JsonResponse): Promise<JsonResponse> {
         const { email, password } = req.body;
 
         try {

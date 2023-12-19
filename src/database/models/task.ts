@@ -25,6 +25,11 @@ const taskSchema = new Schema({
     deadline: {
         type: String,
         required: [ true, 'La fecha de expiración es requerida.' ]
+    },
+    status: {
+        type: String,
+        enum: [ 'pending', 'completed', 'in-progress' ],
+        default: 'pending'
     }
 }, {
     timestamps: true,

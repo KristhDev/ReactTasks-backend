@@ -6,7 +6,7 @@ import { taskEndpointAdapter } from '../adapters';
 /* Server */
 import { Http, JsonResponse } from '../../../server';
 
-class ShowController {
+class ShowTaskController {
     public static handler(req: Request, res: JsonResponse): JsonResponse {
         try {
             const task = (req as any).task;
@@ -22,4 +22,4 @@ class ShowController {
     }
 }
 
-export default ShowController;
+export default ShowTaskController;

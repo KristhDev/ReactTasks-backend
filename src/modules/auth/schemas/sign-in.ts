@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-/* User */
+/* Database */
 import { User } from '../../../database';
 
 export const SignInSchema = z.object({

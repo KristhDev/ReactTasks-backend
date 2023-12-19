@@ -1,5 +1,6 @@
 /* Interfaces */
-import { UserEndpoint, UserModel } from '../interfaces';
+import { UserModel } from '../../../database';
+import { UserEndpoint } from '../interfaces';
 
 export const userEndpointAdapter = (user: UserModel): UserEndpoint => ({
     id: user._id,

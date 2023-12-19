@@ -1,7 +1,5 @@
-import { Document } from 'mongoose';
-
-/* Interfaces */
-import { ITask } from '../../../database';
+/* Database */
+import { TaskStatus } from '../../../database';
 
 export interface TaskEndpoint {
     id: string;
@@ -10,8 +8,7 @@ export interface TaskEndpoint {
     description: string;
     image?: string;
     deadline: string;
+    status: TaskStatus;
     createdAt: string;
     updatedAt: string;
 }
-
-export type TaskModel = Document<unknown, {}, ITask> & ITask & Required<{ _id: string; }>;
