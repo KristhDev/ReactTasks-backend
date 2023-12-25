@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
 /* Controllers */
-import { IndexTaskController, ShowTaskController, StoreTaskController } from '../controllers';
+import { IndexTaskController, ShowTaskController, StoreTaskController, UpdateTaskController } from '../controllers';
 
 /* Middlewares */
 import { checkAuth } from '../../auth';
@@ -13,19 +13,19 @@ import { taskExists } from '../middlewares';
 import { taskRoutes } from './routes';
 
 /* Schemas */
-import { storeTaskSchema } from '../schemas';
+import { storeTaskSchema, updateTaskSchema } from '../schemas';
 
 const router = Router();
 
+router.use(checkAuth);
+
 router.get(
     taskRoutes.INDEX,
-    checkAuth,
     IndexTaskController.handler
 );
 
 router.post(
     taskRoutes.STORE,
-    checkAuth,
     (req, res, next) => validateRequest(req, res, next, storeTaskSchema),
     validateImage,
     StoreTaskController.handler
@@ -33,9 +33,16 @@ router.post(
 
 router.get(
     taskRoutes.SHOW,
-    checkAuth,
     taskExists,
     ShowTaskController.handler
+);
+
+router.put(
+    taskRoutes.UPDATE,
+    taskExists,
+    (req, res, next) => validateRequest(req, res, next, updateTaskSchema),
+    validateImage,
+    UpdateTaskController.handler
 );
 
 export default router;

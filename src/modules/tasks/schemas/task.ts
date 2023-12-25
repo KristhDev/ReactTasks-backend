@@ -21,12 +21,8 @@ export const taskSchema = z.object({
             invalid_type_error: 'La fecha de finalización debe ser una cadena.'
         })
         .datetime('La fecha de entrega debe ser una fecha.'),
-
-    status: z
-        .enum([ 'pending', 'completed', 'in-progress' ])
 });
 
-export const storeTaskSchema = taskSchema.omit({ status: true });
-
+export const storeTaskSchema = taskSchema;
 export const updateTaskSchema = taskSchema.partial();
 
