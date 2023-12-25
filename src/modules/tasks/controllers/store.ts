@@ -16,6 +16,13 @@ import { ImageService } from '../../images';
 import { StoreTaskRequest } from '../interfaces';
 
 class StoreTaskController {
+    /**
+     * Handles a request to store a task.
+     *
+     * @param {StoreTaskRequest} req - the request object
+     * @param {JsonResponse} res - the response object
+     * @return {Promise<JsonResponse>} - the response object with the stored task
+     */
     public static async handler(req: StoreTaskRequest, res: JsonResponse): Promise<JsonResponse> {
         try {
             const body = req.body;

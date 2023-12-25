@@ -9,6 +9,13 @@ import { Http, JsonResponse } from '../../../server';
 import { IndexTaskRequest } from '../interfaces';
 
 class IndexTaskController {
+    /**
+     * Handles the request for the index task.
+     *
+     * @param {IndexTaskRequest} req - The request object.
+     * @param {JsonResponse} res - The response object.
+     * @return {Promise<JsonResponse>} The response object containing the tasks and pagination.
+     */
     public static async handler(req: IndexTaskRequest, res: JsonResponse): Promise<JsonResponse> {
         try {
             const { user } = (req as any).auth;

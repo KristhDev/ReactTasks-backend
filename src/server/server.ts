@@ -82,6 +82,12 @@ class Server {
         await db.connect();
     }
 
+    /**
+     * Initializes the ImageService.
+     *
+     * @param {none} - This function does not take any parameters.
+     * @return {void} - This function does not return a value.
+     */
     private services(): void {
         ImageService.initialize();
     }

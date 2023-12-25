@@ -7,6 +7,15 @@ import { JsonResponse } from '../interfaces';
 /* Utils */
 import { Http } from '../utils';
 
+/**
+ * Validates a request against a schema and handles the response accordingly.
+ *
+ * @param {Request} req - The request object.
+ * @param {Response} res - The response object.
+ * @param {NextFunction} next - The next function.
+ * @param {z.ZodEffects<z.ZodObject<any>> | z.ZodObject<any>} schema - The schema to validate against.
+ * @return {Promise<JsonResponse | void>} - A promise that resolves to a JSON response or void.
+ */
 export const validateRequest = async (
     req: Request,
     res: Response, 

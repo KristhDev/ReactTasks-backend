@@ -38,6 +38,13 @@ class Http {
         return res.status(Http.BAD_REQUEST).json({ msg, status: Http.BAD_REQUEST });
     }
 
+    /**
+     * Generates a JSON response with an unauthorized status code and error message.
+     *
+     * @param {Response} res - The response object to send the JSON response.
+     * @param {JWTError} [error] - An optional JWTError object representing the error that occurred.
+     * @return {JsonResponse} The JSON response with the unauthorized status code and error message.
+     */
     public static unauthorized(res: Response, error?: JWTError): JsonResponse {
         if (error) Logger.error(error.message);
 
