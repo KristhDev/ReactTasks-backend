@@ -1,5 +1,6 @@
 import express, { Application } from 'express';
 import useragent from 'express-useragent';
+import fileUpload from 'express-fileupload';
 import cors from 'cors';
 
 /* Database */
@@ -14,6 +15,9 @@ import { taskRouter } from '../modules/tasks';
 
 /* Middlewares */
 import { loggerRequest, loggerResponse } from './middlewares';
+
+/* Services */
+import { ImageService } from '../modules/images';
 
 /* Utils */
 import { Http } from './utils';
@@ -45,11 +49,11 @@ class Server {
     private middlewares(): void {
         this.app.use(useragent.express());
         this.app.use(cors());
-        // this.app.use(fileUpload({
-        //     limits: { fileSize: 50 * 1024 * 1024 },
-        //     useTempFiles : true,
-        //     tempFileDir : '/tmp/'
-        // }));
+        this.app.use(fileUpload({
+            limits: { fileSize: 50 * 1024 * 1024 },
+            useTempFiles : true,
+            tempFileDir : '/tmp/'
+        }));
         this.app.use(express.json());
         this.app.use(loggerRequest);
         this.app.use(loggerResponse);
@@ -64,15 +68,6 @@ class Server {
     private routes(): void {
         this.app.use('/api/auth', authRouter);
         this.app.use('/api/tasks', taskRouter);
-        // this.app.use('/api/groups', publicGroupsRouter);
-        // this.app.use('/api/teachers', publicTeachersRouter);
-
-        // this.app.use('/api/admin/careers', adminCareersRouter);
-        // this.app.use('/api/admin/groups', adminGroupsRouter);
-        // this.app.use('/api/admin/teachers', adminTeachersRouter);
-        // this.app.use('/api/admin/roles', adminRolesRouter);
-        // this.app.use('/api/admin/students', adminStudentsRouter);
-
         this.app.use('/*', (_, res) => Http.notFound(res));
     }
 
@@ -87,6 +82,10 @@ class Server {
         await db.connect();
     }
 
+    private services(): void {
+        ImageService.initialize();
+    }
+
     /**
      * Initializes the server by setting up the database, middlewares, and routes.
      * Then the server listens on the specified port.
@@ -97,6 +96,7 @@ class Server {
         this.database();
         this.middlewares();
         this.routes();
+        this.services();
 
         this.app.listen(this.port, () => {
             Logger.info(`Server listening on port ${ process.env.PORT || 9000 }`);

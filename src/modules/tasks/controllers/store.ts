@@ -1,3 +1,5 @@
+import { UploadedFile } from 'express-fileupload';
+
 /* Adapters */
 import { taskEndpointAdapter } from '../adapters';
 
@@ -7,6 +9,9 @@ import { Http, JsonResponse } from '../../../server';
 /* Database */
 import { Task } from '../../../database';
 
+/* Services */
+import { ImageService } from '../../images';
+
 /* Interfaces */
 import { StoreTaskRequest } from '../interfaces';
 
@@ -14,9 +19,13 @@ class StoreTaskController {
     public static async handler(req: StoreTaskRequest, res: JsonResponse): Promise<JsonResponse> {
         try {
             const body = req.body;
+            const image = req.files?.image as UploadedFile | undefined;
             const { user } = (req as any).auth;
 
-            const task = await Task.create({ ...body, userId: user._id });
+            let imageUrl = '';
+            if (image) imageUrl = await ImageService.upload(image);
+
+            const task = await Task.create({ ...body, image: imageUrl, userId: user._id });
 
             return Http.sendResp(res, {
                 msg: 'Haz agregado la tarea correctamente.',

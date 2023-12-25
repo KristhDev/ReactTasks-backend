@@ -6,6 +6,7 @@ import { IndexTaskController, ShowTaskController, StoreTaskController } from '..
 /* Middlewares */
 import { checkAuth } from '../../auth';
 import { validateRequest } from '../../../server';
+import { validateImage } from '../../images';
 import { taskExists } from '../middlewares';
 
 /* Routes */
@@ -26,6 +27,7 @@ router.post(
     taskRoutes.STORE,
     checkAuth,
     (req, res, next) => validateRequest(req, res, next, storeTaskSchema),
+    validateImage,
     StoreTaskController.handler
 );
 
