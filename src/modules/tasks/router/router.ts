@@ -1,7 +1,13 @@
 import { Router } from 'express';
 
 /* Controllers */
-import { IndexTaskController, ShowTaskController, StoreTaskController, UpdateTaskController } from '../controllers';
+import {
+    DestroyTaskController,
+    IndexTaskController,
+    ShowTaskController,
+    StoreTaskController,
+    UpdateTaskController
+} from '../controllers';
 
 /* Middlewares */
 import { checkAuth } from '../../auth';
@@ -44,5 +50,11 @@ router.put(
     validateImage,
     UpdateTaskController.handler
 );
+
+router.delete(
+    taskRoutes.DELETE,
+    taskExists,
+    DestroyTaskController.handler
+)
 
 export default router;

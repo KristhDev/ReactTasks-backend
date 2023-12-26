@@ -24,7 +24,11 @@ class ImageService {
      */
     public static async upload(file: UploadedFile): Promise<string> {
         try {
-            const { secure_url } = await cloudinary.uploader.upload(file.tempFilePath, { folder: 'react-tasks/tasks' });
+            const { secure_url } = await cloudinary.uploader.upload(
+                file.tempFilePath,
+                { folder: process.env.CLOUDINARY_TASKS_FOLDER }
+            );
+
             return secure_url;
         } 
         catch (error) {
@@ -42,9 +46,9 @@ class ImageService {
         try {
             const nameArr = imgUrl.split('/');
             const name = nameArr[nameArr.length - 1];
-            const [ publicId, ext ] = name.split('.');
+            const [ publicId ] = name.split('.');
 
-            await cloudinary.uploader.destroy(publicId);
+            await cloudinary.uploader.destroy(`${ process.env.CLOUDINARY_TASKS_FOLDER }/${ publicId }`);
         } 
         catch (error) {
             throw error;
