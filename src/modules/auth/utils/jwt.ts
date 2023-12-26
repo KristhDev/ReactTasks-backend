@@ -1,7 +1,7 @@
 import jsonwebtoken, { JwtPayload } from 'jsonwebtoken';
 
 /* Database */
-import { Token } from '../../../database';
+import { DatabaseError, Token } from '../../../database';
 
 /* Errors */
 import { JWTError } from './errors';
@@ -14,11 +14,16 @@ class JWT {
      * @return {string} The generated token.
      */
     public static generateToken(data: any): string {
-        return jsonwebtoken.sign(
-            data,
-            process.env.JWT_SECRET!,
-            { expiresIn: '1d' }
-        );
+        try {
+            return jsonwebtoken.sign(
+                data,
+                process.env.JWT_SECRET!,
+                { expiresIn: '1d' }
+            );
+        } 
+        catch (error) {
+            throw new JWTError((error as any).message);
+        }
     }
 
     /**
@@ -35,7 +40,8 @@ class JWT {
             return jsonwebtoken.verify(token, process.env.JWT_SECRET!) as T
         } 
         catch (error) {
-            throw error;
+            if (error instanceof DatabaseError) throw new DatabaseError(error.message);
+            throw new JWTError((error as any).message);
         }
     }
 
@@ -55,7 +61,8 @@ class JWT {
             await Token.create({ token, expiresIn });
         } 
         catch (error) {
-            throw error;
+            if (error instanceof DatabaseError) throw new DatabaseError(error.message);
+            throw new JWTError((error as any).message);
         }
     }
 }

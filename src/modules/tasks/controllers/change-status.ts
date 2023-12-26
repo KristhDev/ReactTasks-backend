@@ -1,0 +1,39 @@
+/* Adapters */
+import { taskEndpointAdapter } from '../adapters';
+
+/* Server */
+import { Http, JsonResponse } from '../../../server';
+
+/* Database */
+import { Task, TaskModel } from '../../../database';
+
+/* Interfaces */
+import { ChangeStatusTaskRequest } from '../interfaces';
+
+class ChangeStatusTaskController {
+    /**
+     * Handles the request to change the status of a task.
+     *
+     * @param {ChangeStatusTaskRequest} req - The request object containing the new status.
+     * @param {JsonResponse} res - The response object to send the updated task in.
+     * @return {Promise<JsonResponse>} The response object containing the updated task.
+     */
+    public static async handler(req: ChangeStatusTaskRequest, res: JsonResponse): Promise<JsonResponse> {
+        try {
+            const { status } = req.body;
+            const task = (req as any).task as TaskModel;
+
+            const updatedTask = await Task.findByIdAndUpdate(task._id, { status }, { new: true });
+
+            return Http.sendResp(res, {
+                status: 200,
+                task: taskEndpointAdapter(updatedTask!)
+            });
+        } 
+        catch (error) {
+            return Http.internalServerError(res, error as Error);
+        }
+    }
+}
+
+export default ChangeStatusTaskController;

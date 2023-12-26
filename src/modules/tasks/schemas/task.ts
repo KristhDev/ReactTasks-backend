@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z, ZodIssueCode } from 'zod';
 
 export const taskSchema = z.object({
     title: z
@@ -21,6 +21,27 @@ export const taskSchema = z.object({
             invalid_type_error: 'La fecha de finalización debe ser una cadena.'
         })
         .datetime('La fecha de entrega debe ser una fecha.'),
+});
+
+
+export const statusTaskSchema = z.object({
+    status: z
+        .enum(
+            [ 'pending', 'completed', 'in-progress' ],
+            { 
+                errorMap: (issue, ctx) => {
+                    if (issue.code === ZodIssueCode.invalid_enum_value) {
+                        return { message: 'El estado debe ser uno de los siguientes: pending, completed o in-progress.' }
+                    }
+
+                    if (issue.code === ZodIssueCode.invalid_type) {
+                        return { message: 'El estado es requerido.' }
+                    }
+
+                    return { message: ctx.defaultError };
+                }
+            }
+        )
 });
 
 export const storeTaskSchema = taskSchema;

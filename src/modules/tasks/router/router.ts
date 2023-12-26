@@ -2,6 +2,7 @@ import { Router } from 'express';
 
 /* Controllers */
 import {
+    ChangeStatusTaskController,
     DestroyTaskController,
     IndexTaskController,
     ShowTaskController,
@@ -19,7 +20,7 @@ import { taskExists } from '../middlewares';
 import { taskRoutes } from './routes';
 
 /* Schemas */
-import { storeTaskSchema, updateTaskSchema } from '../schemas';
+import { statusTaskSchema, storeTaskSchema, updateTaskSchema } from '../schemas';
 
 const router = Router();
 
@@ -51,10 +52,17 @@ router.put(
     UpdateTaskController.handler
 );
 
+router.put(
+    taskRoutes.CHANGE_STATUS,
+    taskExists,
+    (req, res, next) => validateRequest(req, res, next, statusTaskSchema),
+    ChangeStatusTaskController.handler
+);
+
 router.delete(
     taskRoutes.DELETE,
     taskExists,
     DestroyTaskController.handler
-)
+);
 
 export default router;
