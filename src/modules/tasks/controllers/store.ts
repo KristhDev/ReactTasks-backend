@@ -1,13 +1,10 @@
 import { UploadedFile } from 'express-fileupload';
 
-/* Adapters */
-import { taskEndpointAdapter } from '../adapters';
-
 /* Server */
 import { Http, JsonResponse } from '../../../server';
 
 /* Database */
-import { Task } from '../../../database';
+import { TaskRepository } from '../../../database';
 
 /* Services */
 import { ImageService } from '../../images';
@@ -32,12 +29,12 @@ class StoreTaskController {
             let imageUrl = '';
             if (image) imageUrl = await ImageService.upload(image);
 
-            const task = await Task.create({ ...body, image: imageUrl, userId: user._id });
+            const task = await TaskRepository.create({ ...body, image: imageUrl, userId: user._id });
 
             return Http.sendResp(res, {
                 msg: 'Haz agregado la tarea correctamente.',
                 status: 201,
-                task: taskEndpointAdapter(task)
+                task: TaskRepository.endpointAdapter(task)
             });
         }
         catch (error) {

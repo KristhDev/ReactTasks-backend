@@ -1,6 +1,9 @@
 import { UploadedFile } from 'express-fileupload';
 import { v2 as cloudinary } from 'cloudinary';
 
+/* Utils */
+import { ImageError } from '../utils';
+
 class ImageService {
     /**
      * Initializes the cloudinary configuration.
@@ -32,7 +35,7 @@ class ImageService {
             return secure_url;
         } 
         catch (error) {
-            throw error;
+            throw new ImageError(error as string);
         }
     }
 
@@ -51,7 +54,7 @@ class ImageService {
             await cloudinary.uploader.destroy(`${ process.env.CLOUDINARY_TASKS_FOLDER }/${ publicId }`);
         } 
         catch (error) {
-            throw error;
+            throw new ImageError(error as string);
         }
     }
 }

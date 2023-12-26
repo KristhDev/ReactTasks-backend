@@ -1,7 +1,10 @@
 import { z } from 'zod';
 
+/* Server */
+import { Logger } from '../../../server';
+
 /* Database */
-import { User } from '../../../database';
+import { UserRepository } from '../../../database';
 
 export const SignUpSchema = z.object({
     name: z
@@ -18,8 +21,14 @@ export const SignUpSchema = z.object({
         })
         .email({ message: 'El correo no es valido.' })
         .refine(async (data) => {
-            const user = await User.findOne({ email: data });
-            return !user;
+            try {
+                const user = await UserRepository.findOne({ email: data });
+                return !user;
+            } 
+            catch (error) {
+                Logger.error(`${ (error as any).name }: ${ (error as any).message }`);
+                return false;
+            }
         }, { message: 'El correo ya existe.' }),
 
     password: z

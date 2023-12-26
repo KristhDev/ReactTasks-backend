@@ -1,11 +1,10 @@
-/* Adapters */
-import { taskEndpointAdapter } from '../adapters';
+/* Server */
+import { Http, JsonResponse } from '../../../server';
 
 /* Database */
-import { Task } from '../../../database';
+import { TaskRepository } from '../../../database';
 
 /* Interfaces */
-import { Http, JsonResponse } from '../../../server';
 import { IndexTaskRequest } from '../interfaces';
 
 class IndexTaskController {
@@ -28,11 +27,11 @@ class IndexTaskController {
                 queryDB = Object.assign(queryDB, { $text: { $search: `/${ query }/` } });
             }
 
-            const result = await Task.paginate({ limit: 20, page, query: queryDB, sort: { createdAt: -1 } });
+            const result = await TaskRepository.paginate({ limit: 20, page, query: queryDB, sort: { createdAt: -1 } });
 
             return Http.sendResp(res, {
                 status: 200,
-                tasks: result?.docs?.map((task) => taskEndpointAdapter(task as any)) || [],
+                tasks: result?.docs?.map((task) => TaskRepository.endpointAdapter(task as any)) || [],
                 pagination: {
                     hasNextPage: result?.hasNextPage || false,
                     nextPage: result?.nextPage || 0,

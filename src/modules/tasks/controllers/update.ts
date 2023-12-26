@@ -1,10 +1,7 @@
 import { UploadedFile } from 'express-fileupload';
 
-/* Adapters */
-import { taskEndpointAdapter } from '../adapters';
-
 /* Database */
-import { Task, TaskModel } from '../../../database';
+import { TaskModel, TaskRepository } from '../../../database';
 
 /* Server */
 import { Http, JsonResponse } from '../../../server';
@@ -34,12 +31,12 @@ class UpdateTaskController {
             if (image && !!imageUrl) await ImageService.delete(imageUrl);
             if (image) imageUrl = await ImageService.upload(image);
 
-            const updatedTask = await Task.findByIdAndUpdate(task._id, { ...body, image: imageUrl }, { new: true });
+            const updatedTask = await TaskRepository.findByIdAndUpdate(task._id, { ...body, image: imageUrl }, { new: true });
 
             return Http.sendResp(res, {
                 msg: 'Haz actualizado la tarea correctamente.',
                 status: 200,
-                task: taskEndpointAdapter(updatedTask!)
+                task: TaskRepository.endpointAdapter(updatedTask!)
             });
         } 
         catch (error) {

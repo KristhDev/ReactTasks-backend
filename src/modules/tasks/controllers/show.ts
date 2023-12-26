@@ -1,10 +1,10 @@
 import { Request } from 'express';
 
-/* Adapters */
-import { taskEndpointAdapter } from '../adapters';
-
 /* Server */
 import { Http, JsonResponse } from '../../../server';
+
+/* Database */
+import { TaskRepository } from '../../../database';
 
 class ShowTaskController {
     /**
@@ -19,7 +19,7 @@ class ShowTaskController {
             const task = (req as any).task;
 
             return Http.sendResp(res, {
-                task: taskEndpointAdapter(task),
+                task: TaskRepository.endpointAdapter(task),
                 status: 200
             });
         } 

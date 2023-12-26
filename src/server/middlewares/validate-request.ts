@@ -25,7 +25,7 @@ export const validateRequest = async (
 
     if (!result.success) {
         const error = result.error.errors[0].message;
-        return Http.badRequest(error, res);
+        return Http.badRequest(res, error);
     }
 
     next();

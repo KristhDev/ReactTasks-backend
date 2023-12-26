@@ -30,11 +30,11 @@ class Http {
     /**
      * Sends a bad request response with the given message.
      *
-     * @param {string} msg - The error message.
      * @param {Response} res - The response object.
+     * @param {string} msg - The error message.
      * @return {JsonResponse} The JSON response object.
      */
-    public static badRequest(msg: string, res: Response): JsonResponse {
+    public static badRequest(res: Response, msg: string): JsonResponse {
         return res.status(Http.BAD_REQUEST).json({ msg, status: Http.BAD_REQUEST });
     }
 
@@ -46,7 +46,7 @@ class Http {
      * @return {JsonResponse} The JSON response with the unauthorized status code and error message.
      */
     public static unauthorized(res: Response, error?: JWTError): JsonResponse {
-        if (error) Logger.error(error.message);
+        if (error) Logger.error(`${ error.name }: ${ error.message }`);
 
         return res.status(this.UNAUTHORIZED).json({
             msg: 'Necesita ingresar para poder realizar está acción.',
@@ -74,7 +74,7 @@ class Http {
      * @return {JsonResponse} The JSON response with the error message and status.
      */
     public static internalServerError(res: Response, error: Error): JsonResponse {
-        Logger.error(error.message);
+        Logger.error(`${ error.name }: ${ error.message }`);
 
         return res.status(Http.INTERNAL_SERVER_ERROR).json({
             msg: 'Ocurrio un error inesperado. Intente de nuevo más tarde.',

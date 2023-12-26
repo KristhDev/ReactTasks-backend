@@ -1,13 +1,10 @@
 import bcrypt from 'bcryptjs';
 
-/* Adapters */
-import { userEndpointAdapter } from '../adapters';
-
 /* Server */
 import { Http, JsonResponse } from '../../../server';
 
 /* Database */
-import { User } from '../../../database';
+import { UserRepository } from '../../../database';
 
 /* Interfaces */
 import { SignUpRequest } from '../interfaces';
@@ -27,7 +24,7 @@ class SignUpController {
         const body = req.body;
 
         try {
-            const user = await User.create({
+            const user = await UserRepository.create({
                 name: body.name,
                 email: body.email,
                 password: bcrypt.hashSync(body.password)
@@ -38,7 +35,7 @@ class SignUpController {
             return Http.sendResp(res, {
                 msg: 'Te has registrado correctamente.', 
                 status: 201,
-                user: userEndpointAdapter(user),
+                user: UserRepository.endpointAdapter(user),
                 token
             });
         } 

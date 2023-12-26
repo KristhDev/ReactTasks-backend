@@ -1,10 +1,10 @@
 import { Request } from 'express';
 
-/* Adapters */
-import { userEndpointAdapter } from '../adapters';
-
 /* Server */
 import { Http, JsonResponse } from '../../../server';
+
+/* Database */
+import { UserRepository } from '../../../database';
 
 /* Utils */
 import { JWT } from '../utils';
@@ -26,7 +26,7 @@ class RefreshAuth {
 
             return Http.sendResp(res, {
                 status: 200,
-                user: userEndpointAdapter(user),
+                user: UserRepository.endpointAdapter(user),
                 token: newToken
             });
         } 

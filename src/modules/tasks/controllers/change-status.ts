@@ -1,11 +1,8 @@
-/* Adapters */
-import { taskEndpointAdapter } from '../adapters';
-
 /* Server */
 import { Http, JsonResponse } from '../../../server';
 
 /* Database */
-import { Task, TaskModel } from '../../../database';
+import { TaskModel, TaskRepository } from '../../../database';
 
 /* Interfaces */
 import { ChangeStatusTaskRequest } from '../interfaces';
@@ -23,11 +20,11 @@ class ChangeStatusTaskController {
             const { status } = req.body;
             const task = (req as any).task as TaskModel;
 
-            const updatedTask = await Task.findByIdAndUpdate(task._id, { status }, { new: true });
+            const updatedTask = await TaskRepository.findByIdAndUpdate(task._id, { status }, { new: true });
 
             return Http.sendResp(res, {
                 status: 200,
-                task: taskEndpointAdapter(updatedTask!)
+                task: TaskRepository.endpointAdapter(updatedTask!)
             });
         } 
         catch (error) {

@@ -4,7 +4,7 @@ import { NextFunction, Request } from 'express';
 import { Http, JsonResponse } from '../../../server';
 
 /* Database */
-import { User } from '../../../database';
+import { UserRepository } from '../../../database';
 
 /* Utils */
 import { JWT, JWTError } from '../utils';
@@ -26,9 +26,9 @@ export const checkAuth = async (req: Request, res: JsonResponse, next: NextFunct
 
     try {
         const { id } = await JWT.validateToken<{ id: string }>(token);
-        const user = await User.findOne({ _id: id });
+        const user = await UserRepository.findById(id);
 
-        if (!user) return Http.badRequest('El usuario no existe.', res);
+        if (!user) return Http.badRequest(res, 'El usuario no existe.');
         (req as any).auth = { user, token }
 
         return next();

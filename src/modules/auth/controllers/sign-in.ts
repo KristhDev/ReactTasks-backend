@@ -1,10 +1,7 @@
 import bcrypt from 'bcryptjs';
 
-/* Adapters */
-import { userEndpointAdapter } from '../adapters';
-
 /* Database */
-import { User } from '../../../database';
+import { UserRepository } from '../../../database';
 
 /* Server */
 import { Http, JsonResponse } from '../../../server';
@@ -27,17 +24,17 @@ class SignInController {
         const { email, password } = req.body;
 
         try {
-            const user = await User.findOne({ email });
+            const user = await UserRepository.findOne({ email });
 
             const match = bcrypt.compareSync(password, user?.password!);
-            if (!match) return Http.badRequest('Las credenciales son incorrectas.', res);
+            if (!match) return Http.badRequest(res, 'Las credenciales son incorrectas.');
 
             const token = JWT.generateToken({ id: user?._id });
 
             return Http.sendResp(res, {
                 msg: 'Has ingresado correctamente.', 
                 status: 200,
-                user: userEndpointAdapter(user!),
+                user: UserRepository.endpointAdapter(user!),
                 token
             })
         } 

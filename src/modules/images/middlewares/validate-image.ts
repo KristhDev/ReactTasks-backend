@@ -7,30 +7,25 @@ import { Http, JsonResponse } from '../../../server';
 import { imageSchema } from '../schemas';
 
 /**
- * Validates an image.
+ * Validates an image received in a request.
  *
- * @param {Request} req - the request object
- * @param {JsonResponse} res - the response object
- * @param {NextFunction} next - the next middleware function
- * @return {Promise<JsonResponse | void>} a promise that resolves to a JSON response or void
+ * @param {Request} req - The request object.
+ * @param {JsonResponse} res - The response object.
+ * @param {NextFunction} next - The next function in the middleware chain.
+ * @return {JsonResponse|void} - The response object or void.
  */
-export const validateImage = async (req: Request, res: JsonResponse, next: NextFunction): Promise<JsonResponse | void> => {
-    try {
-        const image = req.files?.image;
-        if (!image) return next();
+export const validateImage = (req: Request, res: JsonResponse, next: NextFunction): JsonResponse | void => {
+    const image = req.files?.image;
 
-        if (Array.isArray(image)) return Http.badRequest('Solo puedes subir una imagen.', res);
+    if (!image) return next();
+    if (Array.isArray(image)) return Http.badRequest(res, 'Solo puedes subir una imagen.');
 
-        const result = imageSchema.safeParse(image);
+    const result = imageSchema.safeParse(image);
 
-        if (!result.success) {
-            const error = result.error.errors[0].message;
-            return Http.badRequest(error, res);
-        }
-
-        return next();
-    } 
-    catch (error) {
-        return Http.internalServerError(res, error as Error);
+    if (!result.success) {
+        const error = result.error.errors[0].message;
+        return Http.badRequest(res, error);
     }
+
+    return next();
 }

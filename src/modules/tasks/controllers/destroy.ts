@@ -1,7 +1,7 @@
 import { Request } from 'express';
 
 /* Database */
-import { Task, TaskModel } from '../../../database';
+import { TaskModel, TaskRepository } from '../../../database';
 
 /* Server */
 import { Http, JsonResponse } from '../../../server';
@@ -23,7 +23,7 @@ class DestroyTaskController {
             const task = (req as any).task as TaskModel;
 
             if (!!task?.image) await ImageService.delete(task.image);
-            await Task.deleteOne({ _id: task._id });
+            await TaskRepository.deleteOne({ _id: task._id });
 
             return Http.sendResp(res, {
                 msg: 'Haz eliminado la tarea correctamente.',

@@ -1,3 +1,5 @@
+import { Document } from 'mongoose';
+
 export interface IToken {
     _id: string;
     token: string;
@@ -5,3 +7,5 @@ export interface IToken {
     createdAt?: string;
     updatedAt?: string;
 }
+
+export type TokenModel = Document<unknown, {}, IToken> & IToken & Required<{ _id: string; }>;

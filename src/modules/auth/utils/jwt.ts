@@ -1,7 +1,7 @@
 import jsonwebtoken, { JwtPayload } from 'jsonwebtoken';
 
 /* Database */
-import { DatabaseError, Token } from '../../../database';
+import { DatabaseError, TokenRepository } from '../../../database';
 
 /* Errors */
 import { JWTError } from './errors';
@@ -34,7 +34,7 @@ class JWT {
      */
     public static async validateToken<T>(token: string): Promise<T> {
         try {
-            const revokedToken = await Token.findOne({ token });
+            const revokedToken = await TokenRepository.findOne({ token });
             if (revokedToken) throw new JWTError('El token ya ha sido revocado.');
 
             return jsonwebtoken.verify(token, process.env.JWT_SECRET!) as T
@@ -58,7 +58,7 @@ class JWT {
             const { exp } = jsonwebtoken.verify(token, process.env.JWT_SECRET!) as JwtPayload;
             const expiresIn = new Date(exp! * 1000).toISOString();
 
-            await Token.create({ token, expiresIn });
+            await TokenRepository.create({ token, expiresIn });
         } 
         catch (error) {
             if (error instanceof DatabaseError) throw new DatabaseError(error.message);
