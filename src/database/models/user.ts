@@ -13,6 +13,10 @@ const userSchema = new Schema({
         type: String,
         unique: [ true, 'El correo ya existe.' ]
     },
+    verified: {
+        default: false,
+        type: Boolean
+    },
     password: {
         minlength: [ 6, 'La contraseña debe tener al menos 6 caracteres.' ],
         required: [ true, 'La contraseña es requerida.' ],

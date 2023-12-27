@@ -5,4 +5,5 @@ export const usersRoutes = {
     SIGN_OUT: '/signout',
     SIGN_UP: '/signup',
     UPDATE_USER: '/',
+    VERIFY_EMAIL: '/verify-email',
 }

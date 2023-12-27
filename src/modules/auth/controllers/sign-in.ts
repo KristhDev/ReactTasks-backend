@@ -25,6 +25,7 @@ class SignInController {
 
         try {
             const user = await UserRepository.findOne({ email });
+            if (!user?.verified) return Http.badRequest(res, 'Tu cuenta no ha sido verificada.');
 
             const match = bcrypt.compareSync(password, user?.password!);
             if (!match) return Http.badRequest(res, 'Las credenciales son incorrectas.');

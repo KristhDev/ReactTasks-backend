@@ -1,13 +1,13 @@
 import { Router } from 'express';
 
 /* Middlewares */
-import { checkAuth } from '../middlewares';
+import { checkAuth, checkVerificationToken } from '../middlewares';
 
 /* Server */
 import { validateRequest } from '../../../server';
 
 /* Controllers */
-import { SignUpController, SignInController, SignOutController, RefreshAuth } from '../controllers';
+import { SignUpController, SignInController, SignOutController, RefreshAuth, VerifyEmailController } from '../controllers';
 
 /* Routes */
 import { usersRoutes } from './routes';
@@ -39,6 +39,12 @@ router.post(
     usersRoutes.SIGN_OUT,
     checkAuth,
     SignOutController.handler
+);
+
+router.get(
+    usersRoutes.VERIFY_EMAIL,
+    checkVerificationToken,
+    VerifyEmailController.handler
 );
 
 export default router;

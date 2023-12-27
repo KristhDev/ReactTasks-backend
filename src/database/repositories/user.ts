@@ -58,6 +58,22 @@ class UserRepository {
     }
 
     /**
+     * Updates a user by finding it using the provided id and applying the given data.
+     *
+     * @param {string} id - The id of the user to be updated.
+     * @param {AnyKeys<UserModel>} data - The data to be applied to the user.
+     * @return {Promise<UserModel | null>} - A promise that resolves to the updated user object, or null if no user was found.
+     */
+    public static async findByIdAndUpdate(id: string, data: AnyKeys<UserModel>): Promise<UserModel | null> {
+        try {
+            return await User.findByIdAndUpdate(id, data);
+        } 
+        catch (error) {
+            throw new DatabaseError((error as any).message);
+        }
+    }
+
+    /**
      * Finds a single user that matches the given filter.
      *
      * @param {FilterQuery<UserModel>} filter - The filter to apply when searching for the user.

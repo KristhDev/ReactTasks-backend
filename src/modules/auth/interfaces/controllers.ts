@@ -7,4 +7,6 @@ export type SignInBody = z.infer<typeof SignInSchema>;
 export type SignInRequest = Request<any, any, SignInBody>
 
 export type SignUpBody = z.infer<typeof SignUpSchema>;
-export type SignUpRequest = Request<any, any, SignUpBody>
+export type SignUpRequest = Request<any, any, SignUpBody>;
+
+export type VerifyEmailRequest = Request<any, any, any, { token?: string }>;

@@ -1,4 +1,5 @@
 import jsonwebtoken, { JwtPayload } from 'jsonwebtoken';
+import { jwtDecode } from 'jwt-decode';
 
 /* Database */
 import { DatabaseError, TokenRepository } from '../../../database';
@@ -8,17 +9,34 @@ import { JWTError } from './errors';
 
 class JWT {
     /**
+     * Decodes a JWT token and returns the payload.
+     *
+     * @param {string} token - The JWT token to be decoded.
+     * @return {JwtPayload | undefined} Returns the decoded payload if successful, otherwise undefined.
+     */
+    public static decodeToken(token: string): JwtPayload | undefined {
+        try {
+            return jwtDecode(token);
+        } 
+        catch (error) {
+            console.log(error);
+            throw new JWTError((error as any).message);
+        }
+    }
+
+    /**
      * Generates a token using the provided data.
      *
      * @param {any} data - The data to be included in the token.
+     * @param {string} expiresIn - The expiration time of the token.
      * @return {string} The generated token.
      */
-    public static generateToken(data: any): string {
+    public static generateToken(data: any, expiresIn: string = '1d'): string {
         try {
             return jsonwebtoken.sign(
                 data,
                 process.env.JWT_SECRET!,
-                { expiresIn: '1d' }
+                { expiresIn }
             );
         } 
         catch (error) {

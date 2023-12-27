@@ -9,8 +9,8 @@ import { Database } from '../database';
 /* Console */
 import { Logger } from './console';
 
-/* Routers */
-import { authRouter } from '../modules/auth';
+/* Modules */
+import { EmailService, authRouter } from '../modules/auth';
 import { taskRouter } from '../modules/tasks';
 
 /* Middlewares */
@@ -83,12 +83,14 @@ class Server {
     }
 
     /**
-     * Initializes the ImageService.
+     * Initializes the necessary services.
      *
-     * @param {none} - This function does not take any parameters.
-     * @return {void} - This function does not return a value.
+     * This function initializes the email service and the image service.
+     * It calls the static initialize method of each service class.
+     * @return {void} Nothing is returned
      */
     private services(): void {
+        EmailService.initialize();
         ImageService.initialize();
     }
 
