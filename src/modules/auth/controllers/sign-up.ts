@@ -11,6 +11,8 @@ import { EmailService } from '../services';
 
 /* Interfaces */
 import { SignUpRequest } from '../interfaces';
+
+/* Utils */
 import { JWT } from '../utils';
 
 class SignUpController {
@@ -35,7 +37,7 @@ class SignUpController {
             const data = JWT.decodeToken(token);
             const expiresIn = new Date(data?.exp! * 1000).toISOString();
 
-            await EmailVerificationRepository.create({ userId: user?._id, token: token, expiresIn });
+            await EmailVerificationRepository.create({ userId: user?._id, token, expiresIn });
 
             await EmailService.sendEmailVerification({
                 email: body.email,

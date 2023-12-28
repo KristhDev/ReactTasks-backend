@@ -17,7 +17,7 @@ class IndexTaskController {
      */
     public static async handler(req: IndexTaskRequest, res: JsonResponse): Promise<JsonResponse> {
         try {
-            const { user } = (req as any).auth;
+            const { user } = req.auth!;
             const query = req.query.query || '';
             const page = req.query.page || 1;
 

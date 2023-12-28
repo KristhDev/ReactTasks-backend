@@ -24,7 +24,7 @@ class StoreTaskController {
         try {
             const body = req.body;
             const image = req.files?.image as UploadedFile | undefined;
-            const { user } = (req as any).auth;
+            const { user } = req.auth!;
 
             let imageUrl = '';
             if (image) imageUrl = await ImageService.upload(image);

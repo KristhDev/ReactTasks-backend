@@ -2,7 +2,7 @@
 import { Http, JsonResponse } from '../../../server';
 
 /* Database */
-import { TaskModel, TaskRepository } from '../../../database';
+import { TaskRepository } from '../../../database';
 
 /* Interfaces */
 import { ChangeStatusTaskRequest } from '../interfaces';
@@ -18,7 +18,7 @@ class ChangeStatusTaskController {
     public static async handler(req: ChangeStatusTaskRequest, res: JsonResponse): Promise<JsonResponse> {
         try {
             const { status } = req.body;
-            const task = (req as any).task as TaskModel;
+            const task = req.task!;
 
             const updatedTask = await TaskRepository.findByIdAndUpdate(task._id, { status }, { new: true });
 

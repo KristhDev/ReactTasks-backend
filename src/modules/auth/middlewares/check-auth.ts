@@ -30,7 +30,7 @@ export const checkAuth = async (req: Request, res: JsonResponse, next: NextFunct
 
         if (!user) return Http.badRequest(res, 'El usuario no existe.');
         if (!user.verified) return Http.badRequest(res, 'Tu cuenta no ha sido verificada.');
-        (req as any).auth = { user, token }
+        req.auth = { user, token }
 
         return next();
     } 

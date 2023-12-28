@@ -16,7 +16,7 @@ class ShowTaskController {
      */
     public static handler(req: Request, res: JsonResponse): JsonResponse {
         try {
-            const task = (req as any).task;
+            const task = req.task!;
 
             return Http.sendResp(res, {
                 task: TaskRepository.endpointAdapter(task),

@@ -1,7 +1,7 @@
 import { UploadedFile } from 'express-fileupload';
 
 /* Database */
-import { TaskModel, TaskRepository } from '../../../database';
+import { TaskRepository } from '../../../database';
 
 /* Server */
 import { Http, JsonResponse } from '../../../server';
@@ -24,7 +24,7 @@ class UpdateTaskController {
         try {
             const body = req.body;
             const image = req.files?.image as UploadedFile | undefined;
-            const task = (req as any).task as TaskModel;
+            const task = req.task!;
 
             let imageUrl = task.image;
 

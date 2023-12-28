@@ -1,19 +1,26 @@
 import { Router } from 'express';
 
 /* Middlewares */
-import { checkAuth, checkVerificationToken } from '../middlewares';
+import { checkAuth, checkVerificationToken, userExists } from '../middlewares';
 
 /* Server */
 import { validateRequest } from '../../../server';
 
 /* Controllers */
-import { SignUpController, SignInController, SignOutController, RefreshAuth, VerifyEmailController } from '../controllers';
+import {
+    RefreshAuth,
+    SendEmailVerificationController,
+    SignInController,
+    SignOutController,
+    SignUpController,
+    VerifyEmailController
+} from '../controllers';
 
 /* Routes */
 import { usersRoutes } from './routes';
 
 /* Schemas */
-import { SignInSchema, SignUpSchema } from '../schemas';
+import { EmailSchema, SignInSchema, SignUpSchema } from '../schemas';
 
 const router = Router();
 
@@ -45,6 +52,13 @@ router.get(
     usersRoutes.VERIFY_EMAIL,
     checkVerificationToken,
     VerifyEmailController.handler
+);
+
+router.post(
+    usersRoutes.VERIFY_EMAIL,
+    (req, res, next) => validateRequest(req, res, next, EmailSchema),
+    userExists,
+    SendEmailVerificationController.handler
 );
 
 export default router;

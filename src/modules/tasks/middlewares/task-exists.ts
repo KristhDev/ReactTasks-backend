@@ -16,15 +16,15 @@ import { TaskRepository } from '../../../database';
  */
 export const taskExists = async (req: Request, res: JsonResponse, next: NextFunction): Promise<JsonResponse | void> => {
     try {
-        if (!(req as any).auth) return Http.unauthorized(res);
+        if (!req.auth) return Http.unauthorized(res);
 
         const { taskId } = req.params;
-        const { user } = (req as any).auth;
+        const { user } = req.auth;
 
         const task = await TaskRepository.findOne({ _id: taskId, userId: user._id });
         if (!task) return Http.badRequest(res, 'La tarea no existe.');
 
-        (req as any).task = task;
+        req.task = task;
         return next();
     } 
     catch (error) {

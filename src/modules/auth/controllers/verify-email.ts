@@ -1,11 +1,11 @@
-import { JwtPayload } from 'jsonwebtoken';
-
+/* Server */
 import { Http, JsonResponse } from '../../../server';
 
-import { VerifyEmailRequest } from '../interfaces';
-
-import { JWT } from '../utils';
+/* Database */
 import { EmailVerificationRepository, UserRepository } from '../../../database';
+
+/* Interfaces */
+import { VerifyEmailRequest } from '../interfaces';
 
 class VerifyEmailController {
     /**
@@ -18,7 +18,7 @@ class VerifyEmailController {
     public static async handler(req: VerifyEmailRequest, res: JsonResponse): Promise<JsonResponse> {
         try {
             const { token } = req.query;
-            const expiresIn = (req as any).tokenExpiration;
+            const expiresIn = req.tokenExpiration;
 
             const emailVerification = await EmailVerificationRepository.findOne({ token, expiresIn });
 
@@ -26,6 +26,9 @@ class VerifyEmailController {
                 await EmailVerificationRepository.deleteOne({ token });
                 return Http.badRequest(res, 'El enlace de verificación ha expirado, por favor solicita otra verificación de cuenta.');
             }
+
+            const user = await UserRepository.findById(emailVerification.userId);
+            if (user?.verified) return Http.badRequest(res, 'Tu cuenta ya ha sido verificada.');
 
             await UserRepository.findByIdAndUpdate(emailVerification.userId, { verified: true });
             await EmailVerificationRepository.deleteOne({ _id: emailVerification._id });

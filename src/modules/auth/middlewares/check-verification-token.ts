@@ -21,7 +21,14 @@ export const checkVerificationToken = (req: Request, res: JsonResponse, next: Ne
         const data = JWT.decodeToken(token as string);
         if (!data) return Http.badRequest(res, 'La verificación no puede ser procesada.');
 
-        (req as any).tokenExpiration = new Date(data.exp! * 1000).toISOString();
+        const tokenExpiration = new Date(data.exp! * 1000).toISOString();
+
+        const currentDate = Date.parse(new Date().toISOString());
+        const tokenExpirationDate = Date.parse(tokenExpiration);
+
+        if (tokenExpirationDate < currentDate) return Http.badRequest(res, 'El enlace de verificación ha expirado, por favor solicita otra verificación de cuenta.');
+
+        req.tokenExpiration = tokenExpiration;
 
         return next();
     } 

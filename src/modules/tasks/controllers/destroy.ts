@@ -1,7 +1,7 @@
 import { Request } from 'express';
 
 /* Database */
-import { TaskModel, TaskRepository } from '../../../database';
+import { TaskRepository } from '../../../database';
 
 /* Server */
 import { Http, JsonResponse } from '../../../server';
@@ -20,7 +20,7 @@ class DestroyTaskController {
      */
     public static async handler(req: Request, res: JsonResponse): Promise<JsonResponse> {
         try {
-            const task = (req as any).task as TaskModel;
+            const task = req.task!;
 
             if (!!task?.image) await ImageService.delete(task.image);
             await TaskRepository.deleteOne({ _id: task._id });

@@ -19,7 +19,7 @@ class RefreshAuth {
      */
     public static async handler(req: Request, res: JsonResponse): Promise<JsonResponse> {
         try {
-            const { token, user } = (req as any).auth;
+            const { token, user } = req.auth!;
 
             const newToken = JWT.generateToken({ id: user._id });
             await JWT.revokeToken(token);

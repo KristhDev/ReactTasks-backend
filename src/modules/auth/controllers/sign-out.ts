@@ -16,7 +16,7 @@ class SignOutController {
      */
     public static async handler(req: Request, res: JsonResponse): Promise<JsonResponse> {
         try {
-            const { token } = (req as any).auth;
+            const { token } = req.auth!;
             await JWT.revokeToken(token);
 
             return Http.sendResp(res, {
