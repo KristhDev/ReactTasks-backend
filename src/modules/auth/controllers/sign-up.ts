@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs';
 import { Http, JsonResponse } from '../../../server';
 
 /* Database */
-import { EmailVerificationRepository, UserRepository } from '../../../database';
+import { VerificationRepository, UserRepository } from '../../../database';
 
 /* Services */
 import { EmailService } from '../services';
@@ -37,7 +37,7 @@ class SignUpController {
             const data = JWT.decodeToken(token);
             const expiresIn = new Date(data?.exp! * 1000).toISOString();
 
-            await EmailVerificationRepository.create({ userId: user?._id, token, expiresIn });
+            await VerificationRepository.create({ userId: user?._id, token, type: 'email', expiresIn });
 
             await EmailService.sendEmailVerification({
                 email: body.email,
@@ -46,7 +46,7 @@ class SignUpController {
             });
 
             return Http.sendResp(res, {
-                msg: `Te has registrado correctamente. Hemos enviado un correo de verificación a ${ body.email }, por favor confirma tu cuenta.`, 
+                msg: `Te has registrado correctamente. Hemos enviado un correo de verificación al correo que nos proporcionaste, por favor confirma tu cuenta.`, 
                 status: 201
             });
         } 

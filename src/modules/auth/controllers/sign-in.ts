@@ -37,7 +37,7 @@ class SignInController {
                 status: 200,
                 user: UserRepository.endpointAdapter(user!),
                 token
-            })
+            });
         } 
         catch (error) {
             return Http.internalServerError(res, error as Error);

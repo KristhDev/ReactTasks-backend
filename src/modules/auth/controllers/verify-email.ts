@@ -2,7 +2,7 @@
 import { Http, JsonResponse } from '../../../server';
 
 /* Database */
-import { EmailVerificationRepository, UserRepository } from '../../../database';
+import { VerificationRepository, UserRepository } from '../../../database';
 
 /* Interfaces */
 import { VerifyEmailRequest } from '../interfaces';
@@ -20,18 +20,18 @@ class VerifyEmailController {
             const { token } = req.query;
             const expiresIn = req.tokenExpiration;
 
-            const emailVerification = await EmailVerificationRepository.findOne({ token, expiresIn });
+            const verification = await VerificationRepository.findOne({ token, expiresIn });
 
-            if (!emailVerification) {
-                await EmailVerificationRepository.deleteOne({ token });
+            if (!verification) {
+                await VerificationRepository.deleteOne({ token });
                 return Http.badRequest(res, 'El enlace de verificación ha expirado, por favor solicita otra verificación de cuenta.');
             }
 
-            const user = await UserRepository.findById(emailVerification.userId);
+            const user = await UserRepository.findById(verification.userId);
             if (user?.verified) return Http.badRequest(res, 'Tu cuenta ya ha sido verificada.');
 
-            await UserRepository.findByIdAndUpdate(emailVerification.userId, { verified: true });
-            await EmailVerificationRepository.deleteOne({ _id: emailVerification._id });
+            await UserRepository.findByIdAndUpdate(verification.userId, { verified: true });
+            await VerificationRepository.deleteOne({ _id: verification._id });
 
             return Http.sendResp(res, {
                 msg: 'Haz verificado tu cuenta correctamente, ya puedes iniciar sesión.',

@@ -2,7 +2,7 @@ import nodemailer, { Transporter } from 'nodemailer';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
 
 /* Interfaces */
-import { SendEmailVerificationOptions } from '../interfaces';
+import { SendEmailOptions } from '../interfaces';
 
 /* Utils */
 import { EmailError } from '../utils';
@@ -33,13 +33,13 @@ class EmailService {
     /**
      * Sends an email verification.
      *
-     * @param {SendEmailVerificationOptions} options - The options for sending the email verification.
+     * @param {SendEmailOptions} options - The options for sending the email verification.
      * @param {string} options.email - The email address to send the verification to.
      * @param {string} options.token - The verification token.
      * @param {string} options.name - The name of the recipient.
      * @returns {Promise<void>} - A Promise that resolves when the email verification is sent.
      */
-    public static async sendEmailVerification({ email, token, name }: SendEmailVerificationOptions): Promise<void> {
+    public static async sendEmailVerification({ email, token, name }: SendEmailOptions): Promise<void> {
         try {
             await EmailService.transporter.sendMail({
                 from: `no-reply <${ process.env.NODEMAILER_USER }>`,
@@ -52,6 +52,35 @@ class EmailService {
                     Haz click en el siguiente enlace:
 
                     https://localhost:3000/verify-email?token=${ token }
+                `
+            });
+        } 
+        catch (error) {
+            throw new EmailError((error as any).message);
+        }
+    }
+
+    /**
+     * Sends a password reset email.
+     *
+     * @param {SendEmailOptions} email - The email address to send the reset link to.
+     * @param {string} token - The token to include in the reset link.
+     * @param {string} name - The name of the user receiving the email.
+     * @return {Promise<void>} - A promise that resolves when the email is sent successfully.
+     */
+    public static async sendEmailResetPassword({ email, token, name }: SendEmailOptions): Promise<void> {
+        try {
+            await EmailService.transporter.sendMail({
+                from: `no-reply <${ process.env.NODEMAILER_USER }>`,
+                to: email,
+                subject: 'Reestablecer contraseña - ReactTasks',
+                text: `
+                    Hola, ${ name }.
+                    Te enviamos este correo para reestablecer tu contraseña.
+
+                    Haz click en el siguiente enlace:
+
+                    https://localhost:3000/reset-password?token=${ token }
                 `
             });
         } 

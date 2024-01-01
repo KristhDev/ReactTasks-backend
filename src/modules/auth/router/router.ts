@@ -9,6 +9,7 @@ import { validateRequest } from '../../../server';
 /* Controllers */
 import {
     RefreshAuth,
+    ResetPasswordController,
     SendEmailVerificationController,
     SignInController,
     SignOutController,
@@ -59,6 +60,13 @@ router.post(
     (req, res, next) => validateRequest(req, res, next, EmailSchema),
     userExists,
     SendEmailVerificationController.handler
+);
+
+router.post(
+    usersRoutes.RESET_PASSWORD,
+    (req, res, next) => validateRequest(req, res, next, EmailSchema),
+    userExists,
+    ResetPasswordController.handler
 );
 
 export default router;

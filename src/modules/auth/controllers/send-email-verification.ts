@@ -2,7 +2,7 @@
 import { Http, JsonResponse } from '../../../server';
 
 /* Database */
-import { EmailVerificationRepository } from '../../../database';
+import { VerificationRepository } from '../../../database';
 
 /* Services */
 import { EmailService } from '../services';
@@ -30,7 +30,7 @@ class SendEmailVerificationController {
             const data = JWT.decodeToken(token);
             const expiresIn = new Date(data?.exp! * 1000).toISOString();
 
-            await EmailVerificationRepository.create({ userId: user?._id, token, expiresIn });
+            await VerificationRepository.create({ userId: user?._id, token, type: 'email', expiresIn });
 
             await EmailService.sendEmailVerification({
                 email: user.email,
@@ -39,7 +39,7 @@ class SendEmailVerificationController {
             });
 
             return Http.sendResp(res, {
-                msg: `Hemos enviado un correo de verificación a ${ user.email }, por favor confirma tu cuenta.`, 
+                msg: `Hemos enviado un correo de verificación, por favor confirma tu cuenta.`, 
                 status: 200
             });
         } 
