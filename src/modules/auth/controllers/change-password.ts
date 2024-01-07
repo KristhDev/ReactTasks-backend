@@ -32,9 +32,11 @@ class ChangePasswordController {
             await UserRepository.findByIdAndUpdate(user._id, { password: hash });
 
             await JWT.revokeToken(token);
+            const newToken = JWT.generateToken({ id: user._id });
 
             return Http.sendResp(res, {
                 msg: 'Haz cambiado tu contraseña correctamente.',
+                token: newToken,
                 status: 200
             });
         } 
