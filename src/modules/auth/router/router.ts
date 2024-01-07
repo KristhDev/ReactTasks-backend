@@ -8,6 +8,7 @@ import { validateRequest } from '../../../server';
 
 /* Controllers */
 import {
+    ChangePasswordController,
     RefreshAuth,
     ResetPasswordController,
     SendEmailVerificationController,
@@ -21,7 +22,7 @@ import {
 import { usersRoutes } from './routes';
 
 /* Schemas */
-import { EmailSchema, SignInSchema, SignUpSchema } from '../schemas';
+import { EmailSchema, PasswordSchema, SignInSchema, SignUpSchema } from '../schemas';
 
 const router = Router();
 
@@ -67,6 +68,13 @@ router.post(
     (req, res, next) => validateRequest(req, res, next, EmailSchema),
     userExists,
     ResetPasswordController.handler
+);
+
+router.put(
+    usersRoutes.CHANGE_PASSWORD,
+    checkAuth,
+    (req, res, next) => validateRequest(req, res, next, PasswordSchema),
+    ChangePasswordController.handler
 );
 
 export default router;
