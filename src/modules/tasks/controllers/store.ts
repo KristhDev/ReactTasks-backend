@@ -33,7 +33,7 @@ class StoreTaskController {
 
             return Http.sendResp(res, {
                 msg: 'Haz agregado la tarea correctamente.',
-                status: 201,
+                status: Http.CREATED,
                 task: TaskRepository.endpointAdapter(task)
             });
         }

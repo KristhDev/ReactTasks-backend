@@ -25,7 +25,7 @@ class RefreshAuth {
             await JWT.revokeToken(token);
 
             return Http.sendResp(res, {
-                status: 200,
+                status: Http.OK,
                 user: UserRepository.endpointAdapter(user),
                 token: newToken
             });

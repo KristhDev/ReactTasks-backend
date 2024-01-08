@@ -5,4 +5,5 @@ export { default as SendEmailVerificationController } from './send-email-verific
 export { default as SignInController } from './sign-in';
 export { default as SignOutController } from './sign-out';
 export { default as SignUpController } from './sign-up';
+export { default as UpdateUserController } from './update';
 export { default as VerifyEmailController } from './verify-email';

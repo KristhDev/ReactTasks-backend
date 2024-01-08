@@ -21,7 +21,7 @@ class SignOutController {
 
             return Http.sendResp(res, {
                 msg: 'Has cerrado sesión correctamente.',
-                status: 200
+                status: Http.OK
             });
         } 
         catch (error) {

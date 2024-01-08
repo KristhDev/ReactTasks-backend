@@ -14,6 +14,13 @@ export const SignUpSchema = z.object({
         })
         .min(3, 'El nombre debe tener al menos 3 caracteres.'),
 
+    lastname: z
+        .string({
+            required_error: 'Los apellidos son requeridos.',
+            invalid_type_error: 'Los apellidos deben ser una cadena.'
+        })
+        .min(5, 'Los apellidos deben tener al menos 5 caracteres.'),
+
     email: z
         .string({
             required_error: 'El correo es requerido.',
@@ -48,4 +55,22 @@ export const SignUpSchema = z.object({
 .refine(data => data.password === data.confirmPassword, {
     message: 'Las contraseñas no coinciden.',
     path: [ 'confirmPassword' ]
-})
+});
+
+export const UserSchema = z.object({
+    name: z
+        .string({
+            required_error: 'El nombre es requerido.',
+            invalid_type_error: 'El nombre debe ser una cadena.' 
+        })
+        .min(3, 'El nombre debe tener al menos 3 caracteres.')
+        .optional(),
+
+    lastname: z
+        .string({
+            required_error: 'Los apellidos son requeridos.',
+            invalid_type_error: 'Los apellidos deben ser una cadena.'
+        })
+        .min(5, 'Los apellidos deben tener al menos 5 caracteres.')
+        .optional(),
+});

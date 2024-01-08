@@ -20,7 +20,7 @@ class ShowTaskController {
 
             return Http.sendResp(res, {
                 task: TaskRepository.endpointAdapter(task),
-                status: 200
+                status: Http.OK
             });
         } 
         catch (error) {

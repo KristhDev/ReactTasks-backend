@@ -1,4 +1,4 @@
-import { AnyKeys, FilterQuery } from 'mongoose';
+import { AnyKeys, FilterQuery, ObjectId, QueryOptions, UpdateQuery } from 'mongoose';
 
 /* Models */
 import { User } from '../models';
@@ -36,6 +36,7 @@ class UserRepository {
         return {
             id: user._id,
             name: user.name,
+            lastname: user.lastname,
             email: user.email,
             createdAt: user.createdAt!,
             updatedAt: user.updatedAt!
@@ -58,15 +59,20 @@ class UserRepository {
     }
 
     /**
-     * Updates a user by finding it using the provided id and applying the given data.
+     * Finds a user by ID and updates their information.
      *
-     * @param {string} id - The id of the user to be updated.
-     * @param {AnyKeys<UserModel>} data - The data to be applied to the user.
-     * @return {Promise<UserModel | null>} - A promise that resolves to the updated user object, or null if no user was found.
+     * @param {ObjectId | any} id - The ID of the user to update.
+     * @param {UpdateQuery<UserModel>} update - The update object with the new information.
+     * @param {QueryOptions<UserModel> | null} options - The options for the query, if any.
+     * @return {Promise<UserModel | null>} A promise that resolves to the updated user object, or null if no user was found.
      */
-    public static async findByIdAndUpdate(id: string, data: AnyKeys<UserModel>): Promise<UserModel | null> {
+    public static async findByIdAndUpdate(
+        id?: ObjectId | any,
+        update?: UpdateQuery<UserModel>,
+        options?: QueryOptions<UserModel> | null
+    ): Promise<UserModel | null> {
         try {
-            return await User.findByIdAndUpdate(id, data);
+            return await User.findByIdAndUpdate(id, update, options);
         } 
         catch (error) {
             throw new DatabaseError((error as any).message);

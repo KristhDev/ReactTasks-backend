@@ -40,7 +40,7 @@ class SendEmailVerificationController {
 
             return Http.sendResp(res, {
                 msg: `Hemos enviado un correo de verificación, por favor confirma tu cuenta.`, 
-                status: 200
+                status: Http.OK
             });
         } 
         catch (error) {

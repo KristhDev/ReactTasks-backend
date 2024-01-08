@@ -11,6 +11,7 @@ import { JWTError } from '../../modules/auth';
 
 class Http {
     public static OK: number = 200;
+    public static CREATED: number = 201;
     public static BAD_REQUEST: number = 400;
     public static UNAUTHORIZED: number = 401;
     public static NOT_FOUND: number = 404;

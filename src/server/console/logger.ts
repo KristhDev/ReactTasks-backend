@@ -140,7 +140,6 @@ class Logger {
         Logger.log.log('success', message);
     }
 
-    
     /**
      * Logs an error message.
      *

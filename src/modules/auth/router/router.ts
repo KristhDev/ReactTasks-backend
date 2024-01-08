@@ -15,6 +15,7 @@ import {
     SignInController,
     SignOutController,
     SignUpController,
+    UpdateUserController,
     VerifyEmailController
 } from '../controllers';
 
@@ -22,7 +23,7 @@ import {
 import { usersRoutes } from './routes';
 
 /* Schemas */
-import { EmailSchema, PasswordSchema, SignInSchema, SignUpSchema } from '../schemas';
+import { EmailSchema, PasswordSchema, SignInSchema, SignUpSchema, UserSchema } from '../schemas';
 
 const router = Router();
 
@@ -61,6 +62,13 @@ router.post(
     (req, res, next) => validateRequest(req, res, next, EmailSchema),
     userExists,
     SendEmailVerificationController.handler
+);
+
+router.put(
+    usersRoutes.UPDATE_USER,
+    checkAuth,
+    (req, res, next) => validateRequest(req, res, next, UserSchema),
+    UpdateUserController.handler
 );
 
 router.post(

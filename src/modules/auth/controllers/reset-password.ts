@@ -39,7 +39,7 @@ class ResetPasswordController {
 
             return Http.sendResp(res, {
                 msg: 'Hemos enviado un correo para restablecer tu contraseña, por favor revisalo.', 
-                status: 200
+                status: Http.OK
             });
         } 
         catch (error) {

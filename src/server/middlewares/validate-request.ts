@@ -19,7 +19,8 @@ import { Http } from '../utils';
 export const validateRequest = async (
     req: Request,
     res: Response, 
-    next: NextFunction, schema: z.ZodEffects<z.ZodObject<any>> | z.ZodObject<any>
+    next: NextFunction,
+    schema: z.ZodEffects<z.ZodObject<any>> | z.ZodObject<any>
 ): Promise<JsonResponse | void> => {
     const result = await schema.safeParseAsync(req.body);
 

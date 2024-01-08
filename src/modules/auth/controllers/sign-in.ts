@@ -34,7 +34,7 @@ class SignInController {
 
             return Http.sendResp(res, {
                 msg: 'Has ingresado correctamente.', 
-                status: 200,
+                status: Http.OK,
                 user: UserRepository.endpointAdapter(user!),
                 token
             });

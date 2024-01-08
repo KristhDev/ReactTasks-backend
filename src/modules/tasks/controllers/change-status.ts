@@ -23,7 +23,7 @@ class ChangeStatusTaskController {
             const updatedTask = await TaskRepository.findByIdAndUpdate(task._id, { status }, { new: true });
 
             return Http.sendResp(res, {
-                status: 200,
+                status: Http.OK,
                 task: TaskRepository.endpointAdapter(updatedTask!)
             });
         } 

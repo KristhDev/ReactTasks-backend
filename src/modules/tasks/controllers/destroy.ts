@@ -27,7 +27,7 @@ class DestroyTaskController {
 
             return Http.sendResp(res, {
                 msg: 'Haz eliminado la tarea correctamente.',
-                status: 200,
+                status: Http.OK,
                 taskId: task._id
             });
         } 

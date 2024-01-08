@@ -37,7 +37,7 @@ class ChangePasswordController {
             return Http.sendResp(res, {
                 msg: 'Haz cambiado tu contraseña correctamente.',
                 token: newToken,
-                status: 200
+                status: Http.OK
             });
         } 
         catch (error) {

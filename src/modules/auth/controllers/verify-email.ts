@@ -35,7 +35,7 @@ class VerifyEmailController {
 
             return Http.sendResp(res, {
                 msg: 'Haz verificado tu cuenta correctamente, ya puedes iniciar sesión.',
-                status: 200
+                status: Http.OK
             });
         } 
         catch (error) {

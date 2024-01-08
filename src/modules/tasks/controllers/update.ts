@@ -35,7 +35,7 @@ class UpdateTaskController {
 
             return Http.sendResp(res, {
                 msg: 'Haz actualizado la tarea correctamente.',
-                status: 200,
+                status: Http.OK,
                 task: TaskRepository.endpointAdapter(updatedTask!)
             });
         } 

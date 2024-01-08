@@ -30,7 +30,7 @@ class IndexTaskController {
             const result = await TaskRepository.paginate({ limit: 20, page, query: queryDB, sort: { createdAt: -1 } });
 
             return Http.sendResp(res, {
-                status: 200,
+                status: Http.OK,
                 tasks: result?.docs?.map((task) => TaskRepository.endpointAdapter(task as any)) || [],
                 pagination: {
                     hasNextPage: result?.hasNextPage || false,

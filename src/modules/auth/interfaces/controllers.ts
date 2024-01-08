@@ -1,7 +1,7 @@
 import { Request } from 'express';
 import { z } from 'zod';
 
-import { EmailSchema, PasswordSchema, SignInSchema, SignUpSchema } from '../schemas';
+import { EmailSchema, PasswordSchema, SignInSchema, SignUpSchema, UserSchema } from '../schemas';
 
 export type SignInBody = z.infer<typeof SignInSchema>;
 export type SignInRequest = Request<any, any, SignInBody>
@@ -16,3 +16,6 @@ export type SendEmailVerificationRequest = Request<any, any, SendEmailVerificati
 
 export type ChangePasswordBody = z.infer<typeof PasswordSchema>;
 export type ChangePasswordRequest = Request<any, any, ChangePasswordBody>;
+
+export type UpdateUserBody = z.infer<typeof UserSchema>;
+export type UpdateUserRequest = Request<any, any, UpdateUserBody>;

@@ -8,6 +8,10 @@ const userSchema = new Schema({
         required: [ true, 'El nombre es requerido.' ],
         type: String
     },
+    lastname: {
+        required: [ true, 'Los apellidos son requeridos.' ],
+        type: String
+    },
     email: {
         required: [ true, 'El correo es requerido.' ],
         type: String,
