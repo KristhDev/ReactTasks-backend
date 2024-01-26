@@ -33,10 +33,12 @@ class IndexTaskController {
                 status: Http.OK,
                 tasks: result?.docs?.map((task) => TaskRepository.endpointAdapter(task as any)) || [],
                 pagination: {
-                    hasNextPage: result?.hasNextPage || false,
-                    nextPage: result?.nextPage || 0,
                     currentPage: result?.page || 0,
-                    query
+                    hasNextPage: result?.hasNextPage || false,
+                    hasPrevPage: result?.hasPrevPage || false,
+                    nextPage: result?.nextPage || 0,
+                    query,
+                    totalPages: result?.totalPages || 0
                 }
             });
         } 
