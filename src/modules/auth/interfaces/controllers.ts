@@ -11,8 +11,8 @@ export type SignUpRequest = Request<any, any, SignUpBody>;
 
 export type VerifyEmailRequest = Request<any, any, any, { token?: string }>;
 
-export type SendEmailVerificationController = z.infer<typeof EmailSchema>;
-export type SendEmailVerificationRequest = Request<any, any, SendEmailVerificationController>;
+export type SendEmailVerificationBody = z.infer<typeof EmailSchema>;
+export type SendEmailVerificationRequest = Request<any, any, SendEmailVerificationBody>;
 
 export type ChangePasswordBody = z.infer<typeof PasswordSchema>;
 export type ChangePasswordRequest = Request<any, any, ChangePasswordBody>;

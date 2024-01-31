@@ -29,6 +29,7 @@ class SignUpController {
         try {
             const user = await UserRepository.create({
                 name: body.name,
+                lastname: body.lastname,
                 email: body.email,
                 password: bcrypt.hashSync(body.password)
             });
