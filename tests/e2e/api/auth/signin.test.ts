@@ -43,9 +43,7 @@ describe('Test in SignIn Endpoint', () => {
     });
 
     it('should fail because request body is invalid', async () => {
-        const resp = await request
-            .post('/api/auth/signin')
-            .send();
+        const resp = await request.post('/api/auth/signin');
 
         expect(resp.status).toBe(Http.BAD_REQUEST);
 
