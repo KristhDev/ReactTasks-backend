@@ -22,7 +22,7 @@ class ChangePasswordController {
      */
     public static async handler(req: ChangePasswordRequest, res: JsonResponse): Promise<JsonResponse> {
         try {
-            const { password } = req.body;
+            const { password, revokeToken } = req.body;
             const { user, token } = req.auth!;
 
             const match = bcrypt.compareSync(password, user?.password!);
@@ -31,12 +31,10 @@ class ChangePasswordController {
             const hash = bcrypt.hashSync(password);
             await UserRepository.findByIdAndUpdate(user._id, { password: hash });
 
-            await JWT.revokeToken(token);
-            const newToken = JWT.generateToken({ id: user._id });
+            if (revokeToken) await JWT.revokeToken(token);
 
             return Http.sendResp(res, {
                 msg: 'Haz cambiado tu contraseña correctamente.',
-                token: newToken,
                 status: Http.OK
             });
         } 
