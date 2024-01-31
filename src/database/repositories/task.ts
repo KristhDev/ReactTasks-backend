@@ -55,10 +55,10 @@ class TaskRepository {
             title: task.title,
             description: task.description,
             image: task.image,
-            deadline: task.deadline,
+            deadline: new Date(task.deadline).toISOString(),
             status: task.status,
-            createdAt: task.createdAt!,
-            updatedAt: task.updatedAt!
+            createdAt: new Date(task.createdAt!).toISOString(),
+            updatedAt: new Date(task.updatedAt!).toISOString()
         }
     }
 

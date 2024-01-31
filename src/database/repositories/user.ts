@@ -34,12 +34,12 @@ class UserRepository {
      */
     public static endpointAdapter(user: UserModel): UserEndpoint {
         return {
-            id: user._id,
+            id: user._id.toString(),
             name: user.name,
             lastname: user.lastname,
             email: user.email,
-            createdAt: user.createdAt!,
-            updatedAt: user.updatedAt!
+            createdAt: new Date(user.createdAt!).toISOString(),
+            updatedAt: new Date(user.updatedAt!).toISOString()
         }
     }
 
