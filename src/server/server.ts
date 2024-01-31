@@ -110,6 +110,20 @@ class Server {
             Logger.info(`Server listening on port ${ process.env.PORT || 9000 }`);
         });
     }
+
+    /**
+     * Get the application instance.
+     *
+     * @return {Application} the application instance
+     */
+    public getApp(): Application {
+        this.database();
+        this.middlewares();
+        this.routes();
+        this.services();
+
+        return this.app;
+    }
 }
 
 export default Server;
