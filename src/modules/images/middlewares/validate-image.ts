@@ -6,6 +6,9 @@ import { Http, JsonResponse } from '../../../server';
 /* Schemas */
 import { imageSchema } from '../schemas';
 
+/* Utils */
+import { ImageErrorMessages } from '../utils';
+
 /**
  * Validates an image received in a request.
  *
@@ -18,7 +21,7 @@ export const validateImage = (req: Request, res: JsonResponse, next: NextFunctio
     const image = req.files?.image;
 
     if (!image) return next();
-    if (Array.isArray(image)) return Http.badRequest(res, 'Solo puedes subir una imagen.');
+    if (Array.isArray(image)) return Http.badRequest(res, ImageErrorMessages.ONE_FILE);
 
     const result = imageSchema.safeParse(image);
 
