@@ -26,6 +26,21 @@ class TokenRepository {
     }
 
     /**
+     * Deletes one token based on the provided filter query.
+     *
+     * @param {FilterQuery<TokenModel>} filter - the filter query for deleting the token
+     * @return {Promise<void>} a Promise that resolves with no value upon successful deletion
+     */
+    public static async deleteOne(filter: FilterQuery<TokenModel>): Promise<void> {
+        try {
+            await Token.deleteOne(filter);
+        } 
+        catch (error) {
+            throw new DatabaseError((error as any).message);
+        }
+    }
+
+    /**
      * Finds a single token based on the provided filter.
      *
      * @param {FilterQuery<TokenModel>} filter - The filter used to search for the token.
