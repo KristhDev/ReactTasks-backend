@@ -10,7 +10,7 @@ import { Http, JsonResponse } from '../../../server';
 import { SignInRequest } from '../interfaces';
 
 /* Utils */
-import { JWT } from '../utils';
+import { AuthErrorMessages, JWT } from '../utils';
 
 class SignInController {
     /**
@@ -25,10 +25,10 @@ class SignInController {
 
         try {
             const user = await UserRepository.findOne({ email });
-            if (!user?.verified) return Http.badRequest(res, 'Tu cuenta no ha sido verificada.');
+            if (!user?.verified) return Http.badRequest(res, AuthErrorMessages.UNVERIFIED);
 
             const match = bcrypt.compareSync(password, user?.password!);
-            if (!match) return Http.badRequest(res, 'Las credenciales son incorrectas.');
+            if (!match) return Http.badRequest(res, AuthErrorMessages.INVALID_CREDENTIALS);
 
             const token = JWT.generateToken({ id: user?._id });
 

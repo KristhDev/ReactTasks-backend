@@ -10,7 +10,7 @@ import { UserRepository } from '../../../database';
 import { ChangePasswordRequest } from '../interfaces';
 
 /* Utils */
-import { JWT } from '../utils';
+import { AuthErrorMessages, JWT } from '../utils';
 
 class ChangePasswordController {
     /**
@@ -26,7 +26,7 @@ class ChangePasswordController {
             const { user, token } = req.auth!;
 
             const match = bcrypt.compareSync(password, user?.password!);
-            if (match) return Http.badRequest(res, 'La nueva contraseña debe ser diferente a la anterior.');
+            if (match) return Http.badRequest(res, AuthErrorMessages.NEW_PASSWORD);
 
             const hash = bcrypt.hashSync(password);
             await UserRepository.findByIdAndUpdate(user._id, { password: hash });

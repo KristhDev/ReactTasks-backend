@@ -6,27 +6,30 @@ import { Logger } from '../../../server';
 /* Database */
 import { UserRepository } from '../../../database';
 
+/* Utils */
+import { AuthErrorMessages } from '../utils';
+
 export const SignUpSchema = z.object({
     name: z
         .string({
-            required_error: 'El nombre es requerido.',
-            invalid_type_error: 'El nombre debe ser una cadena.' 
+            required_error: AuthErrorMessages.NAME_REQUIRED,
+            invalid_type_error: AuthErrorMessages.NAME_TYPE 
         })
-        .min(3, 'El nombre debe tener al menos 3 caracteres.'),
+        .min(3, AuthErrorMessages.NAME_MIN_LENGTH),
 
     lastname: z
         .string({
-            required_error: 'Los apellidos son requeridos.',
-            invalid_type_error: 'Los apellidos deben ser una cadena.'
+            required_error: AuthErrorMessages.LASTNAME_REQUIRED,
+            invalid_type_error: AuthErrorMessages.LASTNAME_TYPE
         })
-        .min(5, 'Los apellidos deben tener al menos 5 caracteres.'),
+        .min(5, AuthErrorMessages.LASTNAME_MIN_LENGTH),
 
     email: z
         .string({
-            required_error: 'El correo es requerido.',
-            invalid_type_error: 'El correo debe ser una cadena.'
+            required_error: AuthErrorMessages.EMAIL_REQUIRED,
+            invalid_type_error: AuthErrorMessages.EMAIL_TYPE
         })
-        .email({ message: 'El correo no es valido.' })
+        .email({ message: AuthErrorMessages.EMAIL_INVALID })
         .refine(async (data) => {
             try {
                 const user = await UserRepository.findOne({ email: data });
@@ -36,41 +39,41 @@ export const SignUpSchema = z.object({
                 Logger.error(`${ (error as any).name }: ${ (error as any).message }`);
                 return false;
             }
-        }, { message: 'El correo ya existe.' }),
+        }, { message: AuthErrorMessages.EMAIL_EXISTS }),
 
     password: z
         .string({
-            required_error: 'La contraseña es requerida.',
-            invalid_type_error: 'La contraseña debe ser una cadena.'
+            required_error: AuthErrorMessages.PASSWORD_REQUIRED,
+            invalid_type_error: AuthErrorMessages.PASSWORD_TYPE
         })
-        .min(6, 'La contraseña debe tener al menos 6 caracteres.'),
+        .min(6, AuthErrorMessages.PASSWORD_MIN_LENGTH),
 
     confirmPassword: z
         .string({
-            required_error: 'La confirmación de la contraseña es requerida.',
-            invalid_type_error: 'La confirmación de la contraseña debe ser una cadena.'
+            required_error: AuthErrorMessages.PASSWORD_REQUIRED,
+            invalid_type_error: AuthErrorMessages.PASSWORD_TYPE
         })
-        .min(6, 'La confirmación de la contraseña debe tener al menos 6 caracteres.')
+        .min(6, AuthErrorMessages.PASSWORD_MIN_LENGTH),
 })
 .refine(data => data.password === data.confirmPassword, {
-    message: 'Las contraseñas no coinciden.',
+    message: AuthErrorMessages.PASSWORD_CONFIRMATION,
     path: [ 'confirmPassword' ]
 });
 
 export const UserSchema = z.object({
     name: z
         .string({
-            required_error: 'El nombre es requerido.',
-            invalid_type_error: 'El nombre debe ser una cadena.' 
+            required_error: AuthErrorMessages.NAME_REQUIRED,
+            invalid_type_error: AuthErrorMessages.NAME_TYPE 
         })
-        .min(3, 'El nombre debe tener al menos 3 caracteres.')
+        .min(3, AuthErrorMessages.NAME_MIN_LENGTH)
         .optional(),
 
     lastname: z
         .string({
-            required_error: 'Los apellidos son requeridos.',
-            invalid_type_error: 'Los apellidos deben ser una cadena.'
+            required_error: AuthErrorMessages.LASTNAME_REQUIRED,
+            invalid_type_error: AuthErrorMessages.LASTNAME_TYPE
         })
-        .min(5, 'Los apellidos deben tener al menos 5 caracteres.')
-        .optional(),
+        .min(5, AuthErrorMessages.LASTNAME_MIN_LENGTH)
+        .optional()
 });

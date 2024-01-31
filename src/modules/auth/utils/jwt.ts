@@ -5,7 +5,7 @@ import { jwtDecode } from 'jwt-decode';
 import { DatabaseError, TokenRepository } from '../../../database';
 
 /* Errors */
-import { JWTError } from './errors';
+import { JWTError, JWTErrorMessages } from './errors';
 
 class JWT {
     /**
@@ -53,13 +53,13 @@ class JWT {
     public static async validateToken<T>(token: string): Promise<T> {
         try {
             const revokedToken = await TokenRepository.findOne({ token });
-            if (revokedToken) throw new JWTError('El token ya ha sido revocado.');
+            if (revokedToken) throw new JWTError(JWTErrorMessages.REVOKED);
 
             return jsonwebtoken.verify(token, process.env.JWT_SECRET!) as T
         } 
         catch (error) {
             if (error instanceof DatabaseError) throw new DatabaseError(error.message);
-            if (error instanceof TokenExpiredError) throw new JWTError('Su tiempo de sesión ha expirado. Por favor, inicie sesión de nuevo.');
+            if (error instanceof TokenExpiredError) throw new JWTError(JWTErrorMessages.EXPIRED);
             throw new JWTError((error as any).message);
         }
     }

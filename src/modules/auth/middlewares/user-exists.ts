@@ -6,6 +6,9 @@ import { Http, JsonResponse } from '../../../server';
 /* Database */
 import { UserRepository } from '../../../database';
 
+/* Utils */
+import { AuthErrorMessages } from '../utils';
+
 /**
  * Checks if a user exists.
  *
@@ -19,7 +22,7 @@ export const userExists = async (req: Request, res: JsonResponse, next: NextFunc
         const { email } = req.body;
 
         const user = await UserRepository.findOne({ email });
-        if (!user) return Http.badRequest(res, 'El usuario no existe.');
+        if (!user) return Http.badRequest(res, AuthErrorMessages.NOT_FOUND);
 
         req.user = user;
 

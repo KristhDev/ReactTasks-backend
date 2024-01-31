@@ -7,6 +7,9 @@ import { VerificationRepository, UserRepository } from '../../../database';
 /* Interfaces */
 import { VerifyEmailRequest } from '../interfaces';
 
+/* Utils */
+import { AuthErrorMessages } from '../utils';
+
 class VerifyEmailController {
     /**
      * Handles the verification of an email.
@@ -24,7 +27,7 @@ class VerifyEmailController {
 
             if (!verification) {
                 await VerificationRepository.deleteOne({ token });
-                return Http.badRequest(res, 'El enlace de verificación ha expirado, por favor solicita otra verificación de cuenta.');
+                return Http.badRequest(res, AuthErrorMessages.VERIFICATION_EXPIRED);
             }
 
             const user = await UserRepository.findById(verification.userId);

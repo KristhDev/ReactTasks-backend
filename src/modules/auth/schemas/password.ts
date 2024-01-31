@@ -1,25 +1,28 @@
 import { z } from 'zod';
 
+/* Utils */
+import { AuthErrorMessages } from '../utils';
+
 export const PasswordSchema = z.object({
     password: z
         .string({
-            required_error: 'La contraseña es requerida.',
-            invalid_type_error: 'La contraseña debe ser una cadena.'
+            required_error: AuthErrorMessages.PASSWORD_REQUIRED,
+            invalid_type_error: AuthErrorMessages.PASSWORD_TYPE
         })
-        .min(6, 'La contraseña debe tener al menos 6 caracteres.'),
+        .min(6, AuthErrorMessages.PASSWORD_MIN_LENGTH),
 
     confirmPassword: z
         .string({
-            required_error: 'La confirmación de la contraseña es requerida.',
-            invalid_type_error: 'La confirmación de la contraseña debe ser una cadena.'
+            required_error: AuthErrorMessages.PASSWORD_REQUIRED,
+            invalid_type_error: AuthErrorMessages.PASSWORD_TYPE
         })
-        .min(6, 'La confirmación de la contraseña debe tener al menos 6 caracteres.'),
+        .min(6, AuthErrorMessages.PASSWORD_MIN_LENGTH),
 
     revokeToken: z
         .boolean()
         .default(false)
 })
 .refine(data => data.password === data.confirmPassword, {
-    message: 'Las contraseñas no coinciden.',
+    message: AuthErrorMessages.PASSWORD_CONFIRMATION,
     path: [ 'confirmPassword' ]
 })

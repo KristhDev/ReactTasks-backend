@@ -10,7 +10,7 @@ import { VerificationRepository } from '../../../database';
 import { EmailService } from '../services';
 
 /* Utils */
-import { JWT } from '../utils';
+import { AuthErrorMessages, JWT } from '../utils';
 
 class ResetPasswordController {
     /**
@@ -23,7 +23,7 @@ class ResetPasswordController {
     public static async handler(req: Request, res: JsonResponse): Promise<JsonResponse> {
         try {
             const user = req.user!;
-            if (!user.verified) return Http.badRequest(res, 'Tu cuenta no ha sido verificada.');
+            if (!user.verified) return Http.badRequest(res, AuthErrorMessages.UNVERIFIED);
 
             const token = JWT.generateToken({ id: user._id }, '30m');
             const data = JWT.decodeToken(token);

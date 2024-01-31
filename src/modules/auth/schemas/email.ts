@@ -1,10 +1,13 @@
 import { z } from 'zod';
 
+/* Utils */
+import { AuthErrorMessages } from '../utils';
+
 export const EmailSchema = z.object({
     email: z
         .string({
-            required_error: 'El correo es requerido.',
-            invalid_type_error: 'El correo debe ser una cadena.'
+            required_error: AuthErrorMessages.EMAIL_REQUIRED,
+            invalid_type_error: AuthErrorMessages.EMAIL_TYPE
         })
-        .email({ message: 'El correo no es valido.' })
+        .email({ message: AuthErrorMessages.EMAIL_INVALID })
 });
