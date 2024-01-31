@@ -35,7 +35,11 @@ export const checkAuth = async (req: Request, res: JsonResponse, next: NextFunct
         return next();
     } 
     catch (error) {
-        if (error instanceof JWTError) return Http.unauthorized(res, error as JWTError);
+        if (error instanceof JWTError) {
+            if (error.message !== 'Su tiempo de sesión ha expirado. Por favor, inicie sesión de nuevo.') return Http.unauthorized(res, error as JWTError);
+            return Http.sendResp(res, { msg: error.message, status: Http.UNAUTHORIZED });
+        }
+
         return Http.internalServerError(res, error as Error);
     }
 }

@@ -1,4 +1,4 @@
-import jsonwebtoken, { JwtPayload } from 'jsonwebtoken';
+import jsonwebtoken, { JwtPayload, TokenExpiredError } from 'jsonwebtoken';
 import { jwtDecode } from 'jwt-decode';
 
 /* Database */
@@ -59,6 +59,7 @@ class JWT {
         } 
         catch (error) {
             if (error instanceof DatabaseError) throw new DatabaseError(error.message);
+            if (error instanceof TokenExpiredError) throw new JWTError('Su tiempo de sesión ha expirado. Por favor, inicie sesión de nuevo.');
             throw new JWTError((error as any).message);
         }
     }
