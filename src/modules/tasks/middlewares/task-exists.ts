@@ -6,6 +6,9 @@ import { Http, JsonResponse } from '../../../server';
 /* Database */
 import { TaskRepository } from '../../../database';
 
+/* Utils */
+import { TaskErrorMessages } from '../utils';
+
 /**
  * Checks if a task exists.
  *
@@ -22,7 +25,7 @@ export const taskExists = async (req: Request, res: JsonResponse, next: NextFunc
         const { user } = req.auth;
 
         const task = await TaskRepository.findOne({ _id: taskId, userId: user._id });
-        if (!task) return Http.badRequest(res, 'La tarea no existe.');
+        if (!task) return Http.badRequest(res, TaskErrorMessages.NOT_FOUND);
 
         req.task = task;
         return next();
