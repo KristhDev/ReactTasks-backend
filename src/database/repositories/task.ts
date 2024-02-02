@@ -50,11 +50,11 @@ class TaskRepository {
      */
     public static endpointAdapter(task: TaskModel): TaskEndpoint {
         return {
-            id: task._id,
-            userId: task.userId,
+            id: task._id.toString(),
+            userId: task.userId.toString(),
             title: task.title,
             description: task.description,
-            image: task.image,
+            image: task?.image,
             deadline: new Date(task.deadline).toISOString(),
             status: task.status,
             createdAt: new Date(task.createdAt!).toISOString(),
