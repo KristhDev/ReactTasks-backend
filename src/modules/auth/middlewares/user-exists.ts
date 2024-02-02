@@ -22,7 +22,7 @@ export const userExists = async (req: Request, res: JsonResponse, next: NextFunc
         const { email } = req.body;
 
         const user = await UserRepository.findOne({ email });
-        if (!user) return Http.badRequest(res, AuthErrorMessages.NOT_FOUND);
+        if (!user) return Http.notFound(res, AuthErrorMessages.NOT_FOUND);
 
         req.user = user;
 
