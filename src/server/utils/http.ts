@@ -59,11 +59,12 @@ class Http {
      * Sends a JSON response with a 'not found' status and a message.
      *
      * @param {Response} res - The response object to send the JSON response.
+     * @param {string} [msg] - An optional message to include in the response.
      * @return {JsonResponse} The JSON response object.
      */
-    public static notFound(res: Response): JsonResponse {
+    public static notFound(res: Response, msg?: string): JsonResponse {
         return res.status(Http.NOT_FOUND).json({
-            msg: 'Lo sentimos, pero no encontramos la página solicitada.',
+            msg: msg || 'Lo sentimos, pero no encontramos la página solicitada.',
             status: Http.NOT_FOUND
         });
     }
