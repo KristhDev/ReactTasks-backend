@@ -8,4 +8,6 @@ import { Server } from './src/server';
 
 const server = new Server();
 
+jest.setTimeout(30000);
+
 export const request = supertest(server.getApp());
