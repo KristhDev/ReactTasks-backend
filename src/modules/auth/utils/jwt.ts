@@ -14,9 +14,9 @@ class JWT {
      * @param {string} token - The JWT token to be decoded.
      * @return {JwtPayload | undefined} Returns the decoded payload if successful, otherwise undefined.
      */
-    public static decodeToken(token: string): JwtPayload | undefined {
+    public static decodeToken<T>(token: string): JwtPayload & T | undefined {
         try {
-            return jwtDecode(token);
+            return jwtDecode<JwtPayload & T>(token);
         } 
         catch (error) {
             console.log(error);
@@ -50,12 +50,12 @@ class JWT {
      * @param {string} token - The token to be validated.
      * @return {Promise<T>} The decoded value of the token.
      */
-    public static async validateToken<T>(token: string): Promise<T> {
+    public static async validateToken<T>(token: string): Promise<JwtPayload & T> {
         try {
             const revokedToken = await TokenRepository.findOne({ token });
             if (revokedToken) throw new JWTError(JWTErrorMessages.REVOKED);
 
-            return jsonwebtoken.verify(token, process.env.JWT_SECRET!) as T
+            return jsonwebtoken.verify(token, process.env.JWT_SECRET!) as JwtPayload & T;
         } 
         catch (error) {
             if (error instanceof DatabaseError) throw new DatabaseError(error.message);

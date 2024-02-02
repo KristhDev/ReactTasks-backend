@@ -38,3 +38,8 @@ export const JWTErrorMessages = {
     EXPIRED: 'Su tiempo de sesión ha expirado. Por favor, inicie sesión de nuevo.',
     REVOKED: 'El token ya ha sido revocado.'
 }
+
+export const VerificationsErrorMessages = {
+    EXPIRED: 'El enlace de verificación ha expirado, por favor solicite otro enlace de verificación.',
+    UNPROCESSED: 'La verificación no puede ser procesada.',
+}
