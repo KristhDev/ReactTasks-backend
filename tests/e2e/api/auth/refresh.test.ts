@@ -75,6 +75,8 @@ describe('Test in Refresh Endpoint', () => {
             msg: 'Necesita ingresar para poder realizar está acción.',
             status: Http.UNAUTHORIZED
         });
+
+        await TokenRepository.deleteOne({ token: jwt });
     });
 
     it('should faild because token is expired', async () => {
