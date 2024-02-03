@@ -2,7 +2,7 @@
 import { request } from '../../../../jest.setup';
 
 /* Database */
-import { UserRepository } from '../../../../src/database';
+import { TokenRepository, UserRepository } from '../../../../src/database';
 
 /* Server */
 import { Http } from '../../../../src/server';
@@ -77,9 +77,11 @@ describe('Test in Tasks Endpoint', () => {
             msg: 'Necesita ingresar para poder realizar está acción.',
             status: Http.UNAUTHORIZED
         });
+
+        await TokenRepository.deleteOne({ token: jwt });
     });
 
-    it('should faild because token is revoked', async () => {
+    it('should faild because token is expired', async () => {
         const user = await UserRepository.findOne({ email: 'tester@gmail.com' });
         const jwt = JWT.generateToken({ id: user?.id! }, '1s');
 
