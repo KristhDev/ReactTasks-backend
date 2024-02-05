@@ -1,5 +1,3 @@
-import bcrypt from 'bcryptjs';
-
 /* Database */
 import { UserRepository } from '@database';
 
@@ -7,7 +5,7 @@ import { UserRepository } from '@database';
 import { Http, JsonResponse } from '@server';
 
 /* Auth */
-import { AuthErrorMessages, JWT, SignInRequest } from '@auth';
+import { AuthErrorMessages, Encrypt, JWT, SignInRequest } from '@auth';
 
 class SignInController {
     /**
@@ -24,7 +22,7 @@ class SignInController {
             const user = await UserRepository.findOne({ email });
             if (!user?.verified) return Http.badRequest(res, AuthErrorMessages.UNVERIFIED);
 
-            const match = bcrypt.compareSync(password, user?.password!);
+            const match = Encrypt.compareHash(password, user?.password!);
             if (!match) return Http.badRequest(res, AuthErrorMessages.INVALID_CREDENTIALS);
 
             const token = JWT.generateToken({ id: user?._id });

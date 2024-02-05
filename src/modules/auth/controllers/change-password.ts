@@ -1,5 +1,3 @@
-import bcrypt from 'bcryptjs';
-
 /* Server */
 import { Http, JsonResponse } from '@server';
 
@@ -7,7 +5,7 @@ import { Http, JsonResponse } from '@server';
 import { UserRepository } from '@database';
 
 /* Auth */
-import { AuthErrorMessages, ChangePasswordRequest, JWT } from '@auth';
+import { AuthErrorMessages, ChangePasswordRequest, Encrypt, JWT } from '@auth';
 
 class ChangePasswordController {
     /**
@@ -22,10 +20,10 @@ class ChangePasswordController {
             const { password, revokeToken } = req.body;
             const { user, token } = req.auth!;
 
-            const match = bcrypt.compareSync(password, user?.password!);
+            const match = Encrypt.createHash(password, user?.password!);
             if (match) return Http.badRequest(res, AuthErrorMessages.NEW_PASSWORD);
 
-            const hash = bcrypt.hashSync(password);
+            const hash = Encrypt.createHash(password);
             await UserRepository.findByIdAndUpdate(user._id, { password: hash });
 
             if (revokeToken) await JWT.revokeToken(token);

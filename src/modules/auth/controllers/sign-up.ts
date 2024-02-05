@@ -1,5 +1,3 @@
-import bcrypt from 'bcryptjs';
-
 /* Server */
 import { Http, JsonResponse } from '@server';
 
@@ -7,7 +5,7 @@ import { Http, JsonResponse } from '@server';
 import { VerificationRepository, UserRepository } from '@database';
 
 /* Services */
-import { EmailService, SignUpRequest, JWT } from '@auth';
+import { EmailService, SignUpRequest, JWT, Encrypt } from '@auth';
 
 class SignUpController {
     /**
@@ -25,7 +23,7 @@ class SignUpController {
                 name: body.name,
                 lastname: body.lastname,
                 email: body.email,
-                password: bcrypt.hashSync(body.password)
+                password: Encrypt.createHash(body.password)
             });
 
             const token = JWT.generateToken({ nothing: 'Nothing' }, '30m');
