@@ -19,6 +19,21 @@ class Database {
             Logger.error((error as Error).message);
         }
     }
+
+    /**
+     * A method to disconnect from the database.
+     *
+     * @return {Promise<void>} Promise that resolves once the disconnection is complete
+     */
+    public async disconnect(): Promise<void> {
+        try {
+            await mongoose.disconnect();
+            Logger.info('Database disconnected');
+        } 
+        catch (error) {
+            Logger.error((error as Error).message);
+        }
+    }
 }
 
 export default Database;
