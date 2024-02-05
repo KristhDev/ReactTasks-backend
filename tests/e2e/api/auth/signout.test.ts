@@ -2,7 +2,7 @@
 import { request } from '@test';
 
 /* Database */
-import { TokenRepository, UserRepository } from '@database';
+import { Database, TokenRepository, UserRepository } from '@database';
 
 /* Server */
 import { Http } from '@server';
@@ -11,6 +11,16 @@ import { Http } from '@server';
 import { JWT } from '@auth';
 
 describe('Test in SignOut Endpoint', () => {
+    beforeAll(async () => {
+        const database = new Database();
+        await database.connect();
+    });
+
+    afterAll(async () => {
+        const database = new Database();
+        await database.disconnect();
+    });
+
     it('should revoke token to close session', async () => {
         const user = await UserRepository.findOne({ email: 'tester@gmail.com' });
         const jwt = JWT.generateToken({ id: user?.id! });

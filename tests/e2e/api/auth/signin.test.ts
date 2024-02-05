@@ -5,7 +5,7 @@ import { request } from '@test';
 import { Http } from '@server';
 
 /* Database */
-import { UserRepository } from '@database';
+import { Database, UserRepository } from '@database';
 
 const credentials = {
     email: 'tester@gmail.com',
@@ -13,6 +13,16 @@ const credentials = {
 }
 
 describe('Test in SignIn Endpoint', () => {
+    beforeAll(async () => {
+        const database = new Database();
+        await database.connect();
+    });
+
+    afterAll(async () => {
+        const database = new Database();
+        await database.disconnect();
+    });
+
     it('should authenticate user with correct credentials', async () => {
         const resp = await request
             .post('/api/auth/signin')

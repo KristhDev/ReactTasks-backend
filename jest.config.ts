@@ -166,7 +166,7 @@ const config: Config = {
   // testPathIgnorePatterns: [
   //   "\\\\node_modules\\\\"
   // ],
-  detectOpenHandles: true
+  // detectOpenHandles: true
 
   // The regexp pattern or array of patterns that Jest uses to detect test files
   // testRegex: [],

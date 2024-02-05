@@ -5,13 +5,23 @@ import { request } from '@test';
 import { Http } from '@server';
 
 /* Database */
-import { TaskRepository, TokenRepository, UserRepository } from '@database';
+import { Database, TaskRepository, TokenRepository, UserRepository } from '@database';
 
 /* Modules */
 import { JWT, JWTErrorMessages } from '@auth';
 import { TaskErrorMessages } from '@tasks';
 
 describe('Test in Show Task Endpoint', () => {
+    beforeAll(async () => {
+        const database = new Database();
+        await database.connect();
+    });
+
+    afterAll(async () => {
+        const database = new Database();
+        await database.disconnect();
+    });
+
     it('should get task of authenticated user', async () => {
         const user = await UserRepository.findOne({ email: 'tester@gmail.com' });
         const token = JWT.generateToken({ id: user?.id! });
