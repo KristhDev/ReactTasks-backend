@@ -55,6 +55,7 @@
     "@database": "src/database",
     "@images": "src/modules/images",
     "@server": "src/server",
-    "@tasks": "src/modules/tasks"
+    "@tasks": "src/modules/tasks",
+    "@test": "jest.setup.ts"
   }
 }

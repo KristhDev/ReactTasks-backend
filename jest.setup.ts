@@ -4,7 +4,7 @@ import supertest from 'supertest';
 dotenv.config();
 
 /* Server */
-import { Server } from './src/server';
+import { Server } from '@server';
 
 const server = new Server();
 

@@ -1,14 +1,14 @@
-/* Setup */
-import { request } from '../../../../jest.setup';
+/* Test */
+import { request } from '@test';
 
 /* Database */
-import { TokenRepository, UserRepository } from '../../../../src/database';
+import { TokenRepository, UserRepository } from '@database';
 
 /* Server */
-import { Http } from '../../../../src/server';
+import { Http } from '@server';
 
-/* Modules */
-import { JWT, JWTErrorMessages } from '../../../../src/modules/auth';
+/* Auth */
+import { JWT, JWTErrorMessages } from '@auth';
 
 describe('Test in Tasks Endpoint', () => {
     it('should get tasks of authenticated user', async () => {

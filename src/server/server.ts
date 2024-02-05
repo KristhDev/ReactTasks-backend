@@ -109,7 +109,6 @@ class Server {
      * @return {Application} the application instance
      */
     public getApp(): Application {
-        this.database();
         this.middlewares();
         this.routes();
         this.services();

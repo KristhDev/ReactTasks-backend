@@ -1,14 +1,14 @@
-/* Setup */
-import { request } from '../../../../jest.setup';
+/* Test */
+import { request } from '@test';
 
 /* Database */
-import { TokenRepository, UserRepository } from '../../../../src/database';
+import { TokenRepository, UserRepository } from '@database';
 
 /* Server */
-import { Http } from '../../../../src/server';
+import { Http } from '@server';
 
-/* Modules */
-import { JWT } from '../../../../src/modules/auth';
+/* Auth */
+import { JWT } from '@auth';
 
 describe('Test in SignOut Endpoint', () => {
     it('should revoke token to close session', async () => {

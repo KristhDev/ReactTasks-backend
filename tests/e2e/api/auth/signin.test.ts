@@ -1,10 +1,11 @@
-import { request } from '../../../../jest.setup';
+/* Test */
+import { request } from '@test';
 
 /* Server */
-import { Http } from '../../../../src/server';
+import { Http } from '@server';
 
 /* Database */
-import { UserRepository } from '../../../../src/database';
+import { UserRepository } from '@database';
 
 const credentials = {
     email: 'tester@gmail.com',
