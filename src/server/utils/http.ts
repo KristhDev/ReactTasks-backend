@@ -1,13 +1,10 @@
 import { Response } from 'express';
 
-/* Console */
-import { Logger } from '../console';
+/* Server */
+import { Logger, JsonResponse } from '@server';
 
-/* Interfaces */
-import { JsonResponse } from '../interfaces';
-
-/* Utils */
-import { JWTError } from '../../modules/auth';
+/* Auth */
+import { JWTError } from '@auth';
 
 class Http {
     public static OK: number = 200;

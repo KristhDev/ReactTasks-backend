@@ -1,11 +1,11 @@
 /* Server */
-import { Http, JsonResponse } from '../../../server';
+import { Http, JsonResponse } from '@server';
 
 /* Database */
-import { TaskRepository } from '../../../database';
+import { TaskRepository } from '@database';
 
-/* Interfaces */
-import { ChangeStatusTaskRequest } from '../interfaces';
+/* Tasks */
+import { ChangeStatusTaskRequest } from '@tasks';
 
 class ChangeStatusTaskController {
     /**

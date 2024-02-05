@@ -1,13 +1,13 @@
 import { Request } from 'express';
 
 /* Server */
-import { Http, JsonResponse } from '../../../server';
+import { Http, JsonResponse } from '@server';
 
 /* Database */
-import { UserRepository } from '../../../database';
+import { UserRepository } from '@database';
 
-/* Utils */
-import { JWT } from '../utils';
+/* Auth */
+import { JWT } from '@auth';
 
 class RefreshAuth {
     /**

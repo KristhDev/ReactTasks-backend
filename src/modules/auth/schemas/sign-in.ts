@@ -1,13 +1,13 @@
 import { z } from 'zod';
 
 /* Server */
-import { Logger } from '../../../server';
+import { Logger } from '@server';
 
 /* Database */
-import { UserRepository } from '../../../database';
+import { UserRepository } from '@database';
 
-/* Utils */
-import { AuthErrorMessages } from '../utils';
+/* Auth */
+import { AuthErrorMessages } from '@auth';
 
 export const SignInSchema = z.object({
     email: z

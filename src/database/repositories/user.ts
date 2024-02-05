@@ -1,14 +1,10 @@
 import { AnyKeys, FilterQuery, ObjectId, QueryOptions, UpdateQuery } from 'mongoose';
 
-/* Models */
-import { User } from '../models';
+/* Database */
+import { DatabaseError, User, UserModel } from '@database';
 
-/* Interfaces */
-import { UserModel } from '../interfaces';
-import { UserEndpoint } from '../../modules/auth';
-
-/* Utils */
-import { DatabaseError } from '../utils';
+/* Auth */
+import { UserEndpoint } from '@auth';
 
 class UserRepository {
     /**

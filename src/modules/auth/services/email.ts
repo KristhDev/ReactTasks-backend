@@ -1,11 +1,8 @@
 import nodemailer, { Transporter } from 'nodemailer';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
 
-/* Interfaces */
-import { SendEmailOptions } from '../interfaces';
-
-/* Utils */
-import { EmailError } from '../utils';
+/* Auth */
+import { EmailError, SendEmailOptions } from '@auth';
 
 class EmailService {
     private static transporter: Transporter<SMTPTransport.SentMessageInfo>;

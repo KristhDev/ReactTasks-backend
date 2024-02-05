@@ -4,23 +4,15 @@ import fileUpload from 'express-fileupload';
 import cors from 'cors';
 
 /* Database */
-import { Database } from '../database';
+import { Database } from '@database';
 
-/* Console */
-import { Logger } from './console';
+/* Server */
+import { Logger, loggerRequest, loggerResponse, Http } from '@server';
 
 /* Modules */
-import { EmailService, authRouter } from '../modules/auth';
-import { taskRouter } from '../modules/tasks';
-
-/* Middlewares */
-import { loggerRequest, loggerResponse } from './middlewares';
-
-/* Services */
-import { ImageService } from '../modules/images';
-
-/* Utils */
-import { Http } from './utils';
+import { EmailService, authRouter } from '@auth';
+import { ImageService } from '@images';
+import { taskRouter } from '@tasks';
 
 class Server {
     /** 

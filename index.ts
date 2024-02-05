@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
+import 'module-alias/register';
 
-import { Server } from './src/server';
+import { Server } from '@server';
 
 dotenv.config();
 

@@ -1,13 +1,13 @@
 import { NextFunction, Request } from 'express';
 
 /* Server */
-import { Http, JsonResponse } from '../../../server';
+import { Http, JsonResponse } from '@server';
 
 /* Database */
-import { UserRepository } from '../../../database';
+import { UserRepository } from '@database';
 
-/* Utils */
-import { AuthErrorMessages } from '../utils';
+/* Auth */
+import { AuthErrorMessages } from '@auth';
 
 /**
  * Checks if a user exists.

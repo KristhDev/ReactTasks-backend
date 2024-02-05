@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
-/* Utils */
-import { AuthErrorMessages } from '../utils';
+/* Auth */
+import { AuthErrorMessages } from '@auth';
 
 export const PasswordSchema = z.object({
     password: z

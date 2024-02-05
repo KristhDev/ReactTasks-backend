@@ -1,16 +1,13 @@
 import bcrypt from 'bcryptjs';
 
 /* Server */
-import { Http, JsonResponse } from '../../../server';
+import { Http, JsonResponse } from '@server';
 
 /* Database */
-import { UserRepository } from '../../../database';
+import { UserRepository } from '@database';
 
-/* Interfaces */
-import { ChangePasswordRequest } from '../interfaces';
-
-/* Utils */
-import { AuthErrorMessages, JWT } from '../utils';
+/* Auth */
+import { AuthErrorMessages, ChangePasswordRequest, JWT } from '@auth';
 
 class ChangePasswordController {
     /**

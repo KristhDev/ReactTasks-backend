@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 
 /* Console */
-import { Logger } from '../console';
+import { Logger } from '@server';
 
 /**
  * Logs the response of an API request.

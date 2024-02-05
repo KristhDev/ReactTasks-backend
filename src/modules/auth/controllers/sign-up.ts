@@ -1,19 +1,13 @@
 import bcrypt from 'bcryptjs';
 
 /* Server */
-import { Http, JsonResponse } from '../../../server';
+import { Http, JsonResponse } from '@server';
 
 /* Database */
-import { VerificationRepository, UserRepository } from '../../../database';
+import { VerificationRepository, UserRepository } from '@database';
 
 /* Services */
-import { EmailService } from '../services';
-
-/* Interfaces */
-import { SignUpRequest } from '../interfaces';
-
-/* Utils */
-import { JWT } from '../utils';
+import { EmailService, SignUpRequest, JWT } from '@auth';
 
 class SignUpController {
     /**

@@ -1,17 +1,11 @@
 /* Server */
-import { Http, JsonResponse } from '../../../server';
+import { Http, JsonResponse } from '@server';
 
 /* Database */
-import { VerificationRepository } from '../../../database';
+import { VerificationRepository } from '@database';
 
-/* Services */
-import { EmailService } from '../services';
-
-/* Interfaces */
-import { SendEmailVerificationRequest } from '../interfaces';
-
-/* Utils */
-import { JWT } from '../utils';
+/* Auth */
+import { EmailService, SendEmailVerificationRequest, JWT } from '@auth';
 
 class SendEmailVerificationController {
     /**

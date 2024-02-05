@@ -1,11 +1,11 @@
 /* Server */
-import { Http, JsonResponse } from '../../../server';
+import { Http, JsonResponse } from '@server';
 
 /* Database */
-import { TaskRepository } from '../../../database';
+import { TaskRepository } from '@database';
 
-/* Interfaces */
-import { IndexTaskRequest } from '../interfaces';
+/* Tasks */
+import { IndexTaskRequest } from '@tasks';
 
 class IndexTaskController {
     /**

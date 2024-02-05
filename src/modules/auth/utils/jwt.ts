@@ -2,10 +2,10 @@ import jsonwebtoken, { JwtPayload, TokenExpiredError } from 'jsonwebtoken';
 import { jwtDecode } from 'jwt-decode';
 
 /* Database */
-import { DatabaseError, TokenRepository } from '../../../database';
+import { DatabaseError, TokenRepository } from '@database';
 
-/* Errors */
-import { JWTError, JWTErrorMessages } from './errors';
+/* Auth */
+import { JWTError, JWTErrorMessages } from '@auth';
 
 class JWT {
     /**

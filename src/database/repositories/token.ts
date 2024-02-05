@@ -1,13 +1,7 @@
 import { AnyKeys, FilterQuery } from 'mongoose';
 
-/* Models */
-import { Token } from '../models';
-
-/* Interfaces */
-import { TokenModel } from '../interfaces';
-
-/* Utils */
-import { DatabaseError } from '../utils';
+/* Database */
+import { DatabaseError, Token, TokenModel } from '@database';
 
 class TokenRepository {
     /**

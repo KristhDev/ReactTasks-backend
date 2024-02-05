@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 /* Server */
-import { Logger } from '../server';
+import { Logger } from '@server';
 
 class Database {
 

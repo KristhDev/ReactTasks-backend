@@ -1,8 +1,8 @@
 import { UploadedFile } from 'express-fileupload';
 import { z } from 'zod';
 
-/* Utils */
-import { Constants, ImageErrorMessages } from '../utils';
+/* Images */
+import { Constants, ImageErrorMessages } from '@images';
 
 export const imageSchema = z.custom<UploadedFile>()
     .refine(data => data !== null, { message: ImageErrorMessages.REQUIRED })

@@ -1,11 +1,11 @@
 /* Server */
-import { Http, JsonResponse } from '../../../server';
+import { Http, JsonResponse } from '@server';
 
 /* Database */
-import { UserRepository } from '../../../database';
+import { UserRepository } from '@database';
 
-/* Interfaces */
-import { UpdateUserRequest } from '../interfaces';
+/* Auth */
+import { UpdateUserRequest } from '@auth';
 
 class UpdateUserController {
     /**

@@ -1,15 +1,11 @@
 import { AnyKeys, FilterQuery, ObjectId, QueryOptions, UpdateQuery } from 'mongoose';
 import { PaginationModel, PaginationOptions } from 'mongoose-paginate-ts';
 
-/* Models */
-import { Task } from '../models';
+/* Database */
+import { DatabaseError, Task, ITask, TaskModel } from '@database';
 
-/* Interfaces */
-import { TaskEndpoint } from '../../modules/tasks';
-import { ITask, TaskModel } from '../interfaces';
-
-/* Utils */
-import { DatabaseError } from '../utils';
+/* Tasks */
+import { TaskEndpoint } from '@tasks';
 
 class TaskRepository {
     /**

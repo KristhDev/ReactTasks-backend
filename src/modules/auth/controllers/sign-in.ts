@@ -1,16 +1,13 @@
 import bcrypt from 'bcryptjs';
 
 /* Database */
-import { UserRepository } from '../../../database';
+import { UserRepository } from '@database';
 
 /* Server */
-import { Http, JsonResponse } from '../../../server';
+import { Http, JsonResponse } from '@server';
 
-/* Interfaces */
-import { SignInRequest } from '../interfaces';
-
-/* Utils */
-import { AuthErrorMessages, JWT } from '../utils';
+/* Auth */
+import { AuthErrorMessages, JWT, SignInRequest } from '@auth';
 
 class SignInController {
     /**

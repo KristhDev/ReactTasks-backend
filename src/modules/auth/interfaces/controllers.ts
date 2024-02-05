@@ -1,7 +1,8 @@
 import { Request } from 'express';
 import { z } from 'zod';
 
-import { EmailSchema, PasswordSchema, SignInSchema, SignUpSchema, UserSchema } from '../schemas';
+/* Auth */
+import { EmailSchema, PasswordSchema, SignInSchema, SignUpSchema, UserSchema } from '@auth';
 
 export type SignInBody = z.infer<typeof SignInSchema>;
 export type SignInRequest = Request<any, any, SignInBody>

@@ -1,13 +1,10 @@
 import { NextFunction, Request } from 'express';
 
 /* Server */
-import { Http, JsonResponse } from '../../../server';
+import { Http, JsonResponse } from '@server';
 
 /* Schemas */
-import { imageSchema } from '../schemas';
-
-/* Utils */
-import { ImageErrorMessages } from '../utils';
+import { imageSchema, ImageErrorMessages } from '@images';
 
 /**
  * Validates an image received in a request.

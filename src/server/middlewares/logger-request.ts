@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 
 /* Console */
-import { Logger } from '../console';
+import { Logger } from '@server';
 
 /**
  * Middleware function that logs incoming requests.

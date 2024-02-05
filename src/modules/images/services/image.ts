@@ -1,8 +1,8 @@
 import { UploadedFile } from 'express-fileupload';
 import { v2 as cloudinary } from 'cloudinary';
 
-/* Utils */
-import { ImageError } from '../utils';
+/* Images */
+import { ImageError } from '@images';
 
 class ImageService {
     /**

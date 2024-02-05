@@ -1,13 +1,7 @@
 import { AnyKeys, FilterQuery } from 'mongoose';
 
-/* Models */
-import { Verification } from '../models';
-
-/* Interfaces */
-import { VerificationModel } from '../interfaces';
-
-/* Utils */
-import { DatabaseError } from '../utils';
+/* Database */
+import { Verification, VerificationModel, DatabaseError } from '@database';
 
 class VerificationRepository {
     /**

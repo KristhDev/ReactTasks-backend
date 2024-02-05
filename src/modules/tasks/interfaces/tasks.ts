@@ -1,5 +1,5 @@
 /* Database */
-import { TaskStatus } from '../../../database';
+import { TaskStatus } from '@database';
 
 export interface TaskEndpoint {
     id: string;

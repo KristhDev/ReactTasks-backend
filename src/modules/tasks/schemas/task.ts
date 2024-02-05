@@ -1,7 +1,7 @@
 import { z, ZodIssueCode } from 'zod';
 
-/* Utils */
-import { Constants, TaskErrorMessages } from '../utils';
+/* Tasks */
+import { Constants, TaskErrorMessages } from '@tasks';
 
 export const taskSchema = z.object({
     title: z

@@ -1,13 +1,13 @@
 import { NextFunction, Request } from 'express';
 
 /* Server */
-import { Http, JsonResponse } from '../../../server';
+import { Http, JsonResponse } from '@server';
 
 /* Database */
-import { DatabaseValidations, TaskRepository } from '../../../database';
+import { DatabaseValidations, TaskRepository } from '@database';
 
-/* Utils */
-import { TaskErrorMessages } from '../utils';
+/* Tasks */
+import { TaskErrorMessages } from '@tasks';
 
 /**
  * Checks if a task exists.

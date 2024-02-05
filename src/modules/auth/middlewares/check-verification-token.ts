@@ -1,10 +1,10 @@
 import { NextFunction, Request } from 'express';
 
 /* Server */
-import { Http, JsonResponse, Logger } from '../../../server';
+import { Http, JsonResponse, Logger } from '@server';
 
-/* Utils */
-import { JWT, VerificationsErrorMessages } from '../utils';
+/* Auth */
+import { JWT, VerificationsErrorMessages } from '@auth';
 
 /**
  * Checks the verification token provided in the request query.

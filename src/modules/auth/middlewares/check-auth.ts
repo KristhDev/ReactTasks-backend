@@ -1,13 +1,13 @@
 import { NextFunction, Request } from 'express';
 
 /* Server */
-import { Http, JsonResponse } from '../../../server';
+import { Http, JsonResponse } from '@server';
 
 /* Database */
-import { UserRepository } from '../../../database';
+import { UserRepository } from '@database';
 
-/* Utils */
-import { AuthErrorMessages, JWT, JWTError, JWTErrorMessages } from '../utils';
+/* Auth */
+import { AuthErrorMessages, JWT, JWTError, JWTErrorMessages } from '@auth';
 
 /**
  * Checks if the request has a valid authorization token.

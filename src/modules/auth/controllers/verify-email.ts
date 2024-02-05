@@ -1,14 +1,11 @@
 /* Server */
-import { Http, JsonResponse } from '../../../server';
+import { Http, JsonResponse } from '@server';
 
 /* Database */
-import { VerificationRepository, UserRepository } from '../../../database';
+import { VerificationRepository, UserRepository } from '@database';
 
-/* Interfaces */
-import { VerifyEmailRequest } from '../interfaces';
-
-/* Utils */
-import { AuthErrorMessages } from '../utils';
+/* Auth */
+import { AuthErrorMessages, VerifyEmailRequest } from '@auth';
 
 class VerifyEmailController {
     /**

@@ -1,10 +1,10 @@
 import { Router } from 'express';
 
+/* Server */
+import { validateRequest } from '@server';
+
 /* Middlewares */
 import { checkAuth, checkVerificationToken, userExists } from '../middlewares';
-
-/* Server */
-import { validateRequest } from '../../../server';
 
 /* Controllers */
 import {

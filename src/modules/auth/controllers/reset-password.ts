@@ -1,16 +1,13 @@
 import { Request } from 'express';
 
 /* Server */
-import { Http, JsonResponse } from '../../../server';
+import { Http, JsonResponse } from '@server';
 
 /* Database */
-import { VerificationRepository } from '../../../database';
+import { VerificationRepository } from '@database';
 
-/* Services */
-import { EmailService } from '../services';
-
-/* Utils */
-import { AuthErrorMessages, JWT } from '../utils';
+/* Auth */
+import { AuthErrorMessages, EmailService, JWT } from '@auth';
 
 class ResetPasswordController {
     /**
