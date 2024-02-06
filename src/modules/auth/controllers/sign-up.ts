@@ -39,7 +39,7 @@ class SignUpController {
             });
 
             return Http.sendResp(res, {
-                msg: `Te has registrado correctamente. Hemos enviado un correo de verificación al correo que nos proporcionaste, por favor confirma tu cuenta.`, 
+                msg: 'Te has registrado correctamente. Hemos enviado un correo de verificación al correo que nos proporcionaste, por favor confirma tu cuenta.', 
                 status: Http.CREATED
             });
         } 
