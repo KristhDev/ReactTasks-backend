@@ -23,6 +23,16 @@ class UserRepository {
     }
 
     /**
+     * Delete one document that matches the filter.
+     *
+     * @param {FilterQuery<UserModel>} filter - The filter to apply for deletion
+     * @return {Promise<void>} A promise that resolves when the deletion is complete
+     */
+    public static async deleteOne(filter: FilterQuery<UserModel>): Promise<void> {
+        await User.deleteOne(filter);
+    }
+
+    /**
      * Converts a UserModel to a UserEndpoint object.
      *
      * @param {UserModel} user - The UserModel object to be converted.
