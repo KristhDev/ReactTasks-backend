@@ -20,7 +20,7 @@ class ChangePasswordController {
             const { password, revokeToken } = req.body;
             const { user, token } = req.auth!;
 
-            const match = Encrypt.createHash(password, user?.password!);
+            const match = Encrypt.compareHash(password, user?.password!);
             if (match) return Http.badRequest(res, AuthErrorMessages.NEW_PASSWORD);
 
             const hash = Encrypt.createHash(password);
