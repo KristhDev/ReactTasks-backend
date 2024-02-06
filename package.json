@@ -4,13 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "build": "tsc",
+    "dev": "ts-node-dev --respawn --transpile-only index.ts",
+    "start": "node ./dist/index.js",
     "test:coverage": "jest --coverage",
     "test:e2e": "jest --testMatch **/tests/e2e/**/*.test.ts",
     "test:watch": "jest --watch",
-    "start": "node ./dist/index.js",
-    "build": "tsc",
-    "dev": "ts-node-dev --respawn --transpile-only index.ts"
+    "test": "jest"
   },
   "keywords": [],
   "author": "KristhDev",
