@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 
 /* Console */
-import { Logger } from '@server';
+import { Http, Logger } from '@server';
 
 /**
  * Logs the response of an API request.
@@ -29,7 +29,7 @@ export const loggerResponse = (req: Request, res: Response, next: NextFunction):
     res.on('finish', () => {
         const content = (res as any).bodyContent;
 
-        if (content.status >= 200 && content.status < 300) Logger.success(content.msg);
+        if (content.status >= Http.OK && content.status < Http.BAD_REQUEST) Logger.success(content.msg);
         else Logger.error(content.msg);
     });
 
