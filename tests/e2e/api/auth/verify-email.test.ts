@@ -1,9 +1,13 @@
+/* Test */
 import { request } from '@test';
 
+/* Server */
 import { Http } from '@server';
 
+/* Database */
 import { Database, UserRepository, VerificationRepository } from '@database';
 
+/* Auth */
 import { JWT, VerificationsErrorMessages } from '@auth';
 
 const database = new Database();
