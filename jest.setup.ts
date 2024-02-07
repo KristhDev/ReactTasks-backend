@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 import supertest from 'supertest';
+import './paths';
 
 dotenv.config();
 
