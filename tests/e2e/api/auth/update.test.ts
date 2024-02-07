@@ -7,7 +7,7 @@ import { Http } from '@server';
 import { Database, TokenRepository, UserRepository } from '@database';
 
 /* Auth */
-import { JWT, JWTErrorMessages } from '@auth';
+import { AuthErrorMessages, JWT, JWTErrorMessages } from '@auth';
 
 describe('Test in Update User Endpoint', () => {
     beforeAll(async () => {
@@ -54,8 +54,8 @@ describe('Test in Update User Endpoint', () => {
         expect(resp.status).toBe(Http.UNAUTHORIZED);
 
         expect(resp.body).toEqual({
-            status: Http.UNAUTHORIZED,
-            msg: 'Necesita ingresar para poder realizar está acción.'
+            msg: AuthErrorMessages.UNAUTHENTICATED,
+            status: Http.UNAUTHORIZED
         });
     });
 
@@ -70,8 +70,8 @@ describe('Test in Update User Endpoint', () => {
         expect(resp.status).toBe(Http.UNAUTHORIZED);
 
         expect(resp.body).toEqual({
-            status: Http.UNAUTHORIZED,
-            msg: 'Necesita ingresar para poder realizar está acción.'
+            msg: AuthErrorMessages.UNAUTHENTICATED,
+            status: Http.UNAUTHORIZED
         });
     });
 
@@ -89,8 +89,8 @@ describe('Test in Update User Endpoint', () => {
         expect(resp.status).toBe(Http.UNAUTHORIZED);
 
         expect(resp.body).toEqual({
-            status: Http.UNAUTHORIZED,
-            msg: 'Necesita ingresar para poder realizar está acción.'
+            msg: AuthErrorMessages.UNAUTHENTICATED,
+            status: Http.UNAUTHORIZED
         });
 
         await TokenRepository.deleteOne({ token: jwt });
@@ -110,8 +110,8 @@ describe('Test in Update User Endpoint', () => {
         expect(resp.status).toBe(Http.UNAUTHORIZED);
 
         expect(resp.body).toEqual({
-            status: Http.UNAUTHORIZED,
-            msg: JWTErrorMessages.EXPIRED
+            msg: JWTErrorMessages.EXPIRED,
+            status: Http.UNAUTHORIZED
         });
     });
 });

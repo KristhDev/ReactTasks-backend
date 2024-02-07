@@ -8,17 +8,17 @@ import { Http } from '@server';
 import { Database, TaskRepository, TokenRepository, UserRepository } from '@database';
 
 /* Modules */
-import { JWT, JWTErrorMessages } from '@auth';
+import { AuthErrorMessages, JWT, JWTErrorMessages } from '@auth';
 import { TaskErrorMessages } from '@tasks';
+
+const database = new Database();
 
 describe('Test in Show Task Endpoint', () => {
     beforeAll(async () => {
-        const database = new Database();
         await database.connect();
     });
 
     afterAll(async () => {
-        const database = new Database();
         await database.disconnect();
     });
 
@@ -34,8 +34,8 @@ describe('Test in Show Task Endpoint', () => {
         });
 
         const resp = await request
-        .get(`/api/tasks/${ task?._id }`)
-        .set('Authorization', `Bearer ${ token }`);
+            .get(`/api/tasks/${ task?._id }`)
+            .set('Authorization', `Bearer ${ token }`);
 
         expect(resp.status).toBe(Http.OK);
 
@@ -72,7 +72,7 @@ describe('Test in Show Task Endpoint', () => {
         expect(resp.status).toBe(Http.UNAUTHORIZED);
 
         expect(resp.body).toEqual({
-            msg: 'Necesita ingresar para poder realizar está acción.',
+            msg: AuthErrorMessages.UNAUTHENTICATED,
             status: Http.UNAUTHORIZED
         });
     });
@@ -87,7 +87,7 @@ describe('Test in Show Task Endpoint', () => {
         expect(resp.status).toBe(Http.UNAUTHORIZED);
 
         expect(resp.body).toEqual({
-            msg: 'Necesita ingresar para poder realizar está acción.',
+            msg: AuthErrorMessages.UNAUTHENTICATED,
             status: Http.UNAUTHORIZED
         });
     });
@@ -105,7 +105,7 @@ describe('Test in Show Task Endpoint', () => {
         expect(resp.status).toBe(Http.UNAUTHORIZED);
 
         expect(resp.body).toEqual({
-            msg: 'Necesita ingresar para poder realizar está acción.',
+            msg: AuthErrorMessages.UNAUTHENTICATED,
             status: Http.UNAUTHORIZED
         });
 

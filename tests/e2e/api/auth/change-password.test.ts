@@ -1,9 +1,13 @@
+/* Test */
 import { request } from '@test';
 
+/* Server */
 import { Http } from '@server';
 
+/* Database */
 import { Database, TokenRepository, UserRepository } from '@database';
 
+/* Auth */
 import { AuthErrorMessages, Encrypt, JWT, JWTErrorMessages } from '@auth';
 
 const changePasswordBody = {
@@ -53,7 +57,7 @@ describe('Test in Change Password Endpoint', () => {
         expect(resp.status).toBe(Http.UNAUTHORIZED);
 
         expect(resp.body).toEqual({
-            msg: 'Necesita ingresar para poder realizar está acción.',
+            msg: AuthErrorMessages.UNAUTHENTICATED,
             status: Http.UNAUTHORIZED
         });
     });
@@ -69,7 +73,7 @@ describe('Test in Change Password Endpoint', () => {
         expect(resp.status).toBe(Http.UNAUTHORIZED);
 
         expect(resp.body).toEqual({
-            msg: 'Necesita ingresar para poder realizar está acción.',
+            msg: AuthErrorMessages.UNAUTHENTICATED,
             status: Http.UNAUTHORIZED
         });
     });
@@ -107,7 +111,7 @@ describe('Test in Change Password Endpoint', () => {
         expect(resp.status).toBe(Http.UNAUTHORIZED);
 
         expect(resp.body).toEqual({
-            msg: 'Necesita ingresar para poder realizar está acción.',
+            msg: AuthErrorMessages.UNAUTHENTICATED,
             status: Http.UNAUTHORIZED
         });
 

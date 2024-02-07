@@ -8,7 +8,7 @@ import { Database, TokenRepository, UserRepository } from '@database';
 import { Http } from '@server';
 
 /* Auth */
-import { JWT, JWTErrorMessages } from '@auth';
+import { AuthErrorMessages, JWT, JWTErrorMessages } from '@auth';
 
 describe('Test in Tasks Endpoint', () => {
     beforeAll(async () => {
@@ -51,7 +51,7 @@ describe('Test in Tasks Endpoint', () => {
         expect(resp.status).toBe(Http.UNAUTHORIZED);
 
         expect(resp.body).toEqual({
-            msg: 'Necesita ingresar para poder realizar está acción.',
+            msg: AuthErrorMessages.UNAUTHENTICATED,
             status: Http.UNAUTHORIZED
         });
     });
@@ -66,7 +66,7 @@ describe('Test in Tasks Endpoint', () => {
         expect(resp.status).toBe(Http.UNAUTHORIZED);
 
         expect(resp.body).toEqual({
-            msg: 'Necesita ingresar para poder realizar está acción.',
+            msg: AuthErrorMessages.UNAUTHENTICATED,
             status: Http.UNAUTHORIZED
         });
     });
@@ -84,7 +84,7 @@ describe('Test in Tasks Endpoint', () => {
         expect(resp.status).toBe(Http.UNAUTHORIZED);
 
         expect(resp.body).toEqual({
-            msg: 'Necesita ingresar para poder realizar está acción.',
+            msg: AuthErrorMessages.UNAUTHENTICATED,
             status: Http.UNAUTHORIZED
         });
 
