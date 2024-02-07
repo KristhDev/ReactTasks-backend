@@ -26,7 +26,7 @@ class IndexTaskController {
             if (isNaN(page) || page < 1) page = 1;
             if (query.trim().length > 0) queryDB = Object.assign(queryDB, { $text: { $search: `/${ query }/` } });
 
-            const result = await TaskRepository.paginate({ limit: 20, page, query: queryDB, sort: { createdAt: -1 } });
+            const result = await TaskRepository.paginate({ limit: 12, page, query: queryDB, sort: { createdAt: -1 } });
 
             return Http.sendResp(res, {
                 status: Http.OK,
