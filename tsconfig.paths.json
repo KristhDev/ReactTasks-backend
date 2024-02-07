@@ -2,17 +2,17 @@
     "compilerOptions": {
         "baseUrl": "./",
         "paths": {
-            "@auth": ["src/modules/auth"],
-            "@auth/*": ["src/modules/auth/*"],
-            "@database": ["src/database"],
-            "@database/*": ["src/database/*"],
-            "@images": ["src/modules/images"],
-            "@images/*": ["src/modules/images/*"],
-            "@server": ["src/server"],
-            "@server/*": ["src/server/*"],
-            "@tasks": ["src/modules/tasks"],
-            "@tasks/*": ["src/modules/tasks/*"],
-            "@test": ["jest.setup.ts"]
+            "@auth": [ "src/modules/auth" ],
+            "@auth/*": [ "src/modules/auth/*" ],
+            "@database": [ "src/database" ],
+            "@database/*": [ "src/database/*" ],
+            "@images": [ "src/modules/images" ],
+            "@images/*": [ "src/modules/images/*" ],
+            "@server": [ "src/server" ],
+            "@server/*": [ "src/server/*" ],
+            "@tasks": [ "src/modules/tasks" ],
+            "@tasks/*": [ "src/modules/tasks/*" ],
+            "@test": [ "jest.setup.ts" ]
         }    
     }
 }
