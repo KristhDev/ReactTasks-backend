@@ -2,3 +2,4 @@ coverage/
 logs/
 mongo/
 node_modules/
+dist/

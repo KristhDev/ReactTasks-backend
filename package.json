@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "rimraf ./dist && tsc --project tsconfig.build.json",
     "dev": "ts-node-dev --respawn --transpile-only index.ts",
     "start": "node ./dist/index.js",
     "test:coverage": "jest --coverage",
@@ -40,22 +40,16 @@
     "@types/express-useragent": "^1.0.5",
     "@types/jest": "^29.5.11",
     "@types/jsonwebtoken": "^9.0.5",
+    "@types/module-alias": "^2.0.4",
     "@types/node": "^20.10.4",
     "@types/nodemailer": "^6.4.14",
     "@types/supertest": "^6.0.2",
     "jest": "^29.7.0",
     "module-alias": "^2.2.3",
+    "rimraf": "^5.0.5",
     "supertest": "^6.3.4",
     "ts-jest": "^29.1.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.3.3"
-  },
-  "_moduleAliases": {
-    "@auth": "src/modules/auth",
-    "@database": "src/database",
-    "@images": "src/modules/images",
-    "@server": "src/server",
-    "@tasks": "src/modules/tasks",
-    "@test": "jest.setup.ts"
   }
 }
