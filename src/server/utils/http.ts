@@ -4,7 +4,7 @@ import { Response } from 'express';
 import { Logger, JsonResponse } from '@server';
 
 /* Auth */
-import { JWTError } from '@auth';
+import { AuthErrorMessages, JWTError } from '@auth';
 
 class Http {
     public static OK: number = 200;
@@ -47,7 +47,7 @@ class Http {
         if (error) Logger.error(`${ error.name }: ${ error.message }`);
 
         return res.status(this.UNAUTHORIZED).json({
-            msg: 'Necesita ingresar para poder realizar está acción.',
+            msg: AuthErrorMessages.UNAUTHENTICATED,
             status: this.UNAUTHORIZED
         });
     }
