@@ -24,6 +24,21 @@ class TaskRepository {
     }
 
     /**
+     * Delete multiple tasks based on the provided filter.
+     *
+     * @param {FilterQuery<TaskModel>} filter - Optional filter for tasks to delete
+     * @return {Promise<void>} Promise that resolves when the deletion is successful
+     */
+    public static async deleteMany(filter?: FilterQuery<TaskModel>): Promise<void> {
+        try {
+            await Task.deleteMany(filter);
+        } 
+        catch (error) {
+            throw new DatabaseError((error as any).message);
+        }
+    }
+
+    /**
      * Deletes a single task from the database.
      *
      * @param {FilterQuery<TaskModel>} filter - The filter to apply when deleting the task.
