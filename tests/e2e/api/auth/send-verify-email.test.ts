@@ -13,9 +13,9 @@ import { AuthErrorMessages, EmailService } from '@auth';
 const sendEmailVerificationSpy = jest.spyOn(EmailService, 'sendEmailVerification')
     .mockImplementation(() => Promise.resolve());
 
-describe('Test in Send Email Verification Endpoint', () => {
-    const database = new Database();
+const database = new Database();
 
+describe('Test in Send Email Verification Endpoint', () => {
     beforeAll(async () => {
         await database.connect();
     });

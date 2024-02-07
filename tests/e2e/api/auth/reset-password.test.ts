@@ -13,9 +13,9 @@ import { AuthErrorMessages, EmailService } from '@auth';
 const sendEmailResetPasswordSpy = jest.spyOn(EmailService, 'sendEmailResetPassword')
     .mockImplementation(() => Promise.resolve());
 
-describe('Test in Reset Password Endpoint', () => {
-    const database = new Database();
+const database = new Database();
 
+describe('Test in Reset Password Endpoint', () => {
     beforeAll(async () => {
         await database.connect();
     });

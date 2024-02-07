@@ -10,6 +10,8 @@ import { Database, TokenRepository, UserRepository } from '@database';
 /* Auth */
 import { AuthErrorMessages, Encrypt, JWT, JWTErrorMessages } from '@auth';
 
+const database = new Database();
+
 const changePasswordBody = {
     password: 'tester-new-password',
     confirmPassword: 'tester-new-password',
@@ -18,7 +20,6 @@ const changePasswordBody = {
 const oldPassword = 'tutuyoyo9102'
 
 describe('Test in Change Password Endpoint', () => {
-    const database = new Database();
 
     beforeAll(async () => {
         await database.connect();

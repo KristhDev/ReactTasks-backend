@@ -6,9 +6,9 @@ import { Database, UserRepository, VerificationRepository } from '@database';
 
 import { JWT, VerificationsErrorMessages } from '@auth';
 
-describe('Test in Verify Email Endpoint', () => {
-    const database = new Database();
+const database = new Database();
 
+describe('Test in Verify Email Endpoint', () => {
     beforeAll(async () => {
         await database.connect();
     });

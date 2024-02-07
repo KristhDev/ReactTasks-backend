@@ -21,9 +21,9 @@ const data = {
 const sendEmailVerificationSpy = jest.spyOn(EmailService, 'sendEmailVerification')
     .mockImplementation(() => Promise.resolve());
 
-describe('Test in SignUp Endpoint', () => {
-    const database = new Database();
+const database = new Database();
 
+describe('Test in SignUp Endpoint', () => {
     beforeAll(async () => {
         await database.connect();
     });

@@ -7,6 +7,8 @@ import { Http } from '@server';
 /* Database */
 import { Database, UserRepository } from '@database';
 
+const database = new Database();
+
 const credentials = {
     email: 'tester@gmail.com',
     password: 'tutuyoyo9102'
@@ -14,12 +16,10 @@ const credentials = {
 
 describe('Test in SignIn Endpoint', () => {
     beforeAll(async () => {
-        const database = new Database();
         await database.connect();
     });
 
     afterAll(async () => {
-        const database = new Database();
         await database.disconnect();
     });
 

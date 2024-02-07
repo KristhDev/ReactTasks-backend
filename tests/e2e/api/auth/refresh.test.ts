@@ -10,14 +10,14 @@ import { Http } from '@server';
 /* Auth */
 import { AuthErrorMessages, JWT, JWTErrorMessages } from '@auth';
 
+const database = new Database();
+
 describe('Test in Refresh Endpoint', () => {
     beforeAll(async () => {
-        const database = new Database();
         await database.connect();
     });
 
     afterAll(async () => {
-        const database = new Database();
         await database.disconnect();
     });
 

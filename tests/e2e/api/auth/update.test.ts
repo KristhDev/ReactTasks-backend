@@ -9,14 +9,14 @@ import { Database, TokenRepository, UserRepository } from '@database';
 /* Auth */
 import { AuthErrorMessages, JWT, JWTErrorMessages } from '@auth';
 
+const database = new Database();
+
 describe('Test in Update User Endpoint', () => {
     beforeAll(async () => {
-        const database = new Database();
         await database.connect();
     });
 
     afterAll(async () => {
-        const database = new Database();
         await database.disconnect();
     });
 
