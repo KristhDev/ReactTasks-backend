@@ -9,6 +9,7 @@
     "start": "node ./dist/index.js",
     "test:coverage": "jest --coverage",
     "test:e2e": "jest --testMatch **/tests/e2e/**/*.test.ts",
+    "test:unit": "jest --testMatch **/tests/unit/**/*.test.ts",
     "test:watch": "jest --watch",
     "test": "jest"
   },
