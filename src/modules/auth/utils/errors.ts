@@ -37,7 +37,8 @@ export class JWTError extends Error {
 
 export const JWTErrorMessages = {
     EXPIRED: 'Su tiempo de sesión ha expirado. Por favor, inicie sesión de nuevo.',
-    REVOKED: 'El token ya ha sido revocado.'
+    REVOKED: 'El token ya ha sido revocado.',
+    UNPROCESSED: 'El token no puede ser procesado.',
 }
 
 export const VerificationsErrorMessages = {

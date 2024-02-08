@@ -1,5 +1,4 @@
 import jsonwebtoken, { JwtPayload, TokenExpiredError } from 'jsonwebtoken';
-import { jwtDecode } from 'jwt-decode';
 
 /* Database */
 import { DatabaseError, TokenRepository } from '@database';
@@ -16,10 +15,12 @@ class JWT {
      */
     public static decodeToken<T>(token: string): JwtPayload & T | undefined {
         try {
-            return jwtDecode<JwtPayload & T>(token);
+            const data = jsonwebtoken.decode(token);
+            if (!data) throw new JWTError(JWTErrorMessages.UNPROCESSED);
+
+            return data as JwtPayload & T;
         } 
         catch (error) {
-            console.log(error);
             throw new JWTError((error as any).message);
         }
     }
@@ -81,6 +82,7 @@ class JWT {
         } 
         catch (error) {
             if (error instanceof DatabaseError) throw new DatabaseError(error.message);
+            if (error instanceof TokenExpiredError) throw new JWTError(JWTErrorMessages.EXPIRED);
             throw new JWTError((error as any).message);
         }
     }
