@@ -29,9 +29,6 @@ dependencies:
   jsonwebtoken:
     specifier: ^9.0.2
     version: 9.0.2
-  jwt-decode:
-    specifier: ^4.0.0
-    version: 4.0.0
   mongoose:
     specifier: ^8.0.3
     version: 8.0.3
@@ -2648,11 +2645,6 @@ packages:
     dependencies:
       jwa: 1.4.1
       safe-buffer: 5.2.1
-    dev: false
-
-  /jwt-decode@4.0.0:
-    resolution: {integrity: sha512-+KJGIyHgkGuIq3IEBNftfhW/LfWhXUIY6OmyVWjliu5KH1y0fw7VQ8YndE2O4qZdMSd9SqbnC8GOcZEy0Om7sA==}
-    engines: {node: '>=18'}
     dev: false
 
   /kareem@2.5.1:
