@@ -11,4 +11,5 @@ logs/
 node_modules/
 
 # Tests
+__snapshots__/
 coverage/
