@@ -1,6 +1,6 @@
 import { Encrypt } from '@auth';
 
-describe('Test in util Encrypt', () => {
+describe('Test in util Encrypt of auth module', () => {
     it('should create a hash from the given value', () => {
         const value = 'test-hash';
         const hash = Encrypt.createHash(value);
