@@ -20,6 +20,21 @@ class TokenRepository {
     }
 
     /**
+     * Asynchronously deletes multiple documents from the database that match the given filter query.
+     *
+     * @param {FilterQuery<TokenModel>} filter - The filter query to match documents for deletion
+     * @return {Promise<void>} A promise that resolves when the deletion is successful
+     */
+    public static async deleteMany(filter: FilterQuery<TokenModel>): Promise<void> {
+        try {
+            await Token.deleteMany(filter);
+        }
+        catch (error) {
+            throw new DatabaseError((error as any).message);
+        }
+    }
+
+    /**
      * Deletes one token based on the provided filter query.
      *
      * @param {FilterQuery<TokenModel>} filter - the filter query for deleting the token
