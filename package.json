@@ -5,6 +5,11 @@
   "main": "index.js",
   "scripts": {
     "build": "rimraf ./dist && tsc --project tsconfig.build.json",
+    "db:mount": "docker compose up -d",
+    "db:seed": "ts-node-dev --transpile-only ./src/database/scripts/seed.ts",
+    "db:start": "docker compose start",
+    "db:stop": "docker compose stop",
+    "db:unmount": "docker compose down --volumes",
     "dev": "ts-node-dev --respawn --transpile-only index.ts",
     "start": "node ./dist/index.js",
     "test:coverage": "jest --coverage",
@@ -33,6 +38,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
     "@types/bcryptjs": "^2.4.6",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
