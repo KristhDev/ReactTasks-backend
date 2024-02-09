@@ -4,3 +4,10 @@ export class DatabaseError extends Error {
         this.name = 'DatabaseError';
     }
 }
+
+export class SeederError extends Error {
+    constructor(message: string) {
+        super(message);
+        this.name = 'SeederError';
+    }
+}
