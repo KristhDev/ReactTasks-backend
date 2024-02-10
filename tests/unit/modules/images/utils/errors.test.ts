@@ -1,3 +1,4 @@
+/* Images */
 import { ImageError, ImageErrorMessages } from '@images';
 
 describe('Test in util errors of images module', () => {
