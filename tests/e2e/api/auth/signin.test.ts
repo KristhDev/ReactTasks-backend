@@ -43,7 +43,7 @@ describe('Test in SignIn Endpoint', () => {
     it('should fail because credentials are invalid', async () => {
         const resp = await request
             .post('/api/auth/signin')
-            .send({ email: 'kristhdev@gmail.com', password: 'sdasdasdsad3d' })
+            .send({ email: credentials.email, password: 'sdasdasdsad3d' })
 
         expect(resp.status).toBe(Http.BAD_REQUEST);
 
