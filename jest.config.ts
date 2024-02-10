@@ -15,6 +15,7 @@ const config: Config = {
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths),
   preset: "ts-jest",
   setupFiles: [ "./jest.setup.ts" ],
+  verbose: true,
 };
 
 export default config;
