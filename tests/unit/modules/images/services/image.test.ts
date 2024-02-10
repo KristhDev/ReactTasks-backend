@@ -1,6 +1,7 @@
 import { UploadedFile } from 'express-fileupload';
 import { v2 as cloudinary } from 'cloudinary';
 
+/* Images */
 import { ImageError, ImageErrorMessages, ImageService } from '@images';
 
 const file: UploadedFile = {
