@@ -22,7 +22,7 @@ class DestroyTaskController {
         try {
             const task = req.task!;
 
-            if (!!task?.image) await ImageService.delete(task.image);
+            if (!!task?.image) await ImageService.destroy(task.image);
             await TaskRepository.deleteOne({ _id: task._id });
 
             return Http.sendResp(res, {

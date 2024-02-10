@@ -27,7 +27,7 @@ class StoreTaskController {
             const { user } = req.auth!;
 
             let imageUrl = '';
-            if (image) imageUrl = await ImageService.upload(image);
+            if (image) imageUrl = await ImageService.upload(image, process.env.CLOUDINARY_TASKS_FOLDER);
 
             const task = await TaskRepository.create({ ...body, image: imageUrl, userId: user._id });
 
