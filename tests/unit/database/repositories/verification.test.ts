@@ -62,6 +62,32 @@ describe('Test in VerificationRepository of database module', () => {
         }
     });
 
+    it('should delete one verification', async () => {
+        deleteOneVerificationSpy.mockResolvedValue({ acknowledged: true, deletedCount: 1 });
+
+        await VerificationRepository.deleteOne({ _id: verificationMock._id });
+
+        expect(deleteOneVerificationSpy).toHaveBeenCalledTimes(1);
+        expect(deleteOneVerificationSpy).toHaveBeenCalledWith({ _id: verificationMock._id });
+    });
+
+    it('should throw error in delete one verification', async () => {
+        deleteOneVerificationSpy.mockImplementation(() => { throw new Error('Database error'); });
+
+        try {
+            await VerificationRepository.deleteOne({ _id: verificationMock._id });
+            expect(true).toBeFalsy();
+        } 
+        catch (error) {
+            expect(deleteOneVerificationSpy).toHaveBeenCalledTimes(1);
+            expect(deleteOneVerificationSpy).toHaveBeenCalledWith({ _id: verificationMock._id });
+
+            expect(error).toBeInstanceOf(DatabaseError);
+            expect(error).toHaveProperty('name', 'DatabaseError');
+            expect(error).toHaveProperty('message', 'Database error');
+        }
+    });
+
     it('should find one verification', async () => {
         findOneVerificationSpy.mockResolvedValue(verificationMock);
 
@@ -82,32 +108,6 @@ describe('Test in VerificationRepository of database module', () => {
         catch (error) {
             expect(findOneVerificationSpy).toHaveBeenCalledTimes(1);
             expect(findOneVerificationSpy).toHaveBeenCalledWith({ _id: verificationMock._id });
-
-            expect(error).toBeInstanceOf(DatabaseError);
-            expect(error).toHaveProperty('name', 'DatabaseError');
-            expect(error).toHaveProperty('message', 'Database error');
-        }
-    });
-
-    it('should delete one verification', async () => {
-        deleteOneVerificationSpy.mockResolvedValue({ acknowledged: true, deletedCount: 1 });
-
-        await VerificationRepository.deleteOne({ _id: verificationMock._id });
-
-        expect(deleteOneVerificationSpy).toHaveBeenCalledTimes(1);
-        expect(deleteOneVerificationSpy).toHaveBeenCalledWith({ _id: verificationMock._id });
-    });
-
-    it('should throw error in delete one verification', async () => {
-        deleteOneVerificationSpy.mockImplementation(() => { throw new Error('Database error'); });
-
-        try {
-            await VerificationRepository.deleteOne({ _id: verificationMock._id });
-            expect(true).toBeFalsy();
-        } 
-        catch (error) {
-            expect(deleteOneVerificationSpy).toHaveBeenCalledTimes(1);
-            expect(deleteOneVerificationSpy).toHaveBeenCalledWith({ _id: verificationMock._id });
 
             expect(error).toBeInstanceOf(DatabaseError);
             expect(error).toHaveProperty('name', 'DatabaseError');
