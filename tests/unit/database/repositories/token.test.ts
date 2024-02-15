@@ -64,7 +64,7 @@ describe('Test in TokenRepository of database module', () => {
         await TokenRepository.deleteMany({ _id: tokenMock._id });
 
         expect(deleteManyTokenSpy).toHaveBeenCalledTimes(1);
-        expect(deleteManyTokenSpy).toHaveBeenCalledWith({ _id: tokenMock._id });
+        expect(deleteManyTokenSpy).toHaveBeenCalledWith({ _id: tokenMock._id }, undefined);
     });
 
     it('should throw error in delete many tokens', async () => {
@@ -76,7 +76,7 @@ describe('Test in TokenRepository of database module', () => {
         } 
         catch (error) {
             expect(deleteManyTokenSpy).toHaveBeenCalledTimes(1);
-            expect(deleteManyTokenSpy).toHaveBeenCalledWith({ _id: tokenMock._id });
+            expect(deleteManyTokenSpy).toHaveBeenCalledWith({ _id: tokenMock._id }, undefined);
 
             expect(error).toBeInstanceOf(DatabaseError);
             expect(error).toHaveProperty('name', 'DatabaseError');
@@ -90,7 +90,7 @@ describe('Test in TokenRepository of database module', () => {
         await TokenRepository.deleteOne({ _id: tokenMock._id });
 
         expect(deleteOneTokenSpy).toHaveBeenCalledTimes(1);
-        expect(deleteOneTokenSpy).toHaveBeenCalledWith({ _id: tokenMock._id });
+        expect(deleteOneTokenSpy).toHaveBeenCalledWith({ _id: tokenMock._id }, undefined);
     });
 
     it('should throw error in delete one token', async () => {
@@ -102,7 +102,7 @@ describe('Test in TokenRepository of database module', () => {
         } 
         catch (error) {
             expect(deleteOneTokenSpy).toHaveBeenCalledTimes(1);
-            expect(deleteOneTokenSpy).toHaveBeenCalledWith({ _id: tokenMock._id });
+            expect(deleteOneTokenSpy).toHaveBeenCalledWith({ _id: tokenMock._id }, undefined);
 
             expect(error).toBeInstanceOf(DatabaseError);
             expect(error).toHaveProperty('name', 'DatabaseError');
@@ -117,7 +117,7 @@ describe('Test in TokenRepository of database module', () => {
 
         expect(token).toEqual(tokenMock);
         expect(findOneTokenSpy).toHaveBeenCalledTimes(1);
-        expect(findOneTokenSpy).toHaveBeenCalledWith({ _id: tokenMock._id });
+        expect(findOneTokenSpy).toHaveBeenCalledWith({ _id: tokenMock._id }, undefined, undefined);
     });
 
     it('should throw error in find one token', async () => {
@@ -129,7 +129,7 @@ describe('Test in TokenRepository of database module', () => {
         } 
         catch (error) {
             expect(findOneTokenSpy).toHaveBeenCalledTimes(1);
-            expect(findOneTokenSpy).toHaveBeenCalledWith({ _id: tokenMock._id });
+            expect(findOneTokenSpy).toHaveBeenCalledWith({ _id: tokenMock._id }, undefined, undefined);
 
             expect(error).toBeInstanceOf(DatabaseError);
             expect(error).toHaveProperty('name', 'DatabaseError');
