@@ -68,7 +68,7 @@ describe('Test in VerificationRepository of database module', () => {
         await VerificationRepository.deleteOne({ _id: verificationMock._id });
 
         expect(deleteOneVerificationSpy).toHaveBeenCalledTimes(1);
-        expect(deleteOneVerificationSpy).toHaveBeenCalledWith({ _id: verificationMock._id });
+        expect(deleteOneVerificationSpy).toHaveBeenCalledWith({ _id: verificationMock._id }, undefined);
     });
 
     it('should throw error in delete one verification', async () => {
@@ -80,7 +80,7 @@ describe('Test in VerificationRepository of database module', () => {
         } 
         catch (error) {
             expect(deleteOneVerificationSpy).toHaveBeenCalledTimes(1);
-            expect(deleteOneVerificationSpy).toHaveBeenCalledWith({ _id: verificationMock._id });
+            expect(deleteOneVerificationSpy).toHaveBeenCalledWith({ _id: verificationMock._id }, undefined);
 
             expect(error).toBeInstanceOf(DatabaseError);
             expect(error).toHaveProperty('name', 'DatabaseError');
@@ -95,7 +95,7 @@ describe('Test in VerificationRepository of database module', () => {
 
         expect(verification).toEqual(verificationMock);
         expect(findOneVerificationSpy).toHaveBeenCalledTimes(1);
-        expect(findOneVerificationSpy).toHaveBeenCalledWith({ _id: verificationMock._id });
+        expect(findOneVerificationSpy).toHaveBeenCalledWith({ _id: verificationMock._id }, undefined, undefined);
     });
 
     it('should throw error in find one verification', async () => {
@@ -107,7 +107,7 @@ describe('Test in VerificationRepository of database module', () => {
         } 
         catch (error) {
             expect(findOneVerificationSpy).toHaveBeenCalledTimes(1);
-            expect(findOneVerificationSpy).toHaveBeenCalledWith({ _id: verificationMock._id });
+            expect(findOneVerificationSpy).toHaveBeenCalledWith({ _id: verificationMock._id }, undefined, undefined);
 
             expect(error).toBeInstanceOf(DatabaseError);
             expect(error).toHaveProperty('name', 'DatabaseError');
