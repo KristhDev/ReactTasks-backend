@@ -14,6 +14,9 @@ import { EmailService, authRouter } from '@auth';
 import { ImageService } from '@images';
 import { taskRouter } from '@tasks';
 
+/* Package */
+import { version as apiVersion } from '@package';
+
 class Server {
     /** 
      * `private app: Application = express();` is creating an instance of the Express application and
@@ -99,6 +102,7 @@ class Server {
         this.services();
 
         this.app.listen(this.port, () => {
+            Logger.info(`ReactTasks API v${ apiVersion }`);
             Logger.info(`Server listening on port ${ process.env.PORT || 9000 }`);
         });
     }
