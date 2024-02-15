@@ -3,6 +3,9 @@ import mongoose from 'mongoose';
 /* Server */
 import { Logger } from '@server';
 
+/* Utils */
+import { DatabaseError } from './utils';
+
 class Database {
 
     /**
@@ -17,6 +20,7 @@ class Database {
         } 
         catch (error) {
             Logger.error((error as Error).message);
+            throw new DatabaseError((error as Error).message);
         }
     }
 
@@ -32,6 +36,7 @@ class Database {
         } 
         catch (error) {
             Logger.error((error as Error).message);
+            throw new DatabaseError((error as Error).message);
         }
     }
 }
