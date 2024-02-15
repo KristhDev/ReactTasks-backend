@@ -211,6 +211,30 @@ describe('Test in TaskRepository of database module', () => {
         ]);
     });
 
+    it('should throw error in insert many tasks', async () => {
+        insertManyTaskSpy.mockImplementation(() => { throw new Error('Database error'); });
+
+        try {
+            const tasks = await TaskRepository.insertMany([
+                { userId: taskMock.userId, title: taskMock.title, description: taskMock.description, deadline: taskMock.deadline },
+                { userId: taskMock.userId, title: taskMock.title, description: taskMock.description, deadline: taskMock.deadline }
+            ]);
+
+            expect(true).toBeFalsy();
+        } 
+        catch (error) {
+            expect(insertManyTaskSpy).toHaveBeenCalledTimes(1);
+            expect(insertManyTaskSpy).toHaveBeenCalledWith([
+                { userId: taskMock.userId, title: taskMock.title, description: taskMock.description, deadline: taskMock.deadline },
+                { userId: taskMock.userId, title: taskMock.title, description: taskMock.description, deadline: taskMock.deadline }
+            ]);
+
+            expect(error).toBeInstanceOf(DatabaseError);
+            expect(error).toHaveProperty('name', 'DatabaseError');
+            expect(error).toHaveProperty('message', 'Database error');
+        }
+    });
+
     it('should paginate tasks', async () => {
         paginateTaskSpy.mockResolvedValue({
             docs: [ taskMock ],
