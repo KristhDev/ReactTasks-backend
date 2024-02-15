@@ -1,4 +1,4 @@
-import { AnyKeys, FilterQuery } from 'mongoose';
+import { AnyKeys, FilterQuery, ProjectionType, QueryOptions } from 'mongoose';
 
 /* Database */
 import { Verification, VerificationModel, DatabaseError } from '@database';
@@ -23,11 +23,12 @@ class VerificationRepository {
      * Deletes one document from the verification collection based on the provided filter.
      *
      * @param {FilterQuery<VerificationModel>} filter - The filter to apply for deletion.
+     * @param {QueryOptions<VerificationModel>} [options] - Optional query options.
      * @return {Promise<void>} - A promise that resolves when the document is deleted successfully.
      */
-    public static async deleteOne(filter: FilterQuery<VerificationModel>): Promise<void> {
+    public static async deleteOne(filter: FilterQuery<VerificationModel>, options?: QueryOptions<VerificationModel>): Promise<void> {
         try {
-            await Verification.deleteOne(filter);
+            await Verification.deleteOne(filter, options);
         } 
         catch (error) {
             throw new DatabaseError((error as any).message);
@@ -38,11 +39,17 @@ class VerificationRepository {
      * Finds a single document in the Verification collection that matches the given filter.
      *
      * @param {FilterQuery<VerificationModel>} filter - The filter to apply when searching for the document.
+     * @param {ProjectionType<VerificationModel>} [projection] - The fields to include or exclude in the result.
+     * @param {QueryOptions<VerificationModel>} [options] - The options to apply when querying the database.
      * @return {Promise<VerificationModel | null>} - A promise that resolves with the matching document, or null if no document is found.
      */
-    public static async findOne(filter: FilterQuery<VerificationModel>): Promise<VerificationModel | null> {
+    public static async findOne(
+        filter: FilterQuery<VerificationModel>,
+        projection?: ProjectionType<VerificationModel>,
+        options?: QueryOptions<VerificationModel>
+    ): Promise<VerificationModel | null> {
         try {
-            return await Verification.findOne(filter);
+            return await Verification.findOne(filter, projection, options);
         } 
         catch (error) {
             throw new DatabaseError((error as any).message);
