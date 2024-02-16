@@ -12,9 +12,14 @@ import { Logger } from '@server';
  * @returns {void} - The function does not return anything.
  */
 export const loggerRequest = (req: Request, res: Response, next: NextFunction): void => {
-    const userAgent = (req.useragent?.browser !== 'unknown') 
-        ? `${ req.useragent?.browser } ${ req.useragent?.version } ${ req.useragent?.os } ${ req.useragent?.platform }` 
-        : req.useragent?.source;
+    let userAgent = req.useragent?.source;
+
+    if (req.useragent?.browser !== 'unknown') {
+        userAgent = req.useragent?.browser;
+        if (req.useragent?.version !== 'unknown') userAgent += ` ${ req.useragent?.version }`;
+        if (req.useragent?.os !== 'unknown') userAgent += ` ${ req.useragent?.os }`;
+        if (req.useragent?.platform !== 'unknown') userAgent += ` ${ req.useragent?.platform }`;
+    }
 
     Logger.info(`${ req.method } ${ req.path } IP ${ req.ip } ${ userAgent }`);
 
