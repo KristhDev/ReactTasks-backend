@@ -20,6 +20,22 @@ class VerificationRepository {
     }
 
     /**
+     * Delete multiple documents from the database that match the given filter.
+     *
+     * @param {FilterQuery<VerificationModel>} filter - The filter to apply when deleting documents.
+     * @param {QueryOptions<VerificationModel>} [options] - The options to use when deleting documents.
+     * @return {Promise<void>} A Promise that resolves when the documents are successfully deleted.
+     */
+    public static async deleteMany(filter: FilterQuery<VerificationModel>, options?: QueryOptions<VerificationModel>): Promise<void> {
+        try {
+            await Verification.deleteMany(filter, options);
+        } 
+        catch (error) {
+            throw new DatabaseError((error as any).message);
+        }
+    }
+
+    /**
      * Deletes one document from the verification collection based on the provided filter.
      *
      * @param {FilterQuery<VerificationModel>} filter - The filter to apply for deletion.
