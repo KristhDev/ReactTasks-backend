@@ -2,7 +2,7 @@
 import { createRequestMock, createResponseMock } from '@test';
 
 /* Server */
-import { Http } from '@server';
+import { Http, ServerErrorMessages } from '@server';
 
 /* Database */
 import { UserModel, UserRepository } from '@database';
@@ -203,7 +203,7 @@ describe('Test in middleware checkAuth of auth module', () => {
 
         expect(res.json).toHaveBeenCalledTimes(1);
         expect(res.json).toHaveBeenCalledWith({
-            msg: 'Ocurrio un error inesperado. Intente de nuevo más tarde.',
+            msg: ServerErrorMessages.INTERNAL_SERVER_ERROR,
             status: Http.INTERNAL_SERVER_ERROR
         });
 

@@ -2,7 +2,7 @@
 import { createResponseMock } from '@test';
 
 /* Server */
-import { Http } from '@server';
+import { Http, ServerErrorMessages } from '@server';
 
 /* Auth */
 import { AuthErrorMessages, JWTError } from '@auth';
@@ -88,7 +88,7 @@ describe('Test in util http of server module', () => {
 
         expect(res.json).toHaveBeenCalledTimes(1);
         expect(res.json).toHaveBeenCalledWith({
-            msg: 'Lo sentimos, pero no encontramos la página solicitada.',
+            msg: ServerErrorMessages.NOT_FOUND,
             status: Http.NOT_FOUND
         });
     });
@@ -102,7 +102,7 @@ describe('Test in util http of server module', () => {
 
         expect(res.json).toHaveBeenCalledTimes(1);
         expect(res.json).toHaveBeenCalledWith({
-            msg: 'Ocurrio un error inesperado. Intente de nuevo más tarde.',
+            msg: ServerErrorMessages.INTERNAL_SERVER_ERROR,
             status: Http.INTERNAL_SERVER_ERROR
         });
     });

@@ -2,7 +2,7 @@
 import { createRequestMock, createResponseMock } from '@test';
 
 /* Server */
-import { Http } from '@server';
+import { Http, ServerErrorMessages } from '@server';
 
 /* Auth */
 import { checkAuthSecret } from '@auth';
@@ -38,7 +38,7 @@ describe('Test in middleware checkAuthSecret of auth module', () => {
 
         expect(res.status).toHaveBeenCalledWith(Http.NOT_FOUND);
         expect(res.json).toHaveBeenCalledWith({
-            msg: 'Lo sentimos, pero no encontramos la página solicitada.',
+            msg: ServerErrorMessages.NOT_FOUND,
             status: Http.NOT_FOUND
         });
     });
@@ -56,7 +56,7 @@ describe('Test in middleware checkAuthSecret of auth module', () => {
 
         expect(res.status).toHaveBeenCalledWith(Http.NOT_FOUND);
         expect(res.json).toHaveBeenCalledWith({
-            msg: 'Lo sentimos, pero no encontramos la página solicitada.',
+            msg: ServerErrorMessages.NOT_FOUND,
             status: Http.NOT_FOUND
         });
     });

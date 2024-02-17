@@ -1,6 +1,6 @@
 /* Database */
 import { Database } from '@database';
-import { Http } from '@server';
+import { Http, ServerErrorMessages } from '@server';
 import { request } from '@test';
 
 const database = new Database();
@@ -33,7 +33,7 @@ describe('Test in Remove Verifications Endpoint', () => {
         expect(resp.status).toBe(Http.NOT_FOUND);
 
         expect(resp.body).toEqual({
-            msg: 'Lo sentimos, pero no encontramos la página solicitada.',
+            msg: ServerErrorMessages.NOT_FOUND,
             status: Http.NOT_FOUND
         });
     });
@@ -46,7 +46,7 @@ describe('Test in Remove Verifications Endpoint', () => {
         expect(resp.status).toBe(Http.NOT_FOUND);
 
         expect(resp.body).toEqual({
-            msg: 'Lo sentimos, pero no encontramos la página solicitada.',
+            msg: ServerErrorMessages.NOT_FOUND,
             status: Http.NOT_FOUND
         });
     });
