@@ -28,7 +28,7 @@ export const checkAuth = async (req: Request, res: JsonResponse, next: NextFunct
         const { id } = await JWT.validateToken<{ id: string }>(token);
         const user = await UserRepository.findById(id);
 
-        if (!user) return Http.badRequest(res, AuthErrorMessages.NOT_FOUND);
+        if (!user) return Http.notFound(res, AuthErrorMessages.NOT_FOUND);
         if (!user.verified) return Http.badRequest(res, AuthErrorMessages.UNVERIFIED);
         req.auth = { user, token }
 
