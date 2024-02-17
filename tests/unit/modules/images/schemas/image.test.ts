@@ -7,7 +7,7 @@ const file: UploadedFile = {
     data: Buffer.from(''),
     encoding: '',
     md5: '',
-    mimetype: '',
+    mimetype: 'image/png',
     mv: jest.fn(),
     name: '',
     size: 0,
@@ -26,7 +26,7 @@ describe('Test in schemas of images module', () => {
     });
 
     it('should return error because data is empty - imageSchema', () => {
-        const result = imageSchema.safeParse({});
+        const result = imageSchema.safeParse(null);
 
         if (result.success) throw new Error('Result is success - imageSchema');
 

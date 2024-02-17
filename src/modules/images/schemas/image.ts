@@ -5,5 +5,5 @@ import { z } from 'zod';
 import { Constants, ImageErrorMessages } from '@images';
 
 export const imageSchema = z.custom<UploadedFile>()
-    .refine(data => data !== null, { message: ImageErrorMessages.REQUIRED })
-    .refine(data => Constants.ACCEPTED_IMAGE_TYPES.includes(data.mimetype), ImageErrorMessages.INVALID);
+    .refine(data => !!data, { message: ImageErrorMessages.REQUIRED })
+    .refine(data => !!data && Constants.ACCEPTED_IMAGE_TYPES.includes(data.mimetype), ImageErrorMessages.INVALID);
