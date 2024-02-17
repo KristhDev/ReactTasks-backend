@@ -1,7 +1,7 @@
 import { Response } from 'express';
 
 /* Server */
-import { Logger, JsonResponse } from '@server';
+import { Logger, JsonResponse, ServerErrorMessages } from '@server';
 
 /* Auth */
 import { AuthErrorMessages, JWTError } from '@auth';
@@ -61,7 +61,7 @@ class Http {
      */
     public static notFound(res: Response, msg?: string): JsonResponse {
         return res.status(Http.NOT_FOUND).json({
-            msg: msg || 'Lo sentimos, pero no encontramos la página solicitada.',
+            msg: msg || ServerErrorMessages.NOT_FOUND,
             status: Http.NOT_FOUND
         });
     }
@@ -76,7 +76,7 @@ class Http {
         Logger.error(`${ error.name }: ${ error.message }`);
 
         return res.status(Http.INTERNAL_SERVER_ERROR).json({
-            msg: 'Ocurrio un error inesperado. Intente de nuevo más tarde.',
+            msg: ServerErrorMessages.INTERNAL_SERVER_ERROR,
             status: Http.INTERNAL_SERVER_ERROR
         });
     }
