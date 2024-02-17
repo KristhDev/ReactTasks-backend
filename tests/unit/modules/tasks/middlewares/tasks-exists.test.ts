@@ -1,4 +1,4 @@
-import { getMockReq, getMockRes } from '@jest-mock/express';
+import { createRequestMock, createResponseMock } from '@test';
 
 /* Server */
 import { Http } from '@server';
@@ -35,10 +35,9 @@ const userMock: UserModel = {
 } as UserModel;
 
 const findOneTaskSpy = jest.spyOn(Task, 'findOne');
-const nextMock = jest.fn();
 
 describe('Test in taskExists middleware of tasks module', () => {
-    const { mockClear, res } = getMockRes();
+    const { mockClear, res, next: nextMock } = createResponseMock();
 
     beforeEach(() => {
         jest.clearAllMocks();
@@ -46,7 +45,7 @@ describe('Test in taskExists middleware of tasks module', () => {
     }); 
 
     it('should call next function', async () => {
-        const req = getMockReq({
+        const req = createRequestMock({
             auth: { user: userMock }, 
             params: { taskId: taskMock.id } 
         });
@@ -60,7 +59,7 @@ describe('Test in taskExists middleware of tasks module', () => {
     });
 
     it('should not call next function because auth is not defined', async () => {
-        const req = getMockReq({
+        const req = createRequestMock({
             params: { taskId: taskMock.id }
         });
 
@@ -77,7 +76,7 @@ describe('Test in taskExists middleware of tasks module', () => {
     });
 
     it('should not call next function because task is not found', async () => {
-        const req = getMockReq({
+        const req = createRequestMock({
             auth: { user: userMock }, 
             params: { taskId: taskMock.id } 
         });
@@ -97,7 +96,7 @@ describe('Test in taskExists middleware of tasks module', () => {
     });
 
     it('should not call next function because task id is invalid', async () => {
-        const req = getMockReq({
+        const req = createRequestMock({
             auth: { user: userMock },
             params: { taskId: 'invalid' }
         });

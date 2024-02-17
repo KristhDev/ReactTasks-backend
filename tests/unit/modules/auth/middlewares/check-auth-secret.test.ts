@@ -1,4 +1,5 @@
-import { getMockReq, getMockRes } from '@jest-mock/express';
+/* Test */
+import { createRequestMock, createResponseMock } from '@test';
 
 /* Server */
 import { Http } from '@server';
@@ -9,7 +10,7 @@ import { checkAuthSecret } from '@auth';
 const nextMock = jest.fn();
 
 describe('Test in middleware checkAuthSecret of auth module', () => {
-    const { mockClear, res } = getMockRes();
+    const { mockClear, res } = createResponseMock();
 
     beforeEach(() => {
         jest.clearAllMocks();
@@ -17,7 +18,7 @@ describe('Test in middleware checkAuthSecret of auth module', () => {
     }); 
 
     it('should call next function', async () => {
-        const req = getMockReq({
+        const req = createRequestMock({
             headers: {
                 authorization: `Bearer ${ process.env.AUTH_SECRET! }`
             }
@@ -29,7 +30,7 @@ describe('Test in middleware checkAuthSecret of auth module', () => {
     });
 
     it('should not call next function because token is not provided', async () => {
-        const req = getMockReq();
+        const req = createRequestMock();
 
         await checkAuthSecret(req, res, nextMock);
 
@@ -43,7 +44,7 @@ describe('Test in middleware checkAuthSecret of auth module', () => {
     });
 
     it('should not call next function because token is invalid', async () => {
-        const req = getMockReq({
+        const req = createRequestMock({
             headers: {
                 authorization: 'Bearer invalid'
             }

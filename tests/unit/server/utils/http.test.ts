@@ -1,4 +1,5 @@
-import { getMockRes } from '@jest-mock/express';
+/* Test */
+import { createResponseMock } from '@test';
 
 /* Server */
 import { Http } from '@server';
@@ -7,7 +8,7 @@ import { Http } from '@server';
 import { AuthErrorMessages, JWTError } from '@auth';
 
 describe('Test in util http of server module', () => {
-    const { mockClear, res } = getMockRes();
+    const { mockClear, res } = createResponseMock();
 
     beforeEach(() => {
         mockClear();
