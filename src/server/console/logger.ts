@@ -160,10 +160,10 @@ class Logger {
     /**
      * Uploads logs to the server.
      *
-     * @return {void} 
+     * @return {Promise<void>} - a Promise that resolves when the logs are uploaded 
      */
-    public static uploadLogs(): void {
-        Logger.logtail.flush();
+    public static async uploadLogs(): Promise<void> {
+        await Logger.logtail.flush();
     }
 }
 

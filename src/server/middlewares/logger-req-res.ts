@@ -33,13 +33,13 @@ export const loggerReqRes = (req: Request, res: Response, next: NextFunction): v
         return originalSend.call(this, body);
     }
 
-    res.on('finish', () => {
+    res.on('finish', async () => {
         const content = (res as any).bodyContent;
 
         if (content.status >= Http.OK && content.status < Http.BAD_REQUEST) Logger.success(content.msg);
         else Logger.error(content.msg);
 
-        Logger.uploadLogs();
+        await Logger.uploadLogs();
     });
 
     return next();
