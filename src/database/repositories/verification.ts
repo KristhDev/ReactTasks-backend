@@ -1,4 +1,4 @@
-import { AnyKeys, FilterQuery, ProjectionType, QueryOptions } from 'mongoose';
+import { AnyKeys, FilterQuery, MongooseQueryOptions, ProjectionType, QueryOptions } from 'mongoose';
 
 /* Database */
 import { Verification, VerificationModel, DatabaseError } from '@database';
@@ -23,10 +23,10 @@ class VerificationRepository {
      * Delete multiple documents from the database that match the given filter.
      *
      * @param {FilterQuery<VerificationModel>} filter - The filter to apply when deleting documents.
-     * @param {QueryOptions<VerificationModel>} [options] - The options to use when deleting documents.
+     * @param {Omit<MongooseQueryOptions<VerificationModel>, 'lean' | 'timestamps'>} [options] - The options to use when deleting documents.
      * @return {Promise<void>} A Promise that resolves when the documents are successfully deleted.
      */
-    public static async deleteMany(filter: FilterQuery<VerificationModel>, options?: QueryOptions<VerificationModel>): Promise<void> {
+    public static async deleteMany(filter: FilterQuery<VerificationModel>, options?: Omit<MongooseQueryOptions<VerificationModel>, 'lean' | 'timestamps'>): Promise<void> {
         try {
             await Verification.deleteMany(filter, options);
         } 
@@ -39,10 +39,10 @@ class VerificationRepository {
      * Deletes one document from the verification collection based on the provided filter.
      *
      * @param {FilterQuery<VerificationModel>} filter - The filter to apply for deletion.
-     * @param {QueryOptions<VerificationModel>} [options] - Optional query options.
+     * @param {Omit<MongooseQueryOptions<VerificationModel>, 'lean' | 'timestamps'>} [options] - Optional query options.
      * @return {Promise<void>} - A promise that resolves when the document is deleted successfully.
      */
-    public static async deleteOne(filter: FilterQuery<VerificationModel>, options?: QueryOptions<VerificationModel>): Promise<void> {
+    public static async deleteOne(filter: FilterQuery<VerificationModel>, options?: Omit<MongooseQueryOptions<VerificationModel>, 'lean' | 'timestamps'>): Promise<void> {
         try {
             await Verification.deleteOne(filter, options);
         } 
