@@ -47,9 +47,6 @@ dependencies:
   nodemailer:
     specifier: ^6.9.9
     version: 6.9.9
-  reacttasks-backend:
-    specifier: 'link:'
-    version: 'link:'
   winston:
     specifier: ^3.11.0
     version: 3.11.0
