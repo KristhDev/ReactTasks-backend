@@ -1,13 +1,13 @@
 import { UploadedFile } from 'express-fileupload';
 
-/* Database */
-import { TaskRepository } from '../../../database';
-
 /* Server */
-import { Http, JsonResponse } from '../../../server';
+import { Http, JsonResponse } from '@server';
 
-/* Services */
-import { ImageService } from '../../images';
+/* Database */
+import { TaskRepository } from '@database';
+
+/* Images */
+import { ImageService } from '@images';
 
 /* Interfaces */
 import { UpdateTaskRequest } from '../interfaces';
