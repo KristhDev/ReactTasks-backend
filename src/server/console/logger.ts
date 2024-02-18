@@ -145,7 +145,6 @@ class Logger {
      */
     public static success(message: string): void {
         Logger.log.log('success', message);
-        Logger.logtail.flush();
     }
 
     /**
@@ -156,6 +155,14 @@ class Logger {
      */
     public static error(message: string): void {
         Logger.log.error(message);
+    }
+
+    /**
+     * Uploads logs to the server.
+     *
+     * @return {void} 
+     */
+    public static uploadLogs(): void {
         Logger.logtail.flush();
     }
 }

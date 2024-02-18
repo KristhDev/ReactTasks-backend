@@ -38,6 +38,8 @@ export const loggerReqRes = (req: Request, res: Response, next: NextFunction): v
 
         if (content.status >= Http.OK && content.status < Http.BAD_REQUEST) Logger.success(content.msg);
         else Logger.error(content.msg);
+
+        Logger.uploadLogs();
     });
 
     return next();
