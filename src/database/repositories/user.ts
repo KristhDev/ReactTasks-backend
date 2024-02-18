@@ -1,4 +1,4 @@
-import { AnyKeys, FilterQuery, MergeType, ObjectId, ProjectionType, QueryOptions, UpdateQuery } from 'mongoose';
+import { AnyKeys, FilterQuery, MergeType, MongooseQueryOptions, ObjectId, ProjectionType, QueryOptions, UpdateQuery } from 'mongoose';
 
 /* Database */
 import { DatabaseError, User, UserModel } from '@database';
@@ -26,10 +26,10 @@ class UserRepository {
      * A function that deletes multiple user records based on the provided filter and options.
      *
      * @param {FilterQuery<UserModel>} filter - the filter to apply when deleting user records
-     * @param {QueryOptions<UserModel>} [options] - optional query options for the delete operation
+     * @param {Omit<MongooseQueryOptions<UserModel>, 'lean' | 'timestamps'>} [options] - optional query options for the delete operation
      * @return {Promise<void>} a promise that resolves when the delete operation is complete
      */
-    public static async deleteMany(filter: FilterQuery<UserModel>, options?: QueryOptions<UserModel>): Promise<void> {
+    public static async deleteMany(filter: FilterQuery<UserModel>, options?: Omit<MongooseQueryOptions<UserModel>, 'lean' | 'timestamps'>): Promise<void> {
         try {
             await User.deleteMany(filter, options);
         } 
@@ -42,10 +42,10 @@ class UserRepository {
      * Delete one document that matches the filter.
      *
      * @param {FilterQuery<UserModel>} filter - The filter to apply for deletion
-     * @param {QueryOptions<UserModel>} [options] - The options to apply when deleting
+     * @param {Omit<MongooseQueryOptions<UserModel>, 'lean' | 'timestamps'>} [options] - The options to apply when deleting
      * @return {Promise<void>} A promise that resolves when the deletion is complete
      */
-    public static async deleteOne(filter: FilterQuery<UserModel>, options?: QueryOptions<UserModel>): Promise<void> {
+    public static async deleteOne(filter: FilterQuery<UserModel>, options?: Omit<MongooseQueryOptions<UserModel>, 'lean' | 'timestamps'>): Promise<void> {
         try {
             await User.deleteOne(filter, options);
         } 
