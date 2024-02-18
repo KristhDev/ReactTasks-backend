@@ -47,6 +47,9 @@ dependencies:
   nodemailer:
     specifier: ^6.9.9
     version: 6.9.9
+  reacttasks-backend:
+    specifier: 'link:'
+    version: 'link:'
   winston:
     specifier: ^3.11.0
     version: 3.11.0
@@ -58,9 +61,6 @@ dependencies:
     version: 3.22.4
 
 devDependencies:
-  '@faker-js/faker':
-    specifier: ^8.4.1
-    version: 8.4.1
   '@types/bcryptjs':
     specifier: ^2.4.6
     version: 2.4.6
@@ -119,11 +119,6 @@ packages:
       enabled: 2.0.0
       kuler: 2.0.0
     dev: false
-
-  /@faker-js/faker@8.4.1:
-    resolution: {integrity: sha512-XQ3cU+Q8Uqmrbf2e0cIC/QN43sTBSC8KF12u29Mb47tWrt2hAgBXSgpZMj4Ao8Uk0iJcU99QsOCaIL8934obCg==}
-    engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0, npm: '>=6.14.13'}
-    dev: true
 
   /@isaacs/cliui@8.0.2:
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
