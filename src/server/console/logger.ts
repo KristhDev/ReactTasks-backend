@@ -1,5 +1,7 @@
 import { addColors, createLogger, format, transports, Logform } from 'winston';
 import timestampColorize from 'winston-timestamp-colorize';
+import { Logtail } from '@logtail/node';
+import { LogtailTransport } from '@logtail/winston';
 
 /**
  * An object that contains color codes for different log levels.
@@ -105,6 +107,11 @@ class Logger {
     }
 
     /**
+     * An instance of Logtail to send logs to Logtail server.
+     */
+    private static logtail = new Logtail(process.env.LOGTAIL_TOKEN!);
+
+    /**
      * A winston logger object that logs messages to the console and a log file.
      */
     private static log = createLogger({
@@ -113,8 +120,7 @@ class Logger {
             new transports.Console({
                 format: Logger.consoleLoggerFormat()
             }),
-            new transports.File({
-                filename: `./logs/reacttask-backend-${ Logger.loggerFormatDate(new Date()) }.log`,
+            new LogtailTransport(Logger.logtail, {
                 format: Logger.fileLoggerFormat()
             }),
         ],
@@ -128,6 +134,7 @@ class Logger {
      */
     public static info(message: string): void {
         Logger.log.info(message);
+        Logger.logtail.flush();
     }
 
     /**
@@ -138,6 +145,7 @@ class Logger {
      */
     public static success(message: string): void {
         Logger.log.log('success', message);
+        Logger.logtail.flush();
     }
 
     /**
@@ -148,6 +156,7 @@ class Logger {
      */
     public static error(message: string): void {
         Logger.log.error(message);
+        Logger.logtail.flush();
     }
 }
 

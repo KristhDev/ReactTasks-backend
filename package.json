@@ -17,6 +17,8 @@
   "author": "KristhDev",
   "license": "ISC",
   "dependencies": {
+    "@logtail/node": "^0.4.19",
+    "@logtail/winston": "^0.4.19",
     "bcryptjs": "^2.4.3",
     "cloudinary": "^1.41.1",
     "cors": "^2.8.5",
