@@ -1,10 +1,10 @@
 import { UploadedFile } from 'express-fileupload';
 
 /* Server */
-import { Http, JsonResponse } from '../../../server';
+import { Http, JsonResponse } from '@server';
 
 /* Database */
-import { TaskRepository } from '../../../database';
+import { TaskRepository } from '@database';
 
 /* Services */
 import { ImageService } from '../../images';

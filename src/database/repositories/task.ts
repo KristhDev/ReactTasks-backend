@@ -1,4 +1,4 @@
-import { AnyKeys, FilterQuery, MergeType, ObjectId, ProjectionType, QueryOptions, UpdateQuery } from 'mongoose';
+import { AnyKeys, FilterQuery, MergeType, MongooseQueryOptions, ObjectId, ProjectionType, QueryOptions, UpdateQuery } from 'mongoose';
 import { PaginationModel, PaginationOptions } from 'mongoose-paginate-ts';
 
 /* Database */
@@ -27,10 +27,10 @@ class TaskRepository {
      * Delete multiple tasks based on the provided filter.
      *
      * @param {FilterQuery<TaskModel>} filter - Optional filter for tasks to delete
-     * @param {QueryOptions<TaskModel>} [options] - Optional query options
+     * @param {Omit<MongooseQueryOptions<TaskModel>, 'lean' | 'timestamps'>} [options] - Optional query options
      * @return {Promise<void>} Promise that resolves when the deletion is successful
      */
-    public static async deleteMany(filter?: FilterQuery<TaskModel>, options?: QueryOptions<TaskModel>): Promise<void> {
+    public static async deleteMany(filter?: FilterQuery<TaskModel>, options?: Omit<MongooseQueryOptions<TaskModel>, 'lean' | 'timestamps'>): Promise<void> {
         try {
             await Task.deleteMany(filter, options);
         } 
@@ -43,10 +43,10 @@ class TaskRepository {
      * Deletes a single task from the database.
      *
      * @param {FilterQuery<TaskModel>} filter - The filter to apply when deleting the task.
-     * @param {QueryOptions<TaskModel>} [options] - Optional query options.
+     * @param {Omit<MongooseQueryOptions<TaskModel>, 'lean' | 'timestamps'>} [options] - Optional query options.
      * @return {Promise<void>} - A promise that resolves when the task is successfully deleted.
      */
-    public static async deleteOne(filter?: FilterQuery<TaskModel>, options?: QueryOptions<TaskModel>): Promise<void> {
+    public static async deleteOne(filter?: FilterQuery<TaskModel>, options?: Omit<MongooseQueryOptions<TaskModel>, 'lean' | 'timestamps'>): Promise<void> {
         try {
             await Task.deleteOne(filter, options);
         } 
