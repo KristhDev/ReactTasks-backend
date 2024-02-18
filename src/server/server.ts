@@ -7,7 +7,7 @@ import cors from 'cors';
 import { Database } from '@database';
 
 /* Server */
-import { Logger, loggerReqRes, Http } from '@server';
+import { Logger, loggerRequest, Http } from '@server';
 
 /* Modules */
 import { EmailService, authRouter } from '@auth';
@@ -50,7 +50,7 @@ class Server {
             tempFileDir : '/tmp/'
         }));
         this.app.use(express.json());
-        this.app.use(loggerReqRes);
+        this.app.use(loggerRequest);
     }
 
     /**

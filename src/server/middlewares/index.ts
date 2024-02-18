@@ -1,2 +1,2 @@
-export * from './logger-req-res';
+export * from './logger-request';
 export * from './validate-request';
