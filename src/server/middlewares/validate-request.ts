@@ -26,5 +26,5 @@ export const validateRequest = async (
         return Http.badRequest(res, error);
     }
 
-    next();
+    return next();
 }

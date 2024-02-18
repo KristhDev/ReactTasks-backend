@@ -40,5 +40,5 @@ export const loggerReqRes = (req: Request, res: Response, next: NextFunction): v
         else Logger.error(content.msg);
     });
 
-    next();
+    return next();
 }
