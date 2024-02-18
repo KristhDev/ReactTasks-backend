@@ -1,10 +1,13 @@
 import { NextFunction, Request } from 'express';
 
 /* Server */
-import { Http, JsonResponse } from '../../../server';
+import { Http, JsonResponse } from '@server';
 
 /* Database */
-import { UserRepository } from '../../../database';
+import { UserRepository } from '@database';
+
+/* Auth */
+import { AuthErrorMessages } from '@auth';
 
 /**
  * Checks if a user exists.
@@ -19,7 +22,7 @@ export const userExists = async (req: Request, res: JsonResponse, next: NextFunc
         const { email } = req.body;
 
         const user = await UserRepository.findOne({ email });
-        if (!user) return Http.badRequest(res, 'El usuario no existe.');
+        if (!user) return Http.notFound(res, AuthErrorMessages.NOT_FOUND);
 
         req.user = user;
 

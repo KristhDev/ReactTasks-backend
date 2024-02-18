@@ -1,11 +1,8 @@
 import nodemailer, { Transporter } from 'nodemailer';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
 
-/* Interfaces */
-import { SendEmailOptions } from '../interfaces';
-
-/* Utils */
-import { EmailError } from '../utils';
+/* Auth */
+import { EmailError, SendEmailOptions } from '@auth';
 
 class EmailService {
     private static transporter: Transporter<SMTPTransport.SentMessageInfo>;
@@ -20,12 +17,12 @@ class EmailService {
      */
     public static initialize(): void {
         EmailService.transporter = nodemailer.createTransport({
-            host: process.env.NODEMAILER_HOST,
-            port: parseInt(process.env.NODEMAILER_PORT || '465'),
+            host: process.env.EMAIL_HOST,
+            port: parseInt(process.env.EMAIL_PORT || '465'),
             secure: true,
             auth: {
-                user: process.env.NODEMAILER_USER,
-                pass: process.env.NODEMAILER_PASSWORD
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASSWORD
             }
         });
     }
@@ -42,7 +39,7 @@ class EmailService {
     public static async sendEmailVerification({ email, token, name }: SendEmailOptions): Promise<void> {
         try {
             await EmailService.transporter.sendMail({
-                from: `no-reply <${ process.env.NODEMAILER_USER }>`,
+                from: `no-reply <${ process.env.EMAIL_USER }>`,
                 to: email,
                 subject: 'Verificación de correo - ReactTasks',
                 text: `
@@ -71,7 +68,7 @@ class EmailService {
     public static async sendEmailResetPassword({ email, token, name }: SendEmailOptions): Promise<void> {
         try {
             await EmailService.transporter.sendMail({
-                from: `no-reply <${ process.env.NODEMAILER_USER }>`,
+                from: `no-reply <${ process.env.EMAIL_USER }>`,
                 to: email,
                 subject: 'Reestablecer contraseña - ReactTasks',
                 text: `

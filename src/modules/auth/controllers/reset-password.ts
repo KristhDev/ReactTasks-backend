@@ -1,16 +1,13 @@
 import { Request } from 'express';
 
 /* Server */
-import { Http, JsonResponse } from '../../../server';
+import { Http, JsonResponse } from '@server';
 
 /* Database */
-import { VerificationRepository } from '../../../database';
+import { VerificationRepository } from '@database';
 
-/* Services */
-import { EmailService } from '../services';
-
-/* Utils */
-import { JWT } from '../utils';
+/* Auth */
+import { AuthErrorMessages, EmailService, JWT } from '@auth';
 
 class ResetPasswordController {
     /**
@@ -23,7 +20,7 @@ class ResetPasswordController {
     public static async handler(req: Request, res: JsonResponse): Promise<JsonResponse> {
         try {
             const user = req.user!;
-            if (!user.verified) return Http.badRequest(res, 'Tu cuenta no ha sido verificada.');
+            if (!user.verified) return Http.badRequest(res, AuthErrorMessages.UNVERIFIED);
 
             const token = JWT.generateToken({ id: user._id }, '30m');
             const data = JWT.decodeToken(token);

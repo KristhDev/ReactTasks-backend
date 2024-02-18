@@ -1,17 +1,11 @@
 /* Server */
-import { Http, JsonResponse } from '../../../server';
+import { Http, JsonResponse } from '@server';
 
 /* Database */
-import { VerificationRepository } from '../../../database';
+import { VerificationRepository } from '@database';
 
-/* Services */
-import { EmailService } from '../services';
-
-/* Interfaces */
-import { SendEmailVerificationRequest } from '../interfaces';
-
-/* Utils */
-import { JWT } from '../utils';
+/* Auth */
+import { EmailService, SendEmailVerificationRequest, JWT } from '@auth';
 
 class SendEmailVerificationController {
     /**
@@ -39,7 +33,7 @@ class SendEmailVerificationController {
             });
 
             return Http.sendResp(res, {
-                msg: `Hemos enviado un correo de verificación, por favor confirma tu cuenta.`, 
+                msg: 'Hemos enviado un correo de verificación, por favor confirma tu cuenta.', 
                 status: Http.OK
             });
         } 

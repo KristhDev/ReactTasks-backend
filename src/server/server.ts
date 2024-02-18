@@ -4,23 +4,18 @@ import fileUpload from 'express-fileupload';
 import cors from 'cors';
 
 /* Database */
-import { Database } from '../database';
+import { Database } from '@database';
 
-/* Console */
-import { Logger } from './console';
+/* Server */
+import { Logger, loggerReqRes, Http } from '@server';
 
 /* Modules */
-import { EmailService, authRouter } from '../modules/auth';
-import { taskRouter } from '../modules/tasks';
+import { EmailService, authRouter } from '@auth';
+import { ImageService } from '@images';
+import { taskRouter } from '@tasks';
 
-/* Middlewares */
-import { loggerRequest, loggerResponse } from './middlewares';
-
-/* Services */
-import { ImageService } from '../modules/images';
-
-/* Utils */
-import { Http } from './utils';
+/* Package */
+import { version as apiVersion } from '@package';
 
 class Server {
     /** 
@@ -55,8 +50,7 @@ class Server {
             tempFileDir : '/tmp/'
         }));
         this.app.use(express.json());
-        this.app.use(loggerRequest);
-        this.app.use(loggerResponse);
+        this.app.use(loggerReqRes);
     }
 
     /**
@@ -107,8 +101,22 @@ class Server {
         this.services();
 
         this.app.listen(this.port, () => {
+            Logger.info(`ReactTasks API v${ apiVersion }`);
             Logger.info(`Server listening on port ${ process.env.PORT || 9000 }`);
         });
+    }
+
+    /**
+     * Get the application instance.
+     *
+     * @return {Application} the application instance
+     */
+    public getApp(): Application {
+        this.middlewares();
+        this.routes();
+        this.services();
+
+        return this.app;
     }
 }
 

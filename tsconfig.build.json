@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "commonjs",
+    "outDir": "./dist",
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "es2016"
+  },
+  "exclude": [ "node_modules" ],
+  "extends": "./tsconfig.paths.json",
+  "include": [ "src/**/*", "./index.ts", "./paths.ts" ]
+}

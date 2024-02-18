@@ -1,10 +1,13 @@
 import { NextFunction, Request } from 'express';
 
 /* Server */
-import { Http, JsonResponse } from '../../../server';
+import { Http, JsonResponse } from '@server';
 
 /* Database */
-import { TaskRepository } from '../../../database';
+import { DatabaseValidations, TaskRepository } from '@database';
+
+/* Tasks */
+import { TaskErrorMessages } from '@tasks';
 
 /**
  * Checks if a task exists.
@@ -21,8 +24,11 @@ export const taskExists = async (req: Request, res: JsonResponse, next: NextFunc
         const { taskId } = req.params;
         const { user } = req.auth;
 
+        const validId = DatabaseValidations.validateId(taskId);
+        if (!validId) return Http.notFound(res, TaskErrorMessages.NOT_FOUND);
+
         const task = await TaskRepository.findOne({ _id: taskId, userId: user._id });
-        if (!task) return Http.badRequest(res, 'La tarea no existe.');
+        if (!task) return Http.notFound(res, TaskErrorMessages.NOT_FOUND);
 
         req.task = task;
         return next();

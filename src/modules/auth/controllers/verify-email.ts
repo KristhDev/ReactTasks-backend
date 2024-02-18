@@ -1,11 +1,11 @@
 /* Server */
-import { Http, JsonResponse } from '../../../server';
+import { Http, JsonResponse } from '@server';
 
 /* Database */
-import { VerificationRepository, UserRepository } from '../../../database';
+import { VerificationRepository, UserRepository } from '@database';
 
-/* Interfaces */
-import { VerifyEmailRequest } from '../interfaces';
+/* Auth */
+import { AuthErrorMessages, VerifyEmailRequest } from '@auth';
 
 class VerifyEmailController {
     /**
@@ -24,7 +24,7 @@ class VerifyEmailController {
 
             if (!verification) {
                 await VerificationRepository.deleteOne({ token });
-                return Http.badRequest(res, 'El enlace de verificación ha expirado, por favor solicita otra verificación de cuenta.');
+                return Http.badRequest(res, AuthErrorMessages.VERIFICATION_EXPIRED);
             }
 
             const user = await UserRepository.findById(verification.userId);

@@ -28,8 +28,8 @@ class UpdateTaskController {
 
             let imageUrl = task.image;
 
-            if (image && !!imageUrl) await ImageService.delete(imageUrl);
-            if (image) imageUrl = await ImageService.upload(image);
+            if (image && !!imageUrl) await ImageService.destroy(imageUrl);
+            if (image) imageUrl = await ImageService.upload(image, process.env.CLOUDINARY_TASKS_FOLDER);
 
             const updatedTask = await TaskRepository.findByIdAndUpdate(task._id, { ...body, image: imageUrl }, { new: true });
 

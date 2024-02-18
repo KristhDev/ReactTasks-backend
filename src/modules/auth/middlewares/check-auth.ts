@@ -1,13 +1,13 @@
 import { NextFunction, Request } from 'express';
 
 /* Server */
-import { Http, JsonResponse } from '../../../server';
+import { Http, JsonResponse } from '@server';
 
 /* Database */
-import { UserRepository } from '../../../database';
+import { UserRepository } from '@database';
 
-/* Utils */
-import { JWT, JWTError } from '../utils';
+/* Auth */
+import { AuthErrorMessages, JWT, JWTError, JWTErrorMessages } from '@auth';
 
 /**
  * Checks if the request has a valid authorization token.
@@ -28,14 +28,18 @@ export const checkAuth = async (req: Request, res: JsonResponse, next: NextFunct
         const { id } = await JWT.validateToken<{ id: string }>(token);
         const user = await UserRepository.findById(id);
 
-        if (!user) return Http.badRequest(res, 'El usuario no existe.');
-        if (!user.verified) return Http.badRequest(res, 'Tu cuenta no ha sido verificada.');
+        if (!user) return Http.notFound(res, AuthErrorMessages.NOT_FOUND);
+        if (!user.verified) return Http.badRequest(res, AuthErrorMessages.UNVERIFIED);
         req.auth = { user, token }
 
         return next();
     } 
     catch (error) {
-        if (error instanceof JWTError) return Http.unauthorized(res, error as JWTError);
+        if (error instanceof JWTError) {
+            if (error.message !== JWTErrorMessages.EXPIRED) return Http.unauthorized(res, error as JWTError);
+            return Http.sendResp(res, { msg: error.message, status: Http.UNAUTHORIZED });
+        }
+
         return Http.internalServerError(res, error as Error);
     }
 }

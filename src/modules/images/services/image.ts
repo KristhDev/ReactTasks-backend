@@ -1,8 +1,8 @@
 import { UploadedFile } from 'express-fileupload';
 import { v2 as cloudinary } from 'cloudinary';
 
-/* Utils */
-import { ImageError } from '../utils';
+/* Images */
+import { ImageError, ImageErrorMessages } from '@images';
 
 class ImageService {
     /**
@@ -23,13 +23,14 @@ class ImageService {
      * Uploads a file to Cloudinary and returns the secure URL.
      *
      * @param {UploadedFile} file - The file to be uploaded.
+     * @param {string} folder - The folder to upload the file to
      * @return {Promise<string>} The secure URL of the uploaded file.
      */
-    public static async upload(file: UploadedFile): Promise<string> {
+    public static async upload(file: UploadedFile, folder?: string): Promise<string> {
         try {
             const { secure_url } = await cloudinary.uploader.upload(
                 file.tempFilePath,
-                { folder: process.env.CLOUDINARY_TASKS_FOLDER }
+                { folder }
             );
 
             return secure_url;
@@ -45,13 +46,16 @@ class ImageService {
      * @param {string} imgUrl - the URL of the image to be deleted
      * @return {Promise<void>} - a Promise that resolves when the image is deleted
      */
-    public static async delete(imgUrl: string): Promise<void> {
+    public static async destroy(imgUrl: string): Promise<void> {
         try {
             const nameArr = imgUrl.split('/');
-            const name = nameArr[nameArr.length - 1];
-            const [ publicId ] = name.split('.');
+            const appNameIndex = nameArr.findIndex(el => el === 'react-tasks');
 
-            await cloudinary.uploader.destroy(`${ process.env.CLOUDINARY_TASKS_FOLDER }/${ publicId }`);
+            if (appNameIndex < 0) throw ImageErrorMessages.INVALID_URL;
+
+            const [ publicId ] = nameArr.slice(appNameIndex, nameArr.length).join('/').split('.');
+
+            await cloudinary.uploader.destroy(publicId);
         } 
         catch (error) {
             throw new ImageError(error as string);

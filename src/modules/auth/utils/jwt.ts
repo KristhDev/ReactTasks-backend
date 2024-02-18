@@ -1,11 +1,10 @@
-import jsonwebtoken, { JwtPayload } from 'jsonwebtoken';
-import { jwtDecode } from 'jwt-decode';
+import jsonwebtoken, { JwtPayload, TokenExpiredError } from 'jsonwebtoken';
 
 /* Database */
-import { DatabaseError, TokenRepository } from '../../../database';
+import { DatabaseError, TokenRepository } from '@database';
 
-/* Errors */
-import { JWTError } from './errors';
+/* Auth */
+import { JWTError, JWTErrorMessages } from '@auth';
 
 class JWT {
     /**
@@ -14,12 +13,14 @@ class JWT {
      * @param {string} token - The JWT token to be decoded.
      * @return {JwtPayload | undefined} Returns the decoded payload if successful, otherwise undefined.
      */
-    public static decodeToken(token: string): JwtPayload | undefined {
+    public static decodeToken<T>(token: string): JwtPayload & T | undefined {
         try {
-            return jwtDecode(token);
+            const data = jsonwebtoken.decode(token);
+            if (!data) throw new JWTError(JWTErrorMessages.UNPROCESSED);
+
+            return data as JwtPayload & T;
         } 
         catch (error) {
-            console.log(error);
             throw new JWTError((error as any).message);
         }
     }
@@ -50,15 +51,16 @@ class JWT {
      * @param {string} token - The token to be validated.
      * @return {Promise<T>} The decoded value of the token.
      */
-    public static async validateToken<T>(token: string): Promise<T> {
+    public static async validateToken<T>(token: string): Promise<JwtPayload & T> {
         try {
             const revokedToken = await TokenRepository.findOne({ token });
-            if (revokedToken) throw new JWTError('El token ya ha sido revocado.');
+            if (revokedToken) throw new JWTError(JWTErrorMessages.REVOKED);
 
-            return jsonwebtoken.verify(token, process.env.JWT_SECRET!) as T
+            return jsonwebtoken.verify(token, process.env.JWT_SECRET!) as JwtPayload & T;
         } 
         catch (error) {
             if (error instanceof DatabaseError) throw new DatabaseError(error.message);
+            if (error instanceof TokenExpiredError) throw new JWTError(JWTErrorMessages.EXPIRED);
             throw new JWTError((error as any).message);
         }
     }
@@ -80,6 +82,7 @@ class JWT {
         } 
         catch (error) {
             if (error instanceof DatabaseError) throw new DatabaseError(error.message);
+            if (error instanceof TokenExpiredError) throw new JWTError(JWTErrorMessages.EXPIRED);
             throw new JWTError((error as any).message);
         }
     }

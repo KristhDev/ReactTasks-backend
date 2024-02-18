@@ -1,15 +1,17 @@
 import { Router } from 'express';
 
-/* Middlewares */
-import { checkAuth, checkVerificationToken, userExists } from '../middlewares';
-
 /* Server */
-import { validateRequest } from '../../../server';
+import { validateRequest } from '@server';
+
+/* Middlewares */
+import { checkAuth, checkAuthSecret, checkVerificationToken, userExists } from '../middlewares';
 
 /* Controllers */
 import {
     ChangePasswordController,
     RefreshAuth,
+    RemoveTokensController,
+    RemoveVerificationsController,
     ResetPasswordController,
     SendEmailVerificationController,
     SignInController,
@@ -85,5 +87,16 @@ router.put(
     ChangePasswordController.handler
 );
 
-export default router;
+router.post(
+    usersRoutes.REMOVE_TOKENS,
+    checkAuthSecret,
+    RemoveTokensController.handler
+);
 
+router.post(
+    usersRoutes.REMOVE_VERIFICATIONS,
+    checkAuthSecret,
+    RemoveVerificationsController.handler
+);
+
+export default router;

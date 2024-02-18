@@ -1,16 +1,11 @@
-import bcrypt from 'bcryptjs';
-
 /* Database */
-import { UserRepository } from '../../../database';
+import { UserRepository } from '@database';
 
 /* Server */
-import { Http, JsonResponse } from '../../../server';
+import { Http, JsonResponse } from '@server';
 
-/* Interfaces */
-import { SignInRequest } from '../interfaces';
-
-/* Utils */
-import { JWT } from '../utils';
+/* Auth */
+import { AuthErrorMessages, Encrypt, JWT, SignInRequest } from '@auth';
 
 class SignInController {
     /**
@@ -25,10 +20,10 @@ class SignInController {
 
         try {
             const user = await UserRepository.findOne({ email });
-            if (!user?.verified) return Http.badRequest(res, 'Tu cuenta no ha sido verificada.');
+            if (!user?.verified) return Http.badRequest(res, AuthErrorMessages.UNVERIFIED);
 
-            const match = bcrypt.compareSync(password, user?.password!);
-            if (!match) return Http.badRequest(res, 'Las credenciales son incorrectas.');
+            const match = Encrypt.compareHash(password, user?.password!);
+            if (!match) return Http.badRequest(res, AuthErrorMessages.INVALID_CREDENTIALS);
 
             const token = JWT.generateToken({ id: user?._id });
 

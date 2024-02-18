@@ -11,10 +11,10 @@ import {
 } from '../controllers';
 
 /* Middlewares */
-import { checkAuth } from '../../auth';
-import { validateRequest } from '../../../server';
-import { validateImage } from '../../images';
-import { taskExists } from '../middlewares';
+import { checkAuth } from '@auth';
+import { taskExists } from '@tasks';
+import { validateImage } from '@images';
+import { validateRequest } from '@server';
 
 /* Routes */
 import { taskRoutes } from './routes';

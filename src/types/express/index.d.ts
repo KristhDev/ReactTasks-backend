@@ -1,4 +1,4 @@
-import { TaskModel, UserModel } from '../../database';
+import { TaskModel, UserModel } from '@database';
 
 declare module 'express' {
     interface Request {

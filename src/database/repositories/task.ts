@@ -1,15 +1,11 @@
-import { AnyKeys, FilterQuery, ObjectId, QueryOptions, UpdateQuery } from 'mongoose';
+import { AnyKeys, FilterQuery, MergeType, ObjectId, ProjectionType, QueryOptions, UpdateQuery } from 'mongoose';
 import { PaginationModel, PaginationOptions } from 'mongoose-paginate-ts';
 
-/* Models */
-import { Task } from '../models';
+/* Database */
+import { DatabaseError, Task, ITask, TaskModel } from '@database';
 
-/* Interfaces */
-import { TaskEndpoint } from '../../modules/tasks';
-import { ITask, TaskModel } from '../interfaces';
-
-/* Utils */
-import { DatabaseError } from '../utils';
+/* Tasks */
+import { TaskEndpoint } from '@tasks';
 
 class TaskRepository {
     /**
@@ -28,14 +24,31 @@ class TaskRepository {
     }
 
     /**
+     * Delete multiple tasks based on the provided filter.
+     *
+     * @param {FilterQuery<TaskModel>} filter - Optional filter for tasks to delete
+     * @param {QueryOptions<TaskModel>} [options] - Optional query options
+     * @return {Promise<void>} Promise that resolves when the deletion is successful
+     */
+    public static async deleteMany(filter?: FilterQuery<TaskModel>, options?: QueryOptions<TaskModel>): Promise<void> {
+        try {
+            await Task.deleteMany(filter, options);
+        } 
+        catch (error) {
+            throw new DatabaseError((error as any).message);
+        }
+    }
+
+    /**
      * Deletes a single task from the database.
      *
      * @param {FilterQuery<TaskModel>} filter - The filter to apply when deleting the task.
+     * @param {QueryOptions<TaskModel>} [options] - Optional query options.
      * @return {Promise<void>} - A promise that resolves when the task is successfully deleted.
      */
-    public static async deleteOne(filter?: FilterQuery<TaskModel>): Promise<void> {
+    public static async deleteOne(filter?: FilterQuery<TaskModel>, options?: QueryOptions<TaskModel>): Promise<void> {
         try {
-            await Task.deleteOne(filter);
+            await Task.deleteOne(filter, options);
         } 
         catch (error) {
             throw new DatabaseError((error as any).message);
@@ -50,15 +63,15 @@ class TaskRepository {
      */
     public static endpointAdapter(task: TaskModel): TaskEndpoint {
         return {
-            id: task._id,
-            userId: task.userId,
+            id: task._id.toString(),
+            userId: task.userId.toString(),
             title: task.title,
             description: task.description,
-            image: task.image,
-            deadline: task.deadline,
+            image: task?.image,
+            deadline: new Date(task.deadline).toISOString(),
             status: task.status,
-            createdAt: task.createdAt!,
-            updatedAt: task.updatedAt!
+            createdAt: new Date(task.createdAt!).toISOString(),
+            updatedAt: new Date(task.updatedAt!).toISOString()
         }
     }
 
@@ -66,26 +79,17 @@ class TaskRepository {
      * Finds a single task in the database based on the provided filter query.
      *
      * @param {FilterQuery<TaskModel>} filter - The filter query used to find the task.
+     * @param {ProjectionType<TaskModel>} projection - The projection to apply to the found task.
+     * @param {QueryOptions<TaskModel>} options - The options to apply to the query.
      * @return {Promise<TaskModel | null>} A Promise that resolves to the found task, or null if no task is found.
      */
-    public static async findOne(filter: FilterQuery<TaskModel>): Promise<TaskModel | null> {
+    public static async findOne(
+        filter: FilterQuery<TaskModel>,
+        projection?: ProjectionType<TaskModel>,
+        options?: QueryOptions<TaskModel>
+    ): Promise<TaskModel | null> {
         try {
-            return await Task.findOne(filter);
-        } 
-        catch (error) {
-            throw new DatabaseError((error as any).message);
-        }
-    }
-
-    /**
-     * Retrieves a paginated list of tasks from the database.
-     *
-     * @param {PaginationOptions} options - The options for pagination.
-     * @return {Promise<PaginationModel<ITask> | undefined>} - The paginated list of tasks.
-     */
-    public static async paginate(options: PaginationOptions): Promise<PaginationModel<ITask> | undefined> {
-        try {
-            return await Task.paginate(options);
+            return await Task.findOne(filter, projection, options);
         } 
         catch (error) {
             throw new DatabaseError((error as any).message);
@@ -107,6 +111,36 @@ class TaskRepository {
     ): Promise<TaskModel | null> {
         try {
             return await Task.findByIdAndUpdate(id, update, options);
+        } 
+        catch (error) {
+            throw new DatabaseError((error as any).message);
+        }
+    }
+
+    /**
+     * This function inserts multiple data entries into the database.
+     *
+     * @param {AnyKeys<TaskModel>[]} data - the data entries to be inserted
+     * @return {Promise<MergeType<TaskModel, Omit<AnyKeys<TaskModel>, '_id'>>[]} the inserted data entries
+     */
+    public static async insertMany(data: AnyKeys<TaskModel>[]): Promise<MergeType<TaskModel, Omit<AnyKeys<TaskModel>, '_id'>>[]> {
+        try {
+            return await Task.insertMany(data);
+        }
+        catch (error) {
+            throw new DatabaseError((error as any).message);
+        }
+    }
+
+    /**
+     * Retrieves a paginated list of tasks from the database.
+     *
+     * @param {PaginationOptions} options - The options for pagination.
+     * @return {Promise<PaginationModel<ITask> | undefined>} - The paginated list of tasks.
+     */
+    public static async paginate(options: PaginationOptions): Promise<PaginationModel<ITask> | undefined> {
+        try {
+            return await Task.paginate(options);
         } 
         catch (error) {
             throw new DatabaseError((error as any).message);

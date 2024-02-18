@@ -1,16 +1,11 @@
-import bcrypt from 'bcryptjs';
-
 /* Server */
-import { Http, JsonResponse } from '../../../server';
+import { Http, JsonResponse } from '@server';
 
 /* Database */
-import { UserRepository } from '../../../database';
+import { UserRepository } from '@database';
 
-/* Interfaces */
-import { ChangePasswordRequest } from '../interfaces';
-
-/* Utils */
-import { JWT } from '../utils';
+/* Auth */
+import { AuthErrorMessages, ChangePasswordRequest, Encrypt, JWT } from '@auth';
 
 class ChangePasswordController {
     /**
@@ -25,10 +20,10 @@ class ChangePasswordController {
             const { password, revokeToken } = req.body;
             const { user, token } = req.auth!;
 
-            const match = bcrypt.compareSync(password, user?.password!);
-            if (match) return Http.badRequest(res, 'La nueva contraseña debe ser diferente a la anterior.');
+            const match = Encrypt.compareHash(password, user?.password!);
+            if (match) return Http.badRequest(res, AuthErrorMessages.NEW_PASSWORD);
 
-            const hash = bcrypt.hashSync(password);
+            const hash = Encrypt.createHash(password);
             await UserRepository.findByIdAndUpdate(user._id, { password: hash });
 
             if (revokeToken) await JWT.revokeToken(token);

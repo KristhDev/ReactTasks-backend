@@ -1,3 +1,15 @@
-node_modules/
+# Build
+dist/
+
+# Database
 mongo/
+
+# Logs
 logs/
+
+# Node.js
+node_modules/
+
+# Tests
+__snapshots__/
+coverage/

@@ -1,19 +1,11 @@
-import bcrypt from 'bcryptjs';
-
 /* Server */
-import { Http, JsonResponse } from '../../../server';
+import { Http, JsonResponse } from '@server';
 
 /* Database */
-import { VerificationRepository, UserRepository } from '../../../database';
+import { VerificationRepository, UserRepository } from '@database';
 
 /* Services */
-import { EmailService } from '../services';
-
-/* Interfaces */
-import { SignUpRequest } from '../interfaces';
-
-/* Utils */
-import { JWT } from '../utils';
+import { EmailService, SignUpRequest, JWT, Encrypt } from '@auth';
 
 class SignUpController {
     /**
@@ -29,8 +21,9 @@ class SignUpController {
         try {
             const user = await UserRepository.create({
                 name: body.name,
+                lastname: body.lastname,
                 email: body.email,
-                password: bcrypt.hashSync(body.password)
+                password: Encrypt.createHash(body.password)
             });
 
             const token = JWT.generateToken({ nothing: 'Nothing' }, '30m');
@@ -46,7 +39,7 @@ class SignUpController {
             });
 
             return Http.sendResp(res, {
-                msg: `Te has registrado correctamente. Hemos enviado un correo de verificación al correo que nos proporcionaste, por favor confirma tu cuenta.`, 
+                msg: 'Te has registrado correctamente. Hemos enviado un correo de verificación al correo que nos proporcionaste, por favor confirma tu cuenta.', 
                 status: Http.CREATED
             });
         } 

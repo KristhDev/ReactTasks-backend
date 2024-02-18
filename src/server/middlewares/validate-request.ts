@@ -1,11 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import { z } from 'zod';
 
-/* Interfaces */
-import { JsonResponse } from '../interfaces';
-
-/* Utils */
-import { Http } from '../utils';
+/* Server */
+import { JsonResponse, Http } from '@server';
 
 /**
  * Validates a request against a schema and handles the response accordingly.
@@ -29,5 +26,5 @@ export const validateRequest = async (
         return Http.badRequest(res, error);
     }
 
-    next();
+    return next();
 }

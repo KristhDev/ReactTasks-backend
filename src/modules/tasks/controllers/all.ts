@@ -1,11 +1,11 @@
 /* Server */
-import { Http, JsonResponse } from '../../../server';
+import { Http, JsonResponse } from '@server';
 
 /* Database */
-import { TaskRepository } from '../../../database';
+import { TaskRepository } from '@database';
 
-/* Interfaces */
-import { IndexTaskRequest } from '../interfaces';
+/* Tasks */
+import { IndexTaskRequest } from '@tasks';
 
 class IndexTaskController {
     /**
@@ -19,15 +19,14 @@ class IndexTaskController {
         try {
             const { user } = req.auth!;
             const query = req.query.query || '';
-            const page = req.query.page || 1;
+            let page = req.query.page || 1;
 
             let queryDB = { userId: user._id };
 
-            if (query.trim().length > 0) {
-                queryDB = Object.assign(queryDB, { $text: { $search: `/${ query }/` } });
-            }
+            if (isNaN(page) || page < 1) page = 1;
+            if (query.trim().length > 0) queryDB = Object.assign(queryDB, { $text: { $search: `/${ query }/` } });
 
-            const result = await TaskRepository.paginate({ limit: 20, page, query: queryDB, sort: { createdAt: -1 } });
+            const result = await TaskRepository.paginate({ limit: 12, page, query: queryDB, sort: { createdAt: -1 } });
 
             return Http.sendResp(res, {
                 status: Http.OK,

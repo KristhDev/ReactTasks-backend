@@ -1,13 +1,10 @@
 import { Response } from 'express';
 
-/* Console */
-import { Logger } from '../console';
+/* Server */
+import { Logger, JsonResponse, ServerErrorMessages } from '@server';
 
-/* Interfaces */
-import { JsonResponse } from '../interfaces';
-
-/* Utils */
-import { JWTError } from '../../modules/auth';
+/* Auth */
+import { AuthErrorMessages, JWTError } from '@auth';
 
 class Http {
     public static OK: number = 200;
@@ -50,7 +47,7 @@ class Http {
         if (error) Logger.error(`${ error.name }: ${ error.message }`);
 
         return res.status(this.UNAUTHORIZED).json({
-            msg: 'Necesita ingresar para poder realizar está acción.',
+            msg: AuthErrorMessages.UNAUTHENTICATED,
             status: this.UNAUTHORIZED
         });
     }
@@ -59,11 +56,12 @@ class Http {
      * Sends a JSON response with a 'not found' status and a message.
      *
      * @param {Response} res - The response object to send the JSON response.
+     * @param {string} [msg] - An optional message to include in the response.
      * @return {JsonResponse} The JSON response object.
      */
-    public static notFound(res: Response): JsonResponse {
+    public static notFound(res: Response, msg?: string): JsonResponse {
         return res.status(Http.NOT_FOUND).json({
-            msg: 'Lo sentimos, pero no encontramos la página solicitada.',
+            msg: msg || ServerErrorMessages.NOT_FOUND,
             status: Http.NOT_FOUND
         });
     }
@@ -78,7 +76,7 @@ class Http {
         Logger.error(`${ error.name }: ${ error.message }`);
 
         return res.status(Http.INTERNAL_SERVER_ERROR).json({
-            msg: 'Ocurrio un error inesperado. Intente de nuevo más tarde.',
+            msg: ServerErrorMessages.INTERNAL_SERVER_ERROR,
             status: Http.INTERNAL_SERVER_ERROR
         });
     }
