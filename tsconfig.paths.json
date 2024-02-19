@@ -8,6 +8,7 @@
             "@database/*": [ "src/database/*" ],
             "@images": [ "src/modules/images" ],
             "@images/*": [ "src/modules/images/*" ],
+            "@mocks": [ "tests/mocks" ],
             "@package": [ "package.json" ],
             "@server": [ "src/server" ],
             "@server/*": [ "src/server/*" ],

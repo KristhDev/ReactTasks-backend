@@ -13,6 +13,7 @@ const config: Config = {
   coverageProvider: "v8",
   moduleDirectories: [ "node_modules", "<rootDir>" ],
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths),
+  modulePathIgnorePatterns: [ "<rootDir>/tests/mocks/" ],
   preset: "ts-jest",
   setupFiles: [ "./jest.setup.ts" ],
   verbose: true,

@@ -4,9 +4,10 @@ moduleAlias.addAliases({
     '@auth': __dirname + '/src/modules/auth',
     '@database': __dirname + '/src/database',
     '@images': __dirname + '/src/modules/images',
+    '@mocks': __dirname + '/tests/mocks',
     '@package': __dirname + '/package.json',
     '@server': __dirname + '/src/server',
-    '@tasks': __dirname + '/src/modules/tasks'
+    '@tasks': __dirname + '/src/modules/tasks',
 });
 
 moduleAlias();
