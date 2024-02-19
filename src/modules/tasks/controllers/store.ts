@@ -6,8 +6,8 @@ import { Http, JsonResponse } from '@server';
 /* Database */
 import { TaskRepository } from '@database';
 
-/* Services */
-import { ImageService } from '../../images';
+/* Images */
+import { ImageService } from '@images';
 
 /* Interfaces */
 import { StoreTaskRequest } from '../interfaces';

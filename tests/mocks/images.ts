@@ -1,0 +1,1 @@
+export const imageUrlMock = 'https://res.cloudinary.com/dzs8lf9lc/image/upload/v1702530226/react-tasks/tasks/erkntrgjdi15gxmxspdu.jpg';
