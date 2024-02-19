@@ -1,38 +1,15 @@
-import { createRequestMock, createResponseMock } from '@test';
+/* Mocks */
+import { createRequestMock, createResponseMock, taskMock, userMock } from '@mocks';
 
 /* Server */
 import { Http } from '@server';
 
 /* Database */
-import { Task, TaskModel, UserModel } from '@database';
+import { Task } from '@database';
 
 /* Modules */
 import { AuthErrorMessages } from '@auth';
 import { TaskErrorMessages, taskExists } from '@tasks';
-
-const taskMock: TaskModel = {
-    _id: '65cad8ccb2092e00addead85',
-    id: '65cad8ccb2092e00addead85',
-    userId: '65cad8ccb2092e00addead85',
-    title: 'Task title',
-    description: 'Task description',
-    deadline: new Date().toISOString(),
-    status: 'in-progress',
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString()
-} as TaskModel;
-
-const userMock: UserModel = {
-    _id: '65cad8ccb2092e00addead85',
-    id: '65cad8ccb2092e00addead85',
-    name: 'User name',
-    lastname: 'User lastname',
-    email: 'tester-unit@gmail.com',
-    verified: false,
-    password: 'tutuyoyo9102',
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString()
-} as UserModel;
 
 const findOneTaskSpy = jest.spyOn(Task, 'findOne');
 

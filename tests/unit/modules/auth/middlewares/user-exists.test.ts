@@ -1,26 +1,14 @@
-/* Test */
-import { createRequestMock, createResponseMock } from '@test';
+/* Mocks */
+import { createRequestMock, createResponseMock, userMock } from '@mocks';
 
 /* Server */
 import { Http, ServerErrorMessages } from '@server';
 
 /* Database */
-import { UserModel, UserRepository } from '@database';
+import { UserRepository } from '@database';
 
 /* Auth */
 import { AuthErrorMessages, userExists } from '@auth';
-
-const userMock: UserModel = {
-    _id: '65cad8ccb2092e00addead85',
-    id: '65cad8ccb2092e00addead85',
-    name: 'User name',
-    lastname: 'User lastname',
-    email: 'tester-unit@gmail.com',
-    verified: true,
-    password: 'tutuyoyo9102',
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString()
-} as UserModel;
 
 const findOneUserSpy = jest.spyOn(UserRepository, 'findOne');
 

@@ -1,5 +1,5 @@
-/* Test */
-import { createRequestMock, createResponseMock } from '@test';
+/* Mocks */
+import { createRequestMock, createResponseMock, userVerifiedMock } from '@mocks';
 
 /* Server */
 import { Http, ServerErrorMessages } from '@server';
@@ -16,19 +16,6 @@ const validateTokenSpy = jest.spyOn(JWT, 'validateToken');
 const token = JWT.generateToken({ id: '65cad8ccb2092e00addead85' });
 const tokenData = JWT.decodeToken<{ id: string }>(token);
 
-const userMock: UserModel = {
-    _id: '65cad8ccb2092e00addead85',
-    id: '65cad8ccb2092e00addead85',
-    name: 'User name',
-    lastname: 'User lastname',
-    email: 'tester-unit@gmail.com',
-    verified: true,
-    password: 'tutuyoyo9102',
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString()
-} as UserModel;
-
-
 describe('Test in middleware checkAuth of auth module', () => {
     const { mockClear, next: nextMock, res } = createResponseMock();
 
@@ -39,7 +26,7 @@ describe('Test in middleware checkAuth of auth module', () => {
 
     it('should call next function', async () => {
         validateTokenSpy.mockResolvedValue(tokenData as any);
-        findByIdUserSpy.mockResolvedValue(userMock);
+        findByIdUserSpy.mockResolvedValue(userVerifiedMock);
 
         const req = createRequestMock({
             headers: {
@@ -50,9 +37,9 @@ describe('Test in middleware checkAuth of auth module', () => {
         await checkAuth(req, res, nextMock);
 
         expect(findByIdUserSpy).toHaveBeenCalledTimes(1);
-        expect(findByIdUserSpy).toHaveBeenCalledWith(userMock.id);
+        expect(findByIdUserSpy).toHaveBeenCalledWith(userVerifiedMock.id);
 
-        expect(req.auth).toEqual({ user: userMock, token });
+        expect(req.auth).toEqual({ user: userVerifiedMock, token });
         expect(nextMock).toHaveBeenCalledTimes(1);
     });
 
@@ -106,7 +93,7 @@ describe('Test in middleware checkAuth of auth module', () => {
 
     it('should not call next function because user is unverified', async () => {
         validateTokenSpy.mockResolvedValue(tokenData as any);
-        findByIdUserSpy.mockResolvedValue({ ...userMock, verified: false } as UserModel);
+        findByIdUserSpy.mockResolvedValue({ ...userVerifiedMock, verified: false } as UserModel);
 
         const req = createRequestMock({
             headers: {

@@ -1,20 +1,8 @@
+/* Mocks */
+import { userHashedPassMock } from '@mocks';
+
 /* Database */
-import { DatabaseError, User, UserModel, UserRepository } from '@database';
-
-/* Auth */
-import { Encrypt } from '@auth';
-
-const userMock: UserModel = {
-    _id: '65cad8ccb2092e00addead85',
-    id: '65cad8ccb2092e00addead85',
-    name: 'User name',
-    lastname: 'User lastname',
-    email: 'tester-unit@gmail.com',
-    verified: false,
-    password: Encrypt.createHash('tutuyoyo9102'),
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString()
-} as UserModel;
+import { DatabaseError, User, UserRepository } from '@database';
 
 const createUserSpy = jest.spyOn(User, 'create');
 const deleteManyUserSpy = jest.spyOn(User, 'deleteMany');
@@ -31,23 +19,23 @@ describe('Test in UserRepository of database module', () => {
     });
 
     it('should create user', async () => {
-        createUserSpy.mockResolvedValue(userMock as any);
+        createUserSpy.mockResolvedValue(userHashedPassMock as any);
 
         const user = await UserRepository.create({
-            name: userMock.name,
-            lastname: userMock.lastname,
-            email: userMock.email,
-            password: userMock.password
+            name: userHashedPassMock.name,
+            lastname: userHashedPassMock.lastname,
+            email: userHashedPassMock.email,
+            password: userHashedPassMock.password
         });
 
-        expect(user).toEqual(userMock);
+        expect(user).toEqual(userHashedPassMock);
 
         expect(createUserSpy).toHaveBeenCalledTimes(1);
         expect(createUserSpy).toHaveBeenCalledWith({
-            name: userMock.name,
-            lastname: userMock.lastname,
-            email: userMock.email,
-            password: userMock.password
+            name: userHashedPassMock.name,
+            lastname: userHashedPassMock.lastname,
+            email: userHashedPassMock.email,
+            password: userHashedPassMock.password
         });
     });
 
@@ -56,10 +44,10 @@ describe('Test in UserRepository of database module', () => {
 
         try {
             const user = await UserRepository.create({
-                name: userMock.name,
-                lastname: userMock.lastname,
-                email: userMock.email,
-                password: userMock.password
+                name: userHashedPassMock.name,
+                lastname: userHashedPassMock.lastname,
+                email: userHashedPassMock.email,
+                password: userHashedPassMock.password
             });
 
             expect(true).toBeFalsy();
@@ -67,10 +55,10 @@ describe('Test in UserRepository of database module', () => {
         catch (error) {
             expect(createUserSpy).toHaveBeenCalledTimes(1);
             expect(createUserSpy).toHaveBeenCalledWith({
-                name: userMock.name,
-                lastname: userMock.lastname,
-                email: userMock.email,
-                password: userMock.password
+                name: userHashedPassMock.name,
+                lastname: userHashedPassMock.lastname,
+                email: userHashedPassMock.email,
+                password: userHashedPassMock.password
             });
 
             expect(error).toBeInstanceOf(DatabaseError);
@@ -82,22 +70,22 @@ describe('Test in UserRepository of database module', () => {
     it('should delete many users', async () => {
         deleteManyUserSpy.mockResolvedValue({ acknowledged: true, deletedCount: 1 });
 
-        await UserRepository.deleteMany({ _id: userMock._id });
+        await UserRepository.deleteMany({ _id: userHashedPassMock._id });
 
         expect(deleteManyUserSpy).toHaveBeenCalledTimes(1);
-        expect(deleteManyUserSpy).toHaveBeenCalledWith({ _id: userMock._id }, undefined);
+        expect(deleteManyUserSpy).toHaveBeenCalledWith({ _id: userHashedPassMock._id }, undefined);
     });
 
     it('should throw error in delete many users', async () => {
         deleteManyUserSpy.mockImplementation(() => { throw new Error('Database error'); });
 
         try {
-            await UserRepository.deleteMany({ _id: userMock._id });
+            await UserRepository.deleteMany({ _id: userHashedPassMock._id });
             expect(true).toBeFalsy();
         } 
         catch (error) {
             expect(deleteManyUserSpy).toHaveBeenCalledTimes(1);
-            expect(deleteManyUserSpy).toHaveBeenCalledWith({ _id: userMock._id }, undefined);
+            expect(deleteManyUserSpy).toHaveBeenCalledWith({ _id: userHashedPassMock._id }, undefined);
 
             expect(error).toBeInstanceOf(DatabaseError);
             expect(error).toHaveProperty('name', 'DatabaseError');
@@ -108,22 +96,22 @@ describe('Test in UserRepository of database module', () => {
     it('should delete one user', async () => {
         deleteOneUserSpy.mockResolvedValue({ acknowledged: true, deletedCount: 1 });
 
-        await UserRepository.deleteOne({ _id: userMock._id });
+        await UserRepository.deleteOne({ _id: userHashedPassMock._id });
 
         expect(deleteOneUserSpy).toHaveBeenCalledTimes(1);
-        expect(deleteOneUserSpy).toHaveBeenCalledWith({ _id: userMock._id }, undefined);
+        expect(deleteOneUserSpy).toHaveBeenCalledWith({ _id: userHashedPassMock._id }, undefined);
     });
 
     it('should throw error in delete one user', async () => {
         deleteOneUserSpy.mockImplementation(() => { throw new Error('Database error'); });
 
         try {
-            await UserRepository.deleteOne({ _id: userMock._id });
+            await UserRepository.deleteOne({ _id: userHashedPassMock._id });
             expect(true).toBeFalsy();
         } 
         catch (error) {
             expect(deleteOneUserSpy).toHaveBeenCalledTimes(1);
-            expect(deleteOneUserSpy).toHaveBeenCalledWith({ _id: userMock._id }, undefined);
+            expect(deleteOneUserSpy).toHaveBeenCalledWith({ _id: userHashedPassMock._id }, undefined);
 
             expect(error).toBeInstanceOf(DatabaseError);
             expect(error).toHaveProperty('name', 'DatabaseError');
@@ -132,24 +120,24 @@ describe('Test in UserRepository of database module', () => {
     });
 
     it('should transform a UserModel object to a UserEndpoint object', () => {
-        const userEndpoint = UserRepository.endpointAdapter(userMock);
+        const userEndpoint = UserRepository.endpointAdapter(userHashedPassMock);
 
         expect(userEndpoint).toEqual({
-            id: userMock._id.toString(),
-            name: userMock.name,
-            lastname: userMock.lastname,
-            email: userMock.email,
-            createdAt: userMock.createdAt!,
-            updatedAt: userMock.updatedAt!
+            id: userHashedPassMock._id.toString(),
+            name: userHashedPassMock.name,
+            lastname: userHashedPassMock.lastname,
+            email: userHashedPassMock.email,
+            createdAt: userHashedPassMock.createdAt!,
+            updatedAt: userHashedPassMock.updatedAt!
         });
     });
 
     it('should find users', async () => {
-        findUserSpy.mockResolvedValue([ userMock ]);
+        findUserSpy.mockResolvedValue([ userHashedPassMock ]);
 
         const users = await UserRepository.find({});
 
-        expect(users).toEqual([ userMock ]);
+        expect(users).toEqual([ userHashedPassMock ]);
 
         expect(findUserSpy).toHaveBeenCalledTimes(1);
         expect(findUserSpy).toHaveBeenCalledWith({}, undefined, undefined);
@@ -173,25 +161,25 @@ describe('Test in UserRepository of database module', () => {
     });
 
     it('should find by id user', async () => {
-        findByIdUserSpy.mockResolvedValue(userMock);
+        findByIdUserSpy.mockResolvedValue(userHashedPassMock);
 
-        const user = await UserRepository.findById(userMock._id);
+        const user = await UserRepository.findById(userHashedPassMock._id);
 
-        expect(user).toEqual(userMock);
+        expect(user).toEqual(userHashedPassMock);
         expect(findByIdUserSpy).toHaveBeenCalledTimes(1);
-        expect(findByIdUserSpy).toHaveBeenCalledWith(userMock._id, undefined, undefined);
+        expect(findByIdUserSpy).toHaveBeenCalledWith(userHashedPassMock._id, undefined, undefined);
     });
 
     it('should throw error in find by id user', async () => {
         findByIdUserSpy.mockImplementation(() => { throw new Error('Database error'); });
 
         try {
-            const user = await UserRepository.findById(userMock._id);
+            const user = await UserRepository.findById(userHashedPassMock._id);
             expect(true).toBeFalsy();
         } 
         catch (error) {
             expect(findByIdUserSpy).toHaveBeenCalledTimes(1);
-            expect(findByIdUserSpy).toHaveBeenCalledWith(userMock._id, undefined, undefined);
+            expect(findByIdUserSpy).toHaveBeenCalledWith(userHashedPassMock._id, undefined, undefined);
 
             expect(error).toBeInstanceOf(DatabaseError);
             expect(error).toHaveProperty('name', 'DatabaseError');
@@ -200,25 +188,25 @@ describe('Test in UserRepository of database module', () => {
     });
 
     it('should find by id and update user', async () => {
-        findByIdAndUpdateUserSpy.mockResolvedValue(userMock);
+        findByIdAndUpdateUserSpy.mockResolvedValue(userHashedPassMock);
 
-        const user = await UserRepository.findByIdAndUpdate(userMock._id, { name: userMock.name }, { new: true });
+        const user = await UserRepository.findByIdAndUpdate(userHashedPassMock._id, { name: userHashedPassMock.name }, { new: true });
 
-        expect(user).toEqual(userMock);
+        expect(user).toEqual(userHashedPassMock);
         expect(findByIdAndUpdateUserSpy).toHaveBeenCalledTimes(1);
-        expect(findByIdAndUpdateUserSpy).toHaveBeenCalledWith(userMock._id, { name: userMock.name }, { new: true });
+        expect(findByIdAndUpdateUserSpy).toHaveBeenCalledWith(userHashedPassMock._id, { name: userHashedPassMock.name }, { new: true });
     });
 
     it('should throw error in find by id and update user', async () => {
         findByIdAndUpdateUserSpy.mockImplementation(() => { throw new Error('Database error'); });
 
         try {
-            const user = await UserRepository.findByIdAndUpdate(userMock._id, { name: userMock.name }, { new: true });
+            const user = await UserRepository.findByIdAndUpdate(userHashedPassMock._id, { name: userHashedPassMock.name }, { new: true });
             expect(true).toBeFalsy();
         }
         catch (error) {
             expect(findByIdAndUpdateUserSpy).toHaveBeenCalledTimes(1);
-            expect(findByIdAndUpdateUserSpy).toHaveBeenCalledWith(userMock._id, { name: userMock.name }, { new: true });
+            expect(findByIdAndUpdateUserSpy).toHaveBeenCalledWith(userHashedPassMock._id, { name: userHashedPassMock.name }, { new: true });
 
             expect(error).toBeInstanceOf(DatabaseError);
             expect(error).toHaveProperty('name', 'DatabaseError');
@@ -227,25 +215,25 @@ describe('Test in UserRepository of database module', () => {
     });
 
     it('should find one user', async () => {
-        findOneUserSpy.mockResolvedValue(userMock);
+        findOneUserSpy.mockResolvedValue(userHashedPassMock);
 
-        const user = await UserRepository.findOne({ _id: userMock._id });
+        const user = await UserRepository.findOne({ _id: userHashedPassMock._id });
 
-        expect(user).toEqual(userMock);
+        expect(user).toEqual(userHashedPassMock);
         expect(findOneUserSpy).toHaveBeenCalledTimes(1);
-        expect(findOneUserSpy).toHaveBeenCalledWith({ _id: userMock._id }, undefined, undefined);
+        expect(findOneUserSpy).toHaveBeenCalledWith({ _id: userHashedPassMock._id }, undefined, undefined);
     });
 
     it('should throw error in find one user', async () => {
         findOneUserSpy.mockImplementation(() => { throw new Error('Database error'); });
 
         try {
-            const user = await UserRepository.findOne({ _id: userMock._id });
+            const user = await UserRepository.findOne({ _id: userHashedPassMock._id });
             expect(true).toBeFalsy();
         } 
         catch (error) {
             expect(findOneUserSpy).toHaveBeenCalledTimes(1);
-            expect(findOneUserSpy).toHaveBeenCalledWith({ _id: userMock._id }, undefined, undefined);
+            expect(findOneUserSpy).toHaveBeenCalledWith({ _id: userHashedPassMock._id }, undefined, undefined);
 
             expect(error).toBeInstanceOf(DatabaseError);
             expect(error).toHaveProperty('name', 'DatabaseError');
@@ -254,18 +242,18 @@ describe('Test in UserRepository of database module', () => {
     });
 
     it('should insert many users', async () => {
-        insertManyUserSpy.mockResolvedValue([ userMock, userMock ]);
+        insertManyUserSpy.mockResolvedValue([ userHashedPassMock, userHashedPassMock ]);
 
         const users = await UserRepository.insertMany([ 
-            { name: userMock.name, lastname: userMock.lastname, email: userMock.email, password: userMock.password },
-            { name: userMock.name, lastname: userMock.lastname, email: userMock.email, password: userMock.password }
+            { name: userHashedPassMock.name, lastname: userHashedPassMock.lastname, email: userHashedPassMock.email, password: userHashedPassMock.password },
+            { name: userHashedPassMock.name, lastname: userHashedPassMock.lastname, email: userHashedPassMock.email, password: userHashedPassMock.password }
         ]);
 
-        expect(users).toEqual([ userMock, userMock ]);
+        expect(users).toEqual([ userHashedPassMock, userHashedPassMock ]);
         expect(insertManyUserSpy).toHaveBeenCalledTimes(1);
         expect(insertManyUserSpy).toHaveBeenCalledWith([
-            { name: userMock.name, lastname: userMock.lastname, email: userMock.email, password: userMock.password },
-            { name: userMock.name, lastname: userMock.lastname, email: userMock.email, password: userMock.password }
+            { name: userHashedPassMock.name, lastname: userHashedPassMock.lastname, email: userHashedPassMock.email, password: userHashedPassMock.password },
+            { name: userHashedPassMock.name, lastname: userHashedPassMock.lastname, email: userHashedPassMock.email, password: userHashedPassMock.password }
         ]);
     });
 
@@ -274,8 +262,8 @@ describe('Test in UserRepository of database module', () => {
 
         try {
             const users = await UserRepository.insertMany([ 
-                { name: userMock.name, lastname: userMock.lastname, email: userMock.email, password: userMock.password },
-                { name: userMock.name, lastname: userMock.lastname, email: userMock.email, password: userMock.password }
+                { name: userHashedPassMock.name, lastname: userHashedPassMock.lastname, email: userHashedPassMock.email, password: userHashedPassMock.password },
+                { name: userHashedPassMock.name, lastname: userHashedPassMock.lastname, email: userHashedPassMock.email, password: userHashedPassMock.password }
             ]);
 
             expect(true).toBeFalsy();
@@ -283,8 +271,8 @@ describe('Test in UserRepository of database module', () => {
         catch (error) {
             expect(insertManyUserSpy).toHaveBeenCalledTimes(1);
             expect(insertManyUserSpy).toHaveBeenCalledWith([
-                { name: userMock.name, lastname: userMock.lastname, email: userMock.email, password: userMock.password },
-                { name: userMock.name, lastname: userMock.lastname, email: userMock.email, password: userMock.password }
+                { name: userHashedPassMock.name, lastname: userHashedPassMock.lastname, email: userHashedPassMock.email, password: userHashedPassMock.password },
+                { name: userHashedPassMock.name, lastname: userHashedPassMock.lastname, email: userHashedPassMock.email, password: userHashedPassMock.password }
             ]);
 
             expect(error).toBeInstanceOf(DatabaseError);

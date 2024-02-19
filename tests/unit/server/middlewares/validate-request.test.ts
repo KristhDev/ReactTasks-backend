@@ -1,7 +1,10 @@
-import { createRequestMock, createResponseMock } from '@test';
+/* Mocks */
+import { createRequestMock, createResponseMock } from '@mocks';
 
+/* Server */
 import { Http, validateRequest } from '@server';
 
+/* Auth */
 import { AuthErrorMessages, EmailSchema } from '@auth';
 
 const email = 'tester-unit@gmail.com';

@@ -1,5 +1,5 @@
-/* Test */
-import { createRequestMock, createResponseMock } from '@test';
+/* Mocks */
+import { createRequestMock, createResponseMock } from '@mocks';
 
 /* Server */
 import { Http, ServerErrorMessages } from '@server';
