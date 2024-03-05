@@ -1,5 +1,5 @@
 export { default as ChangePasswordController } from './change-password';
-export { default as RefreshAuth } from './refresh-auth';
+export { default as RefreshAuthController } from './refresh-auth';
 export { default as RemoveTokensController } from './remove-tokens';
 export { default as RemoveVerificationsController } from './remove-verifications';
 export { default as ResetPasswordController } from './reset-password';
