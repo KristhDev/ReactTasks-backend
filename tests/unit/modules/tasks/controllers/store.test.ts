@@ -26,7 +26,47 @@ describe('Test in StoreTaskController of tasks module', () => {
         expect(StoreTaskController).toHaveProperty('handler');
     });
 
-    it('should return a task', async () => {
+    it('should return a new task', async () => {
+        createTaskSpy.mockResolvedValue(taskMock);
+        uploadImageSpy.mockResolvedValue(imageUrlMock);
+
+        const req = createRequestMock({
+            auth: {
+                user: userMock
+            },
+            body: {
+                title: taskMock.title,
+                description: taskMock.description,
+                deadline: taskMock.deadline
+            }
+        });
+
+        await StoreTaskController.handler(req, res);
+
+        expect(uploadImageSpy).not.toHaveBeenCalled();
+        expect(uploadImageSpy).toHaveBeenCalledWith(imageMock, process.env.CLOUDINARY_TASKS_FOLDER);
+
+        expect(createTaskSpy).toHaveBeenCalledTimes(1);
+        expect(createTaskSpy).toHaveBeenCalledWith({
+            title: taskMock.title,
+            description: taskMock.description,
+            deadline: taskMock.deadline,
+            userId: userMock._id,
+            image: ''
+        });
+
+        expect(res.status).toHaveBeenCalledTimes(1);
+        expect(res.status).toHaveBeenCalledWith(Http.CREATED);
+
+        expect(res.json).toHaveBeenCalledTimes(1);
+        expect(res.json).toHaveBeenCalledWith({
+            msg: 'Haz agregado la tarea correctamente.',
+            status: Http.CREATED,
+            task: TaskRepository.endpointAdapter(taskMock)
+        });
+    });
+
+    it('should call upload of ImageService if image is provided', async () => {
         taskMock.image = imageUrlMock;
         createTaskSpy.mockResolvedValue(taskMock);
         uploadImageSpy.mockResolvedValue(imageUrlMock);
