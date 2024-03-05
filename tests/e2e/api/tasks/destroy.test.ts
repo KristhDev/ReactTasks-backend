@@ -43,7 +43,7 @@ describe('Test in Destroy Task Endpoint', () => {
         expect(resp.status).toBe(Http.OK);
 
         expect(resp.body).toEqual({
-            msg: 'Haz eliminado la tarea correctamente.',
+            msg: 'Has eliminado la tarea correctamente.',
             status: Http.OK,
             taskId: task?._id.toString(),
         });

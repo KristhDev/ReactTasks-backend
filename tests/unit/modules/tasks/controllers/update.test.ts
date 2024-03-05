@@ -51,7 +51,7 @@ describe('Test in UpdateTaskController of tasks module', () => {
 
         expect(res.json).toHaveBeenCalledTimes(1);
         expect(res.json).toHaveBeenCalledWith({
-            msg: 'Haz actualizado la tarea correctamente.',
+            msg: 'Has actualizado la tarea correctamente.',
             status: Http.OK,
             task: TaskRepository.endpointAdapter(taskMock)
         });
@@ -92,7 +92,7 @@ describe('Test in UpdateTaskController of tasks module', () => {
 
         expect(res.json).toHaveBeenCalledTimes(1);
         expect(res.json).toHaveBeenCalledWith({
-            msg: 'Haz actualizado la tarea correctamente.',
+            msg: 'Has actualizado la tarea correctamente.',
             status: Http.OK,
             task: TaskRepository.endpointAdapter({ ...taskMock, image: newImageUrlMock } as any) 
         });

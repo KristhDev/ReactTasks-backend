@@ -29,7 +29,7 @@ class ChangePasswordController {
             if (revokeToken) await JWT.revokeToken(token);
 
             return Http.sendResp(res, {
-                msg: 'Haz cambiado tu contraseña correctamente.',
+                msg: 'Has cambiado tu contraseña correctamente.',
                 status: Http.OK
             });
         } 

@@ -42,7 +42,7 @@ describe('Test in Store Task Endpoint', () => {
         expect(resp.status).toBe(Http.CREATED);
 
         expect(resp.body).toEqual({
-            msg: 'Haz agregado la tarea correctamente.',
+            msg: 'Has agregado la tarea correctamente.',
             status: Http.CREATED,
             task: {
                 id: expect.any(String),

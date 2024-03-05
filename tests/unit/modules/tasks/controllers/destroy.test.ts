@@ -41,7 +41,7 @@ describe('Test in DestroyTaskController of tasks module', () => {
 
         expect(res.json).toHaveBeenCalledTimes(1);
         expect(res.json).toHaveBeenCalledWith({
-            msg: 'Haz eliminado la tarea correctamente.',
+            msg: 'Has eliminado la tarea correctamente.',
             status: Http.OK,
             taskId: taskMock._id
         });
@@ -66,7 +66,7 @@ describe('Test in DestroyTaskController of tasks module', () => {
 
         expect(res.json).toHaveBeenCalledTimes(1);
         expect(res.json).toHaveBeenCalledWith({
-            msg: 'Haz eliminado la tarea correctamente.',
+            msg: 'Has eliminado la tarea correctamente.',
             status: Http.OK,
             taskId: taskMock._id
         });

@@ -60,7 +60,7 @@ describe('Test in StoreTaskController of tasks module', () => {
 
         expect(res.json).toHaveBeenCalledTimes(1);
         expect(res.json).toHaveBeenCalledWith({
-            msg: 'Haz agregado la tarea correctamente.',
+            msg: 'Has agregado la tarea correctamente.',
             status: Http.CREATED,
             task: TaskRepository.endpointAdapter(taskMock)
         });
@@ -104,7 +104,7 @@ describe('Test in StoreTaskController of tasks module', () => {
 
         expect(res.json).toHaveBeenCalledTimes(1);
         expect(res.json).toHaveBeenCalledWith({
-            msg: 'Haz agregado la tarea correctamente.',
+            msg: 'Has agregado la tarea correctamente.',
             status: Http.CREATED,
             task: TaskRepository.endpointAdapter(taskMock)
         });

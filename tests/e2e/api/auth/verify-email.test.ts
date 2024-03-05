@@ -45,7 +45,7 @@ describe('Test in Verify Email Endpoint', () => {
         expect(resp.status).toBe(Http.OK);
 
         expect(resp.body).toEqual({
-            msg: 'Haz verificado tu cuenta correctamente, ya puedes iniciar sesión.',
+            msg: 'Has verificado tu cuenta correctamente, ya puedes iniciar sesión.',
             status: Http.OK
         });
 

@@ -43,7 +43,7 @@ describe('Test in Change Password Endpoint', () => {
         expect(resp.status).toBe(Http.OK);
 
         expect(resp.body).toEqual({
-            msg: 'Haz cambiado tu contraseña correctamente.',
+            msg: 'Has cambiado tu contraseña correctamente.',
             status: Http.OK
         });
 

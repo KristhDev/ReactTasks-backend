@@ -34,7 +34,7 @@ class UpdateTaskController {
             const updatedTask = await TaskRepository.findByIdAndUpdate(task._id, { ...body, image: imageUrl }, { new: true });
 
             return Http.sendResp(res, {
-                msg: 'Haz actualizado la tarea correctamente.',
+                msg: 'Has actualizado la tarea correctamente.',
                 status: Http.OK,
                 task: TaskRepository.endpointAdapter(updatedTask!)
             });

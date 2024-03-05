@@ -47,7 +47,7 @@ describe('Test in Update Task Endpoint', () => {
         expect(resp.status).toBe(Http.OK);
 
         expect(resp.body).toEqual({
-            msg: 'Haz actualizado la tarea correctamente.',
+            msg: 'Has actualizado la tarea correctamente.',
             status: Http.OK,
             task: {
                 ...TaskRepository.endpointAdapter(task),
@@ -77,7 +77,7 @@ describe('Test in Update Task Endpoint', () => {
         expect(resp.status).toBe(Http.OK);
 
         expect(resp.body).toEqual({
-            msg: 'Haz actualizado la tarea correctamente.',
+            msg: 'Has actualizado la tarea correctamente.',
             status: Http.OK,
             task: {
                 ...TaskRepository.endpointAdapter(task),
