@@ -9,7 +9,7 @@ import { compilerOptions } from './tsconfig.paths.json';
 const config: Config = {
   clearMocks: true,
   collectCoverage: true,
-  coverageDirectory: "coverage",
+  coverageDirectory: "tests/coverage",
   coverageProvider: "v8",
   moduleDirectories: [ "node_modules", "<rootDir>" ],
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths),
