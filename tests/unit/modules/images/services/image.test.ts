@@ -1,25 +1,13 @@
-import { UploadedFile } from 'express-fileupload';
 import { v2 as cloudinary } from 'cloudinary';
+
+/* Mocks */
+import { imageMock, imageUrlMock } from '@mocks';
 
 /* Images */
 import { ImageError, ImageErrorMessages, ImageService } from '@images';
 
-const file: UploadedFile = {
-    data: Buffer.from(''),
-    encoding: '',
-    md5: '',
-    mimetype: '',
-    mv: jest.fn(),
-    name: '',
-    size: 0,
-    tempFilePath: 'temp/file/path',
-    truncated: false,
-}
-
-const cloudinarySecureUrlMock = 'https://res.cloudinary.com/dzs8lf9lc/image/upload/v1702530226/react-tasks/tasks/erkntrgjdi15gxmxspdu.jpg';
-
 const cloudinaryConfigSpy = jest.spyOn(cloudinary, 'config').mockImplementation(jest.fn());
-const cloudinaryUploadSpy = jest.spyOn(cloudinary.uploader, 'upload').mockResolvedValue({ secure_url: cloudinarySecureUrlMock } as any);
+const cloudinaryUploadSpy = jest.spyOn(cloudinary.uploader, 'upload').mockResolvedValue({ secure_url: imageUrlMock } as any);
 const cloudinaryDestroySpy = jest.spyOn(cloudinary.uploader, 'destroy').mockImplementation(jest.fn());
 
 describe('Test in ImageService of images module', () => {
@@ -41,19 +29,19 @@ describe('Test in ImageService of images module', () => {
     });
 
     it('should call upload with the correct parameters', async () => {
-        const image = await ImageService.upload(file, 'test/images');
+        const image = await ImageService.upload(imageMock, 'test/images');
 
         expect(cloudinaryUploadSpy).toHaveBeenCalledTimes(1);
-        expect(cloudinaryUploadSpy).toHaveBeenCalledWith(file.tempFilePath, { folder: 'test/images' });
+        expect(cloudinaryUploadSpy).toHaveBeenCalledWith(imageMock.tempFilePath, { folder: 'test/images' });
 
-        expect(image).toBe(cloudinarySecureUrlMock);
+        expect(image).toBe(imageUrlMock);
     });
 
     it('should faild upload because throw error', async () => {
         cloudinaryUploadSpy.mockImplementation(() => { throw 'Upload error' });
 
         try {
-            const image = await ImageService.upload(file, 'test/images');
+            const image = await ImageService.upload(imageMock, 'test/images');
             expect(image).toBeFalsy();
         } 
         catch (error) {
@@ -64,9 +52,9 @@ describe('Test in ImageService of images module', () => {
     });
 
     it('should call destroy with the correct parameters', async () => {
-        await ImageService.destroy(cloudinarySecureUrlMock);
+        await ImageService.destroy(imageUrlMock);
 
-        const nameArr = cloudinarySecureUrlMock.split('/');
+        const nameArr = imageUrlMock.split('/');
         const appNameIndex = nameArr.findIndex(el => el === 'react-tasks');
         const [ publicId ] = nameArr.slice(appNameIndex, nameArr.length).join('/').split('.');
 
@@ -90,7 +78,7 @@ describe('Test in ImageService of images module', () => {
         cloudinaryDestroySpy.mockImplementation(() => { throw 'Destroy error' });
 
         try {
-            await ImageService.destroy(cloudinarySecureUrlMock);
+            await ImageService.destroy(imageUrlMock);
             expect(true).toBeFalsy();
         }
         catch (error) {

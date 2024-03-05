@@ -1,28 +1,17 @@
-import { UploadedFile } from 'express-fileupload';
+/* Mocks */
+import { imageMock } from '@mocks';
 
 /* Images */
 import { ImageErrorMessages, imageSchema } from '@images';
 
-const file: UploadedFile = {
-    data: Buffer.from(''),
-    encoding: '',
-    md5: '',
-    mimetype: 'image/png',
-    mv: jest.fn(),
-    name: '',
-    size: 0,
-    tempFilePath: 'temp/file/path',
-    truncated: false,
-}
-
 describe('Test in schemas of images module', () => {
     it('should validate and return values - imageSchema', () => {
-        const result = imageSchema.safeParse(file);
+        const result = imageSchema.safeParse(imageMock);
 
         if (!result.success) throw new Error('Result is not success - imageSchema');
 
         expect(result.success).toBeTruthy();
-        expect(result.data).toEqual(file);
+        expect(result.data).toEqual(imageMock);
     });
 
     it('should return error because data is empty - imageSchema', () => {
@@ -35,7 +24,7 @@ describe('Test in schemas of images module', () => {
     });
 
     it('should return error because data is invalid - imageSchema', () => {
-        const result = imageSchema.safeParse({ ...file, mimetype: 'invalid' });
+        const result = imageSchema.safeParse({ ...imageMock, mimetype: 'invalid' });
 
         if (result.success) throw new Error('Result is success - imageSchema');
 

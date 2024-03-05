@@ -1,25 +1,13 @@
 import { UploadedFile } from 'express-fileupload';
 
 /* Mocks */
-import { createRequestMock, createResponseMock } from '@mocks';
+import { createRequestMock, createResponseMock, imageMock } from '@mocks';
 
 /* Server */
 import { Http } from '@server';
 
 /* Images */
 import { ImageErrorMessages, validateImage } from '@images';
-
-const file: UploadedFile = {
-    data: Buffer.from(''),
-    encoding: '',
-    md5: '',
-    mimetype: 'image/png',
-    mv: jest.fn(),
-    name: '',
-    size: 0,
-    tempFilePath: 'temp/file/path',
-    truncated: false,
-}
 
 describe('Test in middleware validateImage of images module', () => {
     const { mockClear, next: nextMock, res } = createResponseMock();
@@ -31,7 +19,7 @@ describe('Test in middleware validateImage of images module', () => {
 
     it('should call next function', () => {
         const req = createRequestMock({
-            files: { image: file }
+            files: { image: imageMock }
         });
 
         validateImage(req, res, nextMock);
@@ -49,7 +37,7 @@ describe('Test in middleware validateImage of images module', () => {
 
     it('should not call next function if image is an array', () => {
         const req = createRequestMock({
-            files: { image: [ file ] }
+            files: { image: [ imageMock ] }
         });
 
         validateImage(req, res, nextMock);
@@ -68,7 +56,7 @@ describe('Test in middleware validateImage of images module', () => {
 
     it('should not call next function if image is invalid', () => {
         const req = createRequestMock({
-            files: { image: { ...file, mimetype: 'image/gif' } }
+            files: { image: { ...imageMock, mimetype: 'image/gif' } }
         });
 
         validateImage(req, res, nextMock);
