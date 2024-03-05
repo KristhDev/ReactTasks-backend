@@ -47,6 +47,9 @@ describe('Test in StoreTaskController of tasks module', () => {
 
         await StoreTaskController.handler(req, res);
 
+        expect(uploadImageSpy).toHaveBeenCalledTimes(1);
+        expect(uploadImageSpy).toHaveBeenCalledWith(imageMock, process.env.CLOUDINARY_TASKS_FOLDER);
+
         expect(createTaskSpy).toHaveBeenCalledTimes(1);
         expect(createTaskSpy).toHaveBeenCalledWith({
             title: taskMock.title,
