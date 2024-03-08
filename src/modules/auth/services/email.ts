@@ -46,7 +46,7 @@ class EmailService {
                     Hola, ${ name }.
                     Te enviamos este correo para verificar tu cuenta.
 
-                    Haz click en el siguiente enlace:
+                    Has click en el siguiente enlace:
 
                     https://localhost:3000/verify-email?token=${ token }
                 `
@@ -75,7 +75,7 @@ class EmailService {
                     Hola, ${ name }.
                     Te enviamos este correo para reestablecer tu contraseña.
 
-                    Haz click en el siguiente enlace:
+                    Has click en el siguiente enlace:
 
                     https://localhost:3000/reset-password?token=${ token }
                 `

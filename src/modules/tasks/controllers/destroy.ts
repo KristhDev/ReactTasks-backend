@@ -26,7 +26,7 @@ class DestroyTaskController {
             await TaskRepository.deleteOne({ _id: task._id });
 
             return Http.sendResp(res, {
-                msg: 'Haz eliminado la tarea correctamente.',
+                msg: 'Has eliminado la tarea correctamente.',
                 status: Http.OK,
                 taskId: task._id
             });

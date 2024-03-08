@@ -34,7 +34,7 @@ class VerifyEmailController {
             await VerificationRepository.deleteOne({ _id: verification._id });
 
             return Http.sendResp(res, {
-                msg: 'Haz verificado tu cuenta correctamente, ya puedes iniciar sesión.',
+                msg: 'Has verificado tu cuenta correctamente, ya puedes iniciar sesión.',
                 status: Http.OK
             });
         } 

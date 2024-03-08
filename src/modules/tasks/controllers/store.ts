@@ -6,8 +6,8 @@ import { Http, JsonResponse } from '@server';
 /* Database */
 import { TaskRepository } from '@database';
 
-/* Services */
-import { ImageService } from '../../images';
+/* Images */
+import { ImageService } from '@images';
 
 /* Interfaces */
 import { StoreTaskRequest } from '../interfaces';
@@ -32,7 +32,7 @@ class StoreTaskController {
             const task = await TaskRepository.create({ ...body, image: imageUrl, userId: user._id });
 
             return Http.sendResp(res, {
-                msg: 'Haz agregado la tarea correctamente.',
+                msg: 'Has agregado la tarea correctamente.',
                 status: Http.CREATED,
                 task: TaskRepository.endpointAdapter(task)
             });
