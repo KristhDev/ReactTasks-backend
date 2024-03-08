@@ -7,6 +7,7 @@ import { pathsToModuleNameMapper } from 'ts-jest';
 import { compilerOptions } from './tsconfig.paths.json';
 
 const config: Config = {
+  bail: 1,
   clearMocks: true,
   collectCoverage: true,
   coverageDirectory: "tests/coverage",
@@ -16,7 +17,7 @@ const config: Config = {
   modulePathIgnorePatterns: [ "<rootDir>/tests/mocks/" ],
   preset: "ts-jest",
   setupFiles: [ "./jest.setup.ts" ],
-  verbose: true,
+  verbose: true
 };
 
 export default config;
