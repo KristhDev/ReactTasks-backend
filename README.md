@@ -174,8 +174,6 @@ MongoDB aquí un diagrama con la estructura de la base de datos:
 
 ![Database image](docs/ReactTasksDB.jpg)
 
-<br>
-
 ### 3.1) Collections
 Para este caso se tienen un total de 4 colecciones: ```users```, ```tasks```, ```tokens``` y ```verifications```. Teniendo 
 cada una sus repectivas reglas y restricciones para el correcto uso de la misma.
@@ -230,6 +228,8 @@ carpeta script del módulo database.
 ```zsh
 pnpm db:seed
 ```
+
+<br>
 
 ## 4) Levantar proyecto
 En este punto se mostraran los pasos para levantar el API.
@@ -328,7 +328,7 @@ Una vez clonado y con las variables de entorno, haz un ```cd``` a la **raíz del
 
 ```zsh
 pnpm install
-``` 
+```
 
 ### 4.8) Levantar API
 Una vez instaladas las dependencias, ejecuta el siguiente comando:
@@ -337,14 +337,14 @@ Una vez instaladas las dependencias, ejecuta el siguiente comando:
 pnpm dev
 ```
 
-<br>
 Y listo, la aplicación ya estará corriendo localmente.
-<br>
 
 ### 4.9) Endpoints
 Le comparto el siguiente enlace con una documentación de Postman con todos los endpoints de la API:
 
 [Click aquí](https://kristhdev.github.io/ReactTasks-backend/)
+
+<br>
 
 ## 5) Test
 En está última parte se explica la parte del testing de la API, se uso **Jest** y **Supertest** para realizar
