@@ -392,7 +392,7 @@ ejecutarlos use el siguiente comando:
 pnpm test:e2e
 ```
 
-#### 5.4) Coverage
+### 5.4) Coverage
 El coverage de test consiste en medir el porcentaje de código que se ejecuta de forma correcta. Es una métrica que indica 
 la proporción del código que está siendo probado. Para ejecutarlo use el siguiente comando:
 
@@ -403,7 +403,7 @@ pnpm test:coverage
 Cuando se termine de correr este comando se generará una carpeta llamada ```coverage``` dentro de ```tests``` que contiene 
 todo el reporte generado por el coverage.
 
-#### 5.5) Watch
+### 5.5) Watch
 Este es un modo que ejecuta las pruebas y se queda escuchando los cambios que se hagan en el código para luego ejecutarlos
 de nuevo. Para ejecutar ese modo use el siguiente comando:
 
