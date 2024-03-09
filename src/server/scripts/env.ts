@@ -15,9 +15,11 @@ const env = (): void => {
     Logger.info('Creating .env file');
 
     try {
-        const id = faker.string.uuid();
+        const ids = [ faker.string.uuid(), faker.string.uuid() ];
         const currentDate = new Date().toISOString();
-        const authSecret = `react-tasks-${ currentDate }-${ id }`;
+
+        const authSecret = `react-tasks-${ currentDate }-${ ids[0] }`;
+        const jwtSecret = `react-tasks-${ currentDate }-${ ids[1] }`;
 
         let data = '# Auth \n';
         data = data += `AUTH_SECRET=${ authSecret }\n`;
@@ -45,7 +47,7 @@ const env = (): void => {
         data = data += '\n';
 
         data = data += '# JWT \n';
-        data = data += 'JWT_SECRET=\n';
+        data = data += `JWT_SECRET=${ jwtSecret }\n`;
         data = data += '\n';
 
         data = data += '# Server \n';
