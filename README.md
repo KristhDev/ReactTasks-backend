@@ -229,6 +229,10 @@ pnpm db:stop
 Este comando se encarga de insertar datos de prueba en la base de datos. Este script ejecuta el archivo seed.ts dentro de la 
 carpeta script del módulo database.
 
+```bash
+pnpm db:seed
+```
+
 ## 4) Levantar proyecto
 En este punto se mostraran los pasos para levantar el API.
 
@@ -248,16 +252,10 @@ Como habrá notado el proyecto está dividido en varías ramas, así que una vez
 git switch development
 ```
 
-### 4.3) Crear base de datos
-
-### 4.4) Envio de correos
-
-### 4.5) Token de Logtail (solo rama main)
-
-### 4.6) Variables de entorno
+### 4.3) Variables de entorno
 En el package.json hay un script ```env:create``` que se encarga de **crear crear el archivo .env** con las variables de 
-entorno que se necesitan para el proyecto, solo en la rama ```main``` se agrega una variable de entorno para el token de 
-Logtail ```LOGTAIL_TOKEN```. Para crear el archivo .env ejecute el siguiente comando:
+entorno que se necesitan para el proyecto, en dependecia de la rama las variables de entorno cambian, cabe aclarar que solo 
+en la rama ```main``` no existe este comando. Para crear el archivo .env ejecute el siguiente comando:
 
 ```bash 
 pnpm env:create
@@ -265,36 +263,158 @@ pnpm env:create
 
 Le dejo una tabla con explicaciones de cada variable de entorno:
 
-| Nombre de la variable   | Explicación                                                                    |
-|-------------------------|--------------------------------------------------------------------------------|
-| AUTH_SECRET             | Es una cadena de caracteres para proteger algunas rutas de de auntenticación (se genera cuando se crea el archivo .env) |
-| CLOUDINARY_API_KEY      | Es la clave de la API de Cloudinary                                            |
-| CLOUDINARY_API_SECRET   | Es la clave secreta de la API de Cloudinary                                    |
-| CLOUDINARY_CLOUD_NAME   | Es el nombre de la nube de su cuenta de Cloudinary                             |
-| CLOUDINARY_TASKS_FOLDER | Es el nombre de la carpeta donde se guardan las imagenes de las tareas         |
-| DATABASE_ACCESS_TOKEN   | Es una cadena de acceso para interactuar con los endpoints de la base de datos |
-| DATABASE_CONTAINER_NAME | Es el nombre del contenedor de docker (solo definala si va usar docker)        |
-| DATABASE_PASSWORD       | Es la contraseña de la base de datos                                           |
-| DATABASE_USER           | Es el usuario con el que se podra interactuar con la base de datos             |
-| DATABASE_URL            | Es la url de la base de datos                                                  |
-| EMAIL_HOST              | Es el host o la dirección del servidor de correo                               |
-| EMAIL_PORT              | Es el puerto del servidor de correo                                            |
-| EMAIL_USER              | Es el usuario de correo                                                        |
-| EMAIL_PASSWORD          | Es la contraseña del correo                                                    |
-| LOGTIAL_TOKEN           | Es una cadena de caracteres para obtener acceso a LogTail para el monitoreo    |
-| JWT_SECRET              | Es una cadena de caracteres para firmar los json web token (se generada cuando se crear el archivo .env) |
-| PORT                    | Es el puerto donde corre la aplicación                                         |
+| Nombre de la variable   | Explicación                                                                    | Ramas                  |
+|-------------------------|--------------------------------------------------------------------------------|------------------------|
+| AUTH_SECRET             | Es una cadena de caracteres para proteger algunas rutas de de auntenticación (se genera cuando se crea el archivo .env) | main - development - testing |
+| CLIENT_URL              | Es la url del cliente o frontend de la aplicación                              | main - development - testing |
+| CLOUDINARY_API_KEY      | Es la clave de la API de Cloudinary                                            | main - development - testing |
+| CLOUDINARY_API_SECRET   | Es la clave secreta de la API de Cloudinary                                    | main - development - testing |
+| CLOUDINARY_CLOUD_NAME   | Es el nombre de la nube de su cuenta de Cloudinary                             | main - development - testing |
+| CLOUDINARY_TASKS_FOLDER | Es el nombre de la carpeta donde se guardan las imagenes de las tareas         | main - development - testing |
+| DATABASE_CONTAINER_NAME | Es el nombre del contenedor de docker (solo definala si va usar docker)        | development - testing  |
+| DATABASE_PASSWORD       | Es la contraseña de la base de datos                                           | development - testing  |
+| DATABASE_USER           | Es el usuario con el que se podra interactuar con la base de datos             | development - testing  |
+| DATABASE_URL            | Es la url de la base de datos                                                  | main - development - testing |
+| EMAIL_HOST              | Es el host o la dirección del servidor de correo                               | main - development - testing |
+| EMAIL_PORT              | Es el puerto del servidor de correo                                            | main - development - testing |
+| EMAIL_USER              | Es el usuario de correo                                                        | main - development - testing |
+| EMAIL_PASSWORD          | Es la contraseña del correo                                                    | main - development - testing |
+| LOGTIAL_TOKEN           | Es una cadena de caracteres para obtener acceso a LogTail para el monitoreo    | main                   |
+| JWT_SECRET              | Es una cadena de caracteres para firmar los json web token (se generada cuando se crear el archivo .env) | main - development - testing |
+| PORT                    | Es el puerto donde corre la aplicación                                         | main - development - testing |
+
+### 4.4) Crear base de datos
+Como habrá notado, hay un archivo ```docker-compose.yaml``` para crear la base de datos; sin embargo, **no está obligado** a usar 
+Docker para la base de datos, de modo que **puede escoger cualquier programa** donde se pueda crear una base de datos de MongoDB, 
+cabe mencionar que ambos casos son solo para desarrollo, igualmente le dejó los pasos para ambos casos:
+
+#### 4.4.1) Docker
+Ya en el package.json hay un comando para crear la base de datos, asegurse de **tener la variables de entorno** 
+del archivo .env:
+
+```bash
+pnpm db:mount
+```
+
+Solo espere que termine el proceso y ya tendra la base de datos.
+<br>
+
+#### 4.4.2) MongoDB
+Si tiene instalado MongoDB en su dispositivo, cree una base datos ```reacttasks``` con el cliente de base de datos de 
+su preferencia.
+
+#### 4.4.3) Mongo url
+Usando cualquiera de las opciones anteriores obtenga url de la base de datos y guardela en la variable de entorno 
+```DATABASE_URL```.
+
+### 4.5) Envio de correos
+Algunas de las funcionalidades del proyecto requieren el envio de correos. Para poder hacerlo se necesita de un servicio SMTP, 
+el que tenga a su alcance. Una vez tenga una cuenta en algun servidor de correo, guarde los valores que se le den para usarlos 
+en las variables de entorno ```EMAIL_HOST```, ```EMAIL_PASSWORD```, ```EMAIL_PORT``` y ```EMAIL_USER```. En el punto variables 
+de entorno se dan más explicaciones.
+
+### 4.6) Token de Logtail (solo rama main)
+El monitoreo de logs solo se hace en la rama main por medio de Better Stack Logtail, se necesita un token para establecer 
+la conexión entre la aplicación y el servicio. Primero se debe crear un cuenta en Better Stack, después de eso estaremos
+en el dashboard de administración.
+
+En la parte superior izquierda hay un botón, da click y selecciona ```Logs & Metrics```, luego ve a la pestaña 
+```sources``` y da click en el botón ```Connect source```, ingresa el nombre y selecciona la plataforma, en este caso 
+```Javascript . Node.js``` y crea el source.
+
+Ahora estarás en la página para editar el source que creaste, solo copia el ```Source token``` y pon el valor en la 
+variable de entorno ```LOGTAIL_TOKEN``` del proyecto.
 
 ### 4.7) Instalar dependencias
+Una vez clonado y con las variables de entorno, haz un ```cd``` a la **raíz del proyecto** y ejecuta el siguiente comando:
+
+```bash
+pnpm install
+``` 
 
 ### 4.8) Levantar API
+Una vez instaladas las dependencias, ejecuta el siguiente comando:
+
+```bash
+pnpm dev
+```
+
+<br>
+Y listo, la aplicación ya estará corriendo localmente.
+<br>
 
 ### 4.9) Endpoints
+Le comparto el siguiente enlace con una documentación de Postman con todos los endpoints de la API:
+
+[Click aquí](https://kristhdev.github.io/ReactTasks-backend/)
 
 ## 5) Test
+En está última parte se explica la parte del testing de la API, se uso **Jest** y **Supertest** para realizar
+los test de la API, tanto **unitarios (unit)** como de **fin a fin (end-to-end/e2e)**. 
 
 ### 5.1) Rama de test
+Para comenzar con los tests primero se debe mover a la rama de ```testing```, para eso abra una terminal en la raíz del 
+proyecto y ejecute el siguiente comando:
+
+```bash
+git switch testing
+```
 
 ### 5.2) Seedear base de datos
+Asegurse de ejecutar el siguiente comando antes de correr los tests:
+
+```bash
+pnpm db:seed
+```
 
 ### 5.3) Correr test
+Los test se encuentran dividos en categorias, unit, e2e y coverage. Cada uno tiene su fin pero si quiere ejecutar todos los 
+test use el siguiente comando:
+
+```bash
+pnpm test
+```
+
+#### 5.3.1) Unit Test
+El test unitario consiste en verificar el comportamiento de las unidades más pequeñas de las aplicación. Deben ejecutarse 
+de forma aislada porque tienen que ser rápidas. El propósito de las pruebas unitarias es proporcionarle una retroalimentación 
+casi instantánea sobre el diseño y la implementación del código. Para ejecutarlos use el siguiente comando:
+
+```bash
+pnpm test:unit
+```
+
+#### 5.3.2) End-to-End (e2e) Test
+El test end to end se pueden definir como un procedimiento que se ejecuta para productos complejos. Este tipo de pruebas 
+confirman que la aplicación funciona tal como se espera analizando todos sus componentes. Por ende, se simula la experiencia 
+del usuario de principio a fin. Este método valida la integridad de la información que se comparte en el sistema. Para 
+ejecutarlos use el siguiente comando:
+
+```bash
+pnpm test:e2e
+```
+
+#### 5.4) Coverage
+El coverage de test consiste en medir el porcentaje de código que se ejecuta de forma correcta. Es una métrica que indica 
+la proporción del código que está siendo probado. Para ejecutarlo use el siguiente comando:
+
+```bash
+pnpm test:coverage
+```
+
+Cuando se termine de correr este comando se generará una carpeta llamada ```coverage``` dentro de ```tests``` que contiene 
+todo el reporte generado por el coverage.
+
+#### 5.5) Watch
+Este es un modo que ejecuta las pruebas y se queda escuchando los cambios que se hagan en el código para luego ejecutarlos
+de nuevo. Para ejecutar ese modo use el siguiente comando:
+
+```bash
+pnpm test:watch
+```
+
+<br>
+
+___
+
+Para más información contactar a kristhdev@gmail.com
