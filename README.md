@@ -196,7 +196,7 @@ Este comando le permite montar la base de datos de MongoDB. Por debajo ejecuta e
 para que funcione debes tener docker instalado y activado. Si se ejecuta con exito creará una carpeta llamada ```mongo```, donde 
 se guardará la base de datos.
 
-```bash
+```zsh
 pnpm db:mount
 ```
 
@@ -204,7 +204,7 @@ pnpm db:mount
 Este comando se encarga de desmontar la base de datos de MongoDB. Por debajo ejecuta el comando ```docker compose down --volumes```,
 por lo que para que funcione debes tener docker instalado y activado.
 
-```bash
+```zsh
 pnpm db:unmount
 ```
 
@@ -212,14 +212,14 @@ pnpm db:unmount
 Este comando se encarga de iniciar la base de datos de MongoDB. Por debajo ejecuta el comando ```docker compose start```, antes 
 se debe ejecutar el comando ```db:mount```. Como usa docker, asegurese de tener docker instalado y activado.
 
-```bash
+```zsh
 pnpm db:start
 ```
 
 #### 3.3.4) db:stop
 Este comando se encarga de detener la base de datos de MongoDB. Por debajo ejecuta el comando ```docker compose stop```.
 
-```bash
+```zsh
 pnpm db:stop
 ```
 
@@ -227,7 +227,7 @@ pnpm db:stop
 Este comando se encarga de insertar datos de prueba en la base de datos. Este script ejecuta el archivo seed.ts dentro de la 
 carpeta script del módulo database.
 
-```bash
+```zsh
 pnpm db:seed
 ```
 
@@ -235,10 +235,10 @@ pnpm db:seed
 En este punto se mostraran los pasos para levantar el API.
 
 ### 4.1) Clonar repositorio
-Lo primero es clonar el repositorio de git, para ello abra una terminal (cmd, powershell, gitbash, etc.) y escriba el siguiente 
+Lo primero es clonar el repositorio de git, para ello abra una terminal (cmd, powershell, gitzsh, etc.) y escriba el siguiente 
 comando:
 
-```bash
+```zsh
 git clone https://github.com/KristhDev/ReactTasks-backend.git
 ```
 
@@ -246,7 +246,7 @@ git clone https://github.com/KristhDev/ReactTasks-backend.git
 Como habrá notado el proyecto está dividido en varías ramas, así que una vez clonado el repositorio hay que cambiar a la rama
 ```development``` con el siguiente comando:
 
-```bash
+```zsh
 git switch development
 ```
 
@@ -255,7 +255,7 @@ En el package.json hay un script ```env:create``` que se encarga de **crear crea
 entorno que se necesitan para el proyecto, en dependecia de la rama las variables de entorno cambian, cabe aclarar que solo 
 en la rama ```main``` no existe este comando. Para crear el archivo .env ejecute el siguiente comando:
 
-```bash 
+```zsh 
 pnpm env:create
 ```
 
@@ -290,7 +290,7 @@ cabe mencionar que ambos casos son solo para desarrollo, igualmente le dejó los
 Ya en el package.json hay un comando para crear la base de datos, asegurse de **tener la variables de entorno** 
 del archivo .env:
 
-```bash
+```zsh
 pnpm db:mount
 ```
 
@@ -326,14 +326,14 @@ variable de entorno ```LOGTAIL_TOKEN``` del proyecto.
 ### 4.7) Instalar dependencias
 Una vez clonado y con las variables de entorno, haz un ```cd``` a la **raíz del proyecto** y ejecuta el siguiente comando:
 
-```bash
+```zsh
 pnpm install
 ``` 
 
 ### 4.8) Levantar API
 Una vez instaladas las dependencias, ejecuta el siguiente comando:
 
-```bash
+```zsh
 pnpm dev
 ```
 
@@ -354,14 +354,14 @@ los test de la API, tanto **unitarios (unit)** como de **fin a fin (end-to-end/e
 Para comenzar con los tests primero se debe mover a la rama de ```testing```, para eso abra una terminal en la raíz del 
 proyecto y ejecute el siguiente comando:
 
-```bash
+```zsh
 git switch testing
 ```
 
 ### 5.2) Seedear base de datos
 Asegurse de ejecutar el siguiente comando antes de correr los tests:
 
-```bash
+```zsh
 pnpm db:seed
 ```
 
@@ -369,7 +369,7 @@ pnpm db:seed
 Los test se encuentran dividos en categorias, unit, e2e y coverage. Cada uno tiene su fin pero si quiere ejecutar todos los 
 test use el siguiente comando:
 
-```bash
+```zsh
 pnpm test
 ```
 
@@ -378,7 +378,7 @@ El test unitario consiste en verificar el comportamiento de las unidades más pe
 de forma aislada porque tienen que ser rápidas. El propósito de las pruebas unitarias es proporcionarle una retroalimentación 
 casi instantánea sobre el diseño y la implementación del código. Para ejecutarlos use el siguiente comando:
 
-```bash
+```zsh
 pnpm test:unit
 ```
 
@@ -388,7 +388,7 @@ confirman que la aplicación funciona tal como se espera analizando todos sus co
 del usuario de principio a fin. Este método valida la integridad de la información que se comparte en el sistema. Para 
 ejecutarlos use el siguiente comando:
 
-```bash
+```zsh
 pnpm test:e2e
 ```
 
@@ -396,7 +396,7 @@ pnpm test:e2e
 El coverage de test consiste en medir el porcentaje de código que se ejecuta de forma correcta. Es una métrica que indica 
 la proporción del código que está siendo probado. Para ejecutarlo use el siguiente comando:
 
-```bash
+```zsh
 pnpm test:coverage
 ```
 
@@ -407,7 +407,7 @@ todo el reporte generado por el coverage.
 Este es un modo que ejecuta las pruebas y se queda escuchando los cambios que se hagan en el código para luego ejecutarlos
 de nuevo. Para ejecutar ese modo use el siguiente comando:
 
-```bash
+```zsh
 pnpm test:watch
 ```
 
