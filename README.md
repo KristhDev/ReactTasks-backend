@@ -187,8 +187,6 @@ Como se vio en la parte del entorno de desarrollo, se uso **draw.io** para crear
 Para poder editarlo **solo abra el programa Draw.io** y busque el archivo. Por último se creo un archivo ```sql``` en la 
 carpeta **docs** con el código de la base de datos para más documentación.
 
-<br>
-
 ### 3.3) Comandos
 En el package.json hay varios scripts que comienzan por ```db:```, estos son para realizar distintas acciones con la base 
 de datos. Estos scripts solo se encuentran en las ramas ```development``` y ```testing``` del proyecto.
