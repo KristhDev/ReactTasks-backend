@@ -4,7 +4,7 @@ Este es la **api** para el proyecto **ReactTasks**, una aplicación web para ges
 explicaciones sobre las tecnologías utilizadas, el entorno de desarrollo, base de datos, cómo ejecutar el servidor y 
 test de la aplicación.
 
-## Tecnologías
+## 1) Tecnologías
 
 ### 1.1) Express
 Es un **popular framework de aplicaciones web para Node.js**, que se utiliza para crear aplicaciones web y servicios web 
