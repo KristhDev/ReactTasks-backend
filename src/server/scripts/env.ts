@@ -25,6 +25,10 @@ const env = (): void => {
         data = data += `AUTH_SECRET=${ authSecret }\n`;
         data = data += '\n';
 
+        data = data += '# Client \n';
+        data = data += 'CLIENT_URL=\n';
+        data = data += '\n';
+
         data = data += '# Cloudinary \n';
         data = data += 'CLOUDINARY_API_KEY=\n';
         data = data += 'CLOUDINARY_API_SECRET=\n';
