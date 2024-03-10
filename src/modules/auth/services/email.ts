@@ -48,7 +48,7 @@ class EmailService {
 
                     Has click en el siguiente enlace:
 
-                    https://localhost:3000/verify-email?token=${ token }
+                    ${ process.env.CLIENT_URL }/verify-email?token=${ token }
                 `
             });
         } 
@@ -77,7 +77,7 @@ class EmailService {
 
                     Has click en el siguiente enlace:
 
-                    https://localhost:3000/reset-password?token=${ token }
+                    ${ process.env.CLIENT_URL }/reset-password?token=${ token }
                 `
             });
         } 
