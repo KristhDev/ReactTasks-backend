@@ -4,6 +4,22 @@ Este es la **api** para el proyecto **ReactTasks**, una aplicación web para ges
 explicaciones sobre las tecnologías utilizadas, el entorno de desarrollo, base de datos, cómo ejecutar el servidor y 
 test de la aplicación.
 
+## Indice
+- [1) Tecnologías](#technologies)
+  - [1.1) Express](#express)
+  - [1.2) Typescript](#typescript)
+  - [1.3) MongoDB](#mongodb)
+  - [1.4) Mongoose](#mongoose)
+  - [1.5) JWT](#jwt)
+  - [1.6) BetterStack Logtail](#betterstack-logtail)
+  - [1.7) Docker](#docker)
+  - [1.8) Enlaces](#links)
+- [2) Entorno de desarrrollo](#development-environment)
+- [3) Base de datos](#database)
+- [4) Levantar proyecto](#run-project)
+- [5) Test](#test)
+
+<a name="technologies"></a>
 ## 1) Tecnologías
 
 ### 1.1) Express
@@ -94,6 +110,7 @@ enviar solicitudes HTTP a una aplicación web y comprobar la respuesta de la apl
 
 <br>
 
+<a name="development-environment"></a>
 ## 2) Entorno de desarrollo
 El entorno se compone de lass herramientas que son necesarios para ejecutar la aplicación y realizar interacciones con ella,
 por ejemplo, enviar solicitudes HTTP, crear base de datos, etc. Esas herramientas son:
@@ -165,10 +182,11 @@ de tu preferencia.
 
 <br>
 
+<a name="database"></a>
 ## 3) Base de datos
 Como se observa la **base de datos es MongoDB**, la que cubre las necesidades de este backend; además que para este caso
 los requerimientos apuntan a que puede usarse una **base de datos sql o no sql**, pero por aprendizaje se ha decidido usar 
-MongoDB aquí un diagrama con la estructura de la base de datos:
+MongoDB, aquí un diagrama con la estructura de la base de datos:
 
 <br>
 
@@ -180,10 +198,8 @@ cada una sus repectivas reglas y restricciones para el correcto uso de la misma.
 
 ### 3.2) Draw.io
 Como se vio en la parte del entorno de desarrollo, se uso **draw.io** para crear el **diagrama de la base de datos**, en la 
-**carpeta docs** está tanto el archivo drawio y como la imagen de la base de datos, está en **todas las ramas**.
-
-Para poder editarlo **solo abra el programa Draw.io** y busque el archivo. Por último se creo un archivo ```sql``` en la 
-carpeta **docs** con el código de la base de datos para más documentación.
+**carpeta docs** está tanto el archivo drawio y como la imagen de la base de datos, está en **todas las ramas**. Para poder 
+editarlo **solo abra el programa Draw.io** y busque el archivo.
 
 ### 3.3) Comandos
 En el package.json hay varios scripts que comienzan por ```db:```, estos son para realizar distintas acciones con la base 
@@ -191,7 +207,7 @@ de datos. Estos scripts solo se encuentran en las ramas ```development``` y ```t
 
 #### 3.3.1) db:mount
 Este comando le permite montar la base de datos de MongoDB. Por debajo ejecuta el comando ```docker compose up -d```, por lo que 
-para que funcione debes tener docker instalado y activado. Si se ejecuta con exito creará una carpeta llamada ```mongo```, donde 
+para que funcione debe tener docker instalado y activado. Si se ejecuta con exito creará una carpeta llamada ```mongo```, donde 
 se guardará la base de datos.
 
 ```zsh
@@ -200,7 +216,7 @@ pnpm db:mount
 
 #### 3.3.2) db:unmount
 Este comando se encarga de desmontar la base de datos de MongoDB. Por debajo ejecuta el comando ```docker compose down --volumes```,
-por lo que para que funcione debes tener docker instalado y activado.
+por lo que para que funcione debe tener docker instalado y activado.
 
 ```zsh
 pnpm db:unmount
@@ -231,11 +247,12 @@ pnpm db:seed
 
 <br>
 
+<a name="run-project"></a>
 ## 4) Levantar proyecto
 En este punto se mostraran los pasos para levantar el API.
 
 ### 4.1) Clonar repositorio
-Lo primero es clonar el repositorio de git, para ello abra una terminal (cmd, powershell, gitzsh, etc.) y escriba el siguiente 
+Lo primero es clonar el repositorio de git, para ello abra una terminal (cmd, powershell, gitzsh, etc.) y escribe el siguiente 
 comando:
 
 ```zsh
@@ -251,9 +268,9 @@ git switch development
 ```
 
 ### 4.3) Variables de entorno
-En el package.json hay un script ```env:create``` que se encarga de **crear crear el archivo .env** con las variables de 
-entorno que se necesitan para el proyecto, en dependecia de la rama las variables de entorno cambian, cabe aclarar que solo 
-en la rama ```main``` no existe este comando. Para crear el archivo .env ejecute el siguiente comando:
+En el package.json hay un script ```env:create``` que se encarga de **crear el archivo .env** con las variables de 
+entorno que se necesitan para el proyecto, en dependecia de la rama las variables de entorno cambian, cabe aclarar que 
+solo en la rama ```main``` no existe este comando. Para crear el archivo .env ejecute el siguiente comando:
 
 ```zsh 
 pnpm env:create
@@ -308,30 +325,29 @@ Usando cualquiera de las opciones anteriores obtenga url de la base de datos y g
 ### 4.5) Envio de correos
 Algunas de las funcionalidades del proyecto requieren el envio de correos. Para poder hacerlo se necesita de un servicio SMTP, 
 el que tenga a su alcance. Una vez tenga una cuenta en algun servidor de correo, guarde los valores que se le den para usarlos 
-en las variables de entorno ```EMAIL_HOST```, ```EMAIL_PASSWORD```, ```EMAIL_PORT``` y ```EMAIL_USER```. En el punto variables 
-de entorno se dan más explicaciones.
+en las variables de entorno ```EMAIL_HOST```, ```EMAIL_PASSWORD```, ```EMAIL_PORT``` y ```EMAIL_USER```.
 
 ### 4.6) Token de Logtail (solo rama main)
-El monitoreo de logs solo se hace en la rama main por medio de Better Stack Logtail, se necesita un token para establecer 
+El monitoreo de logs solo se hace en la rama ```main``` por medio de Better Stack Logtail, se necesita un token para establecer 
 la conexión entre la aplicación y el servicio. Primero se debe crear un cuenta en Better Stack, después de eso estaremos
 en el dashboard de administración.
 
-En la parte superior izquierda hay un botón, da click y selecciona ```Logs & Metrics```, luego ve a la pestaña 
-```sources``` y da click en el botón ```Connect source```, ingresa el nombre y selecciona la plataforma, en este caso 
-```Javascript . Node.js``` y crea el source.
+En la parte superior izquierda hay un botón, da click y seleccione ```Logs & Metrics```, luego vaya a la pestaña 
+```sources``` y de click en el botón ```Connect source```, ingrese el nombre y seleccione la plataforma, en este caso 
+```Javascript . Node.js``` y cree el source.
 
-Ahora estarás en la página para editar el source que creaste, solo copia el ```Source token``` y pon el valor en la 
+Ahora estará en la página para editar el source que creo, solo copie el ```Source token``` y ponga el valor en la 
 variable de entorno ```LOGTAIL_TOKEN``` del proyecto.
 
 ### 4.7) Instalar dependencias
-Una vez clonado y con las variables de entorno, haz un ```cd``` a la **raíz del proyecto** y ejecuta el siguiente comando:
+Una vez clonado y con las variables de entorno, haga un ```cd``` a la **raíz del proyecto** y ejecute el siguiente comando:
 
 ```zsh
 pnpm install
 ```
 
 ### 4.8) Levantar API
-Una vez instaladas las dependencias, ejecuta el siguiente comando:
+Una vez instaladas las dependencias, ejecute el siguiente comando:
 
 ```zsh
 pnpm dev
@@ -346,6 +362,7 @@ Le comparto el siguiente enlace con una documentación de Postman con todos los 
 
 <br>
 
+<a name="test"></a>
 ## 5) Test
 En está última parte se explica la parte del testing de la API, se uso **Jest** y **Supertest** para realizar
 los test de la API, tanto **unitarios (unit)** como de **fin a fin (end-to-end/e2e)**. 
@@ -366,7 +383,7 @@ pnpm db:seed
 ```
 
 ### 5.3) Correr test
-Los test se encuentran dividos en categorias, unit, e2e y coverage. Cada uno tiene su fin pero si quiere ejecutar todos los 
+Los test se encuentran dividos en categorias: unit, e2e y coverage. Cada uno tiene su fin pero si quiere ejecutar todos los 
 test use el siguiente comando:
 
 ```zsh
