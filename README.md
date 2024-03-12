@@ -4,6 +4,18 @@ Este es la **api** para el proyecto **ReactTasks**, una aplicación web para ges
 explicaciones sobre las tecnologías utilizadas, el entorno de desarrollo, base de datos, cómo ejecutar el servidor y 
 test de la aplicación.
 
+<br>
+
+<p align="center">
+  <img 
+    alt="ReactTasks Logo" 
+    src="https://res.cloudinary.com/dzs8lf9lc/image/upload/v1710250829/react-tasks/reacttasks_znw5sk.svg"
+    width="350"
+  />
+</p>
+
+<br>
+
 ## Indice
 - [1) Tecnologías](#technologies)
   - [1.1) Express](#technologies-express)
