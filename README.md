@@ -40,7 +40,7 @@ test de la aplicación.
   - [4.4) Crear base de datos](#run-project-create-database)
     - [4.4.1) Docker](#run-project-create-database-docker)
     - [4.4.2) MongoDB](#run-project-create-database-mongodb)
-    - [4.4.3) Mongo URL](#run-project-create-database-mongo-url)
+    - [4.4.3) Mongo URL](#run-project-create-database-mongodb-url)
   - [4.5) Envio de correos](#run-project-send-email)
   - [4.6) Token de Logtail (solo rama main)](#run-project-logtail-token)
   - [4.7) Instalar dependencias](#run-project-install-dependencies)
