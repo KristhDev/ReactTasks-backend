@@ -3,9 +3,10 @@ import nodemailer from 'nodemailer';
 import { EmailError, EmailService } from '@auth';
 
 const sendEmailMock = jest.fn();
+const useMock = jest.fn();
 
 jest.spyOn(nodemailer, 'createTransport')
-    .mockImplementation(() => ({ sendMail: sendEmailMock } as any));
+    .mockImplementation(() => ({ sendMail: sendEmailMock, use: useMock } as any));
 
 const data = {
     email: 'test-e2e@gmail.com',
@@ -29,14 +30,16 @@ describe('Test in EmailService of auth module', () => {
             from: `no-reply <${ process.env.EMAIL_USER }>`,
             to: data.email,
             subject: 'Verificación de correo - ReactTasks',
-            text: expect.stringContaining(data.token)
+            text: expect.stringContaining(data.token),
+            html: expect.any(String)
         });
 
         expect(sendEmailMock).toHaveBeenCalledWith({
             from: `no-reply <${ process.env.EMAIL_USER }>`,
             to: data.email,
             subject: 'Verificación de correo - ReactTasks',
-            text: expect.stringContaining(data.name)
+            text: expect.stringContaining(data.name),
+            html: expect.any(String)
         });
     });
 
@@ -63,14 +66,16 @@ describe('Test in EmailService of auth module', () => {
             from: `no-reply <${ process.env.EMAIL_USER }>`,
             to: data.email,
             subject: 'Reestablecer contraseña - ReactTasks',
-            text: expect.stringContaining(data.token)
+            text: expect.stringContaining(data.token),
+            html: expect.any(String)
         });
 
         expect(sendEmailMock).toHaveBeenCalledWith({
             from: `no-reply <${ process.env.EMAIL_USER }>`,
             to: data.email,
             subject: 'Reestablecer contraseña - ReactTasks',
-            text: expect.stringContaining(data.name)
+            text: expect.stringContaining(data.name),
+            html: expect.any(String)
         });
     });
 
