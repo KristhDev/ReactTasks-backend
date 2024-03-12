@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <style>
+            * {
+                padding: 0;
+                margin: 0;
+                box-sizing: border-box;
+                font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            }
+
+            html {
+                font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            }
+
+            .container {
+                background: #f1f5f9;
+                height: 100%;
+                width: 100%;
+                padding: 3rem 8rem;
+            }
+
+            .title {
+                margin-bottom: 4rem;
+                display: flex;
+                align-items: center;
+            }
+
+            .title h1 {
+                color: #3b82f6;
+                font-size: 3rem;
+            }
+
+            .title img {
+                height: 3rem;
+                width: 3rem;
+                margin-right: 1rem;
+            }
+
+            .content {
+                align-items: center;
+                display: flex;
+                justify-content: center;
+                min-width: 100%;
+            }
+
+            .card {
+                background: #ffffff;
+                border-radius: 0.75rem;
+                box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
+                max-width: 60%;
+                min-width: 40%;
+                padding: 1.5rem;
+                text-align: left;
+            }
+
+            .card h2 {
+                color: #0f172a;
+                font-size: 1.85rem;
+                margin-bottom: 3rem;
+            }
+
+            .card-text {
+                color: #0f172a;
+                font-size: 1.125rem;
+                line-height: 1.75rem;
+            }
+
+            .card-help {
+                margin-top: 1.5rem;
+                color: #0f172a;
+                font-size: 1rem;
+            }
+
+            .y-space {
+                margin-top: 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .card-link {
+                color: #3b82f6;
+                font-size: 1rem;
+                text-decoration: none;
+            }
+
+            .card-link:hover {
+                text-decoration: underline;
+            }
+
+            @media (max-width: 768px) {
+                .container {
+                    padding: 1.5rem;
+                }
+
+                .card {
+                    min-width: 100%;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="title">
+                <img 
+                    alt="ReactTasks logo"
+                    src="https://res.cloudinary.com/dzs8lf9lc/image/upload/v1710250829/react-tasks/reacttasks_znw5sk.svg" 
+                >
+
+                <h1>ReactTasks</h1>
+            </div>
+
+            <div class="content">
+                <div class="card">
+                    <h2><%= title %> - ReactTasks</h2>
+
+                    <p class="card-text">Hola, <%= name %></p>
+                    <p class="card-text"><%= text %></p>
+
+                    <p class="card-text y-space">Has click en el siguiente enlace:</p>
+
+                    <a class="card-link" href="<%= url %>"><%= linkText %></a>
+
+                    <% if (helpText) { %>
+                        <p class="card-help"><%= helpText %></p>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
