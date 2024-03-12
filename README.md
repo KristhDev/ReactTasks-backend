@@ -21,7 +21,7 @@ test de la aplicación.
   - [2.2) Pnpm (opcional)](#development-environment-pnpm)
   - [2.3) Docker Desktop (opcional)](#development-environment-docker-desktop)
   - [2.4) MongoDBCompass (opcional)](#development-environment-mongodbcompass)
-  - [2.5) Draw.io)](#development-environment-drawio)
+  - [2.5) Draw.io](#development-environment-drawio)
   - [2.6) Postman (opcional)](#development-environment-postman)
   - [2.7) Enlaces](#development-environment-links)
 - [3) Base de datos](#database)
