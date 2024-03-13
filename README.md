@@ -1,6 +1,6 @@
 # ReactTasks Backend
 
-Este es la **api** para el proyecto **ReactTasks**, una aplicación web para gestionar tareas. Este documento contiene 
+Esta es la **api** para el proyecto **ReactTasks**, una aplicación web para gestionar tareas. Este documento contiene 
 explicaciones sobre las tecnologías utilizadas, el entorno de desarrollo, base de datos, cómo ejecutar el servidor y 
 test de la aplicación.
 
@@ -53,7 +53,7 @@ test de la aplicación.
     - [4.4.1) Docker](#run-project-create-database-docker)
     - [4.4.2) MongoDB](#run-project-create-database-mongodb)
     - [4.4.3) Mongo URL](#run-project-create-database-mongodb-url)
-  - [4.5) Envio de correos](#run-project-send-email)
+  - [4.5) Envío de correos](#run-project-send-email)
   - [4.6) Token de Logtail (solo rama main)](#run-project-logtail-token)
   - [4.7) Instalar dependencias](#run-project-install-dependencies)
   - [4.8) Levantar API](#run-project-start-api)
@@ -113,7 +113,7 @@ facilita la validación de datos, la definición de relaciones y la manipulació
 JWT **(JSON Web Token) es un estándar** qué está dentro del documento RFC 7519.
 
 En el mismo se define un **mecanismo para poder propagar entre dos partes**, y de forma segura, la identidad de un 
-determinado usuario, además con una serie de claims o privilegios.
+determinado usuario, además de una serie de claims o privilegios.
 
 Estos **privilegios están codificados en objetos de tipo JSON**, que se incrustan dentro de del payload o cuerpo de un 
 mensaje que va firmado digitalmente.
@@ -172,7 +172,7 @@ enviar solicitudes HTTP a una aplicación web y comprobar la respuesta de la apl
 
 <a name="development-environment"></a>
 ## 2) Entorno de desarrollo
-El entorno se compone de lass herramientas que son necesarios para ejecutar la aplicación y realizar interacciones con ella,
+El entorno se compone de las herramientas que son necesarias para ejecutar la aplicación y realizar interacciones con ella,
 por ejemplo, enviar solicitudes HTTP, crear base de datos, etc. Esas herramientas son:
 
 <a name="development-environment-node"></a>
@@ -231,12 +231,12 @@ convierte en una herramienta integral para el desarrollo de APIs. También propo
 gestión de entornos, monitoreo y la posibilidad de compartir colecciones de pruebas con otros miembros del equipo. En resumen, 
 Postman es una herramienta poderosa que simplifica el proceso de desarrollo y prueba de APIs.
 
-Como se observa solo **Node.js y Draw.io son totalmente obligatorios,** los otros pueden ser reemplazados por programas de tu 
-preferencia, en el caso de **Pnpm** puedes sustituirlo por el **gestor de depdencias de Javascript** que desees, sea **npm** o 
-**yarn**, pero asegurate de que al cambiarlo borres el archivo ```pnpm-lock.yaml```, siguiendo con **Docker** se puede usar 
+Como se observa solo **Node.js y Draw.io son totalmente obligatorios,** los otros pueden ser reemplazados por programas de su 
+preferencia, en el caso de **Pnpm** puede sustituirlo por el **gestor de dependencias de Javascript** que desee, sea **npm** o 
+**yarn**, pero asegurase de que al cambiarlo borre el archivo ```pnpm-lock.yaml```, siguiendo con **Docker** se puede usar 
 **cualquier programa** que permita montar una base de datos de MongoDB, **MongoDBCompass** puede ser reemplazado por otro 
-programa que **acepte conexiones de MongoDB**, por útimo, si no quieres usar **Postman** puedes utilizar el **cliente http** 
-de tu preferencia.
+programa que **acepte conexiones de MongoDB**, por último, si no quiere usar **Postman** puede utilizar el **cliente http** 
+de su preferencia.
 
 <a name="development-environment-links"></a>
 ### 2.7) Enlaces
@@ -251,7 +251,7 @@ de tu preferencia.
 
 <a name="database"></a>
 ## 3) Base de datos
-Como se observa la **base de datos es MongoDB**, la que cubre las necesidades de este backend; además que para este caso
+Como se observa, la **base de datos es MongoDB**, la que cubre las necesidades de este backend; además que para este caso
 los requerimientos apuntan a que puede usarse una **base de datos sql o no sql**, pero por aprendizaje se ha decidido usar 
 MongoDB, aquí un diagrama con la estructura de la base de datos:
 
@@ -262,13 +262,13 @@ MongoDB, aquí un diagrama con la estructura de la base de datos:
 <a name="database-collections"></a>
 ### 3.1) Collections
 Para este caso se tienen un total de 4 colecciones: ```users```, ```tasks```, ```tokens``` y ```verifications```. Teniendo 
-cada una sus repectivas reglas y restricciones para el correcto uso de la misma.
+cada una sus respectivas reglas y restricciones para el correcto uso de la misma.
 
 <a name="database-drawio"></a>
 ### 3.2) Draw.io
-Como se vio en la parte del entorno de desarrollo, se uso **draw.io** para crear el **diagrama de la base de datos**, en la 
+Como se vio en la parte del entorno de desarrollo, se usó **draw.io** para crear el **diagrama de la base de datos**, en la 
 **carpeta docs** está tanto el archivo drawio y como la imagen de la base de datos, está en **todas las ramas**. Para poder 
-editarlo **solo abra el programa Draw.io** y busque el archivo.
+editarlo, **solo abra el programa Draw.io** y busque el archivo.
 
 <a name="database-commands"></a>
 ### 3.3) Comandos
@@ -278,7 +278,7 @@ de datos. Estos scripts solo se encuentran en las ramas ```development``` y ```t
 <a name="database-commands-mount"></a>
 #### 3.3.1) db:mount
 Este comando le permite montar la base de datos de MongoDB. Por debajo ejecuta el comando ```docker compose up -d```, por lo que 
-para que funcione debe tener docker instalado y activado. Si se ejecuta con exito creará una carpeta llamada ```mongo```, donde 
+para que funcione debe tener docker instalado y activado. Si se ejecuta con éxito, creará una carpeta llamada ```mongo```, donde 
 se guardará la base de datos.
 
 ```zsh
@@ -324,11 +324,11 @@ pnpm db:seed
 
 <a name="run-project"></a>
 ## 4) Levantar proyecto
-En este punto se mostraran los pasos para levantar el API.
+En este punto se mostrarán los pasos para levantar la API.
 
 <a name="run-project-clone-repository"></a>
 ### 4.1) Clonar repositorio
-Lo primero es clonar el repositorio de git, para ello abra una terminal (cmd, powershell, gitzsh, etc.) y escribe el siguiente 
+Lo primero es clonar el repositorio de git, para ello, abra una terminal (cmd, powershell, zsh, etc.) y escribe el siguiente 
 comando:
 
 ```zsh
@@ -337,7 +337,7 @@ git clone https://github.com/KristhDev/ReactTasks-backend.git
 
 <a name="run-project-development-branch"></a>
 ### 4.2) Rama de desarrollo
-Como habrá notado el proyecto está dividido en varías ramas, así que una vez clonado el repositorio hay que cambiar a la rama
+Como habrá notado, el proyecto está dividido en varias ramas, así que una vez clonado el repositorio, hay que cambiar a la rama
 ```development``` con el siguiente comando:
 
 ```zsh
@@ -347,8 +347,8 @@ git switch development
 <a name="run-project-environment-variables"></a>
 ### 4.3) Variables de entorno
 En el package.json hay un script ```env:create``` que se encarga de **crear el archivo .env** con las variables de 
-entorno que se necesitan para el proyecto, en dependecia de la rama las variables de entorno cambian, cabe aclarar que 
-solo en la rama ```main``` no existe este comando. Para crear el archivo .env ejecute el siguiente comando:
+entorno que se necesitan para el proyecto. En dependencia de la rama, las variables de entorno cambian, cabe aclarar que 
+solo en la rama ```main``` no existe este comando. Para crear el archivo .env ejecuté el siguiente comando:
 
 ```zsh 
 pnpm env:create
@@ -384,36 +384,36 @@ cabe mencionar que ambos casos son solo para desarrollo, igualmente le dejó los
 
 <a name="run-project-create-database-docker"></a>
 #### 4.4.1) Docker
-Ya en el package.json hay un comando para crear la base de datos, asegurse de **tener la variables de entorno** 
+Ya en el package.json hay un comando para crear la base de datos, asegúrese de **tener la variables de entorno** 
 del archivo .env:
 
 ```zsh
 pnpm db:mount
 ```
 
-Solo espere que termine el proceso y ya tendra la base de datos.
+Solo espere que termine el proceso y ya tendrá la base de datos.
 <br>
 
 <a name="run-project-create-database-mongodb"></a>
 #### 4.4.2) MongoDB
-Si tiene instalado MongoDB en su dispositivo, cree una base datos ```reacttasks``` con el cliente de base de datos de 
+Si tiene instalado MongoDB en su dispositivo, cree una base de datos ```reacttasks``` con el cliente de base de datos de 
 su preferencia.
 
 <a name="run-project-create-database-mongodb-url"></a>
 #### 4.4.3) Mongo URL
-Usando cualquiera de las opciones anteriores obtenga url de la base de datos y guardela en la variable de entorno 
+Usando cualquiera de las opciones anteriores, obtenga la url de la base de datos y guárdela en la variable de entorno 
 ```DATABASE_URL```.
 
 <a name="run-project-send-email"></a>
-### 4.5) Envio de correos
-Algunas de las funcionalidades del proyecto requieren el envio de correos. Para poder hacerlo se necesita de un servicio SMTP, 
-el que tenga a su alcance. Una vez tenga una cuenta en algun servidor de correo, guarde los valores que se le den para usarlos 
+### 4.5) Envío de correos
+Algunas de las funcionalidades del proyecto requieren el envío de correos. Para poder hacerlo se necesita de un servicio SMTP, 
+el que tenga a su alcance. Una vez tenga una cuenta en algún servidor de correo, guarde los valores que se le den para usarlos 
 en las variables de entorno ```EMAIL_HOST```, ```EMAIL_PASSWORD```, ```EMAIL_PORT``` y ```EMAIL_USER```.
 
 <a name="run-project-logtail-token"></a>
 ### 4.6) Token de Logtail (solo rama main)
 El monitoreo de logs solo se hace en la rama ```main``` por medio de Better Stack Logtail, se necesita un token para establecer 
-la conexión entre la aplicación y el servicio. Primero se debe crear un cuenta en Better Stack, después de eso estaremos
+la conexión entre la aplicación y el servicio. Primero se debe crear una cuenta en Better Stack, después de eso estaremos
 en el dashboard de administración.
 
 En la parte superior izquierda hay un botón, da click y seleccione ```Logs & Metrics```, luego vaya a la pestaña 
@@ -451,13 +451,13 @@ Le comparto el siguiente enlace con una documentación de Postman con todos los 
 
 <a name="test"></a>
 ## 5) Test
-En está última parte se explica la parte del testing de la API, se uso **Jest** y **Supertest** para realizar
+En está última parte se explica la parte del testing de la API, se usó **Jest** y **Supertest** para realizar
 los test de la API, tanto **unitarios (unit)** como de **fin a fin (end-to-end/e2e)**. 
 
 <a name="test-testing-branch"></a>
 ### 5.1) Rama testing
 Para comenzar con los tests primero se debe mover a la rama de ```testing```, para eso abra una terminal en la raíz del 
-proyecto y ejecute el siguiente comando:
+proyecto y ejecuté el siguiente comando:
 
 ```zsh
 git switch testing
@@ -465,7 +465,7 @@ git switch testing
 
 <a name="test-seed-database"></a>
 ### 5.2) Seedear base de datos
-Asegurse de ejecutar el siguiente comando antes de correr los tests:
+Asegúrese de ejecutar el siguiente comando antes de correr los tests:
 
 ```zsh
 pnpm db:seed
@@ -473,8 +473,8 @@ pnpm db:seed
 
 <a name="test-run-tests"></a>
 ### 5.3) Correr test
-Los test se encuentran dividos en categorias: unit, e2e y coverage. Cada uno tiene su fin pero si quiere ejecutar todos los 
-test use el siguiente comando:
+Los test se encuentran divididos en categorías: unit, e2e y coverage. Cada uno tiene su fin, pero si quiere ejecutar todos los 
+tests use el siguiente comando:
 
 ```zsh
 pnpm test
@@ -482,9 +482,9 @@ pnpm test
 
 <a name="test-run-unit-tests"></a>
 #### 5.3.1) Unit Test
-El test unitario consiste en verificar el comportamiento de las unidades más pequeñas de las aplicación. Deben ejecutarse 
+El test unitario consiste en verificar el comportamiento de las unidades más pequeñas de la aplicación. Deben ejecutarse 
 de forma aislada porque tienen que ser rápidas. El propósito de las pruebas unitarias es proporcionarle una retroalimentación 
-casi instantánea sobre el diseño y la implementación del código. Para ejecutarlos use el siguiente comando:
+casi instantánea sobre el diseño y la implementación del código. Para ejecutarlos usé el siguiente comando:
 
 ```zsh
 pnpm test:unit
@@ -495,7 +495,7 @@ pnpm test:unit
 El test end to end se pueden definir como un procedimiento que se ejecuta para productos complejos. Este tipo de pruebas 
 confirman que la aplicación funciona tal como se espera analizando todos sus componentes. Por ende, se simula la experiencia 
 del usuario de principio a fin. Este método valida la integridad de la información que se comparte en el sistema. Para 
-ejecutarlos use el siguiente comando:
+ejecutarlos usé el siguiente comando:
 
 ```zsh
 pnpm test:e2e
@@ -504,19 +504,19 @@ pnpm test:e2e
 <a name="test-coverage-tests"></a>
 ### 5.4) Coverage
 El coverage de test consiste en medir el porcentaje de código que se ejecuta de forma correcta. Es una métrica que indica 
-la proporción del código que está siendo probado. Para ejecutarlo use el siguiente comando:
+la proporción del código que está siendo probado. Para ejecutarlo usé el siguiente comando:
 
 ```zsh
 pnpm test:coverage
 ```
 
-Cuando se termine de correr este comando se generará una carpeta llamada ```coverage``` dentro de ```tests``` que contiene 
+Cuando se termine de correr este comando, se generará una carpeta llamada ```coverage``` dentro de ```tests``` que contiene 
 todo el reporte generado por el coverage.
 
 <a name="test-watch-tests"></a>
 ### 5.5) Watch
 Este es un modo que ejecuta las pruebas y se queda escuchando los cambios que se hagan en el código para luego ejecutarlos
-de nuevo. Para ejecutar ese modo use el siguiente comando:
+de nuevo. Para ejecutar ese modo usé el siguiente comando:
 
 ```zsh
 pnpm test:watch
