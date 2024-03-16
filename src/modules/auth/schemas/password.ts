@@ -19,7 +19,9 @@ export const PasswordSchema = z.object({
         .min(6, AuthErrorMessages.PASSWORD_MIN_LENGTH),
 
     revokeToken: z
-        .boolean()
+        .boolean({
+            invalid_type_error: AuthErrorMessages.REVOKE_TOKEN_TYPE,
+        })
         .default(false)
 })
 .refine(data => data.password === data.confirmPassword, {
