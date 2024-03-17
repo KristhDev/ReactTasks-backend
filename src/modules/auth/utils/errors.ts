@@ -16,9 +16,10 @@ export const AuthErrorMessages = {
     PASSWORD_MIN_LENGTH: 'La contraseña debe tener al menos 6 caracteres.',
     PASSWORD_REQUIRED: 'La contraseña es requerida.',
     PASSWORD_TYPE: 'La contraseña debe ser una cadena.',
+    REVOKE_TOKEN_TYPE: 'Revocar token debe ser un valor booleano',
     UNAUTHENTICATED: 'Necesita ingresar para poder realizar está acción.',
     UNVERIFIED: 'Tu cuenta no ha sido verificada.',
-    VERIFICATION_EXPIRED: 'El enlace de verificación ha expirado, por favor solicita otro enlace de verificación.',
+    VERIFICATION_EXPIRED: 'El enlace de verificación ha expirado, por favor solicita otro enlace de verificación.'
 }
 
 export class EmailError extends Error {

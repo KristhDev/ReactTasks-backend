@@ -1,4 +1,4 @@
-import { Request } from 'express';
+import { Request, RequestHandler, Router } from 'express';
 
 /* Server */
 import { Http, JsonResponse } from '@server';
@@ -7,6 +7,14 @@ import { Http, JsonResponse } from '@server';
 import { VerificationRepository } from '@database';
 
 class RemoveVerificationsController {
+    /**
+     * An asynchronous function that handles the request and response objects, deletes expired verifications, 
+     * and sends a response accordingly.
+     *
+     * @param {Request} req - the request object
+     * @param {JsonResponse} res - the JSON response object
+     * @return {Promise<JsonResponse>} a promise that resolves to a JSON response
+     */
     public static async handler(req: Request, res: JsonResponse): Promise<JsonResponse> {
         try {
             const currentDate = new Date().toISOString();

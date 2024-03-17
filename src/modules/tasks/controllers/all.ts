@@ -19,7 +19,7 @@ class IndexTaskController {
         try {
             const { user } = req.auth!;
             const query = req.query.query || '';
-            let page = req.query.page || 1;
+            let page = Number(req.query.page || 1);
 
             let queryDB = { userId: user._id };
 

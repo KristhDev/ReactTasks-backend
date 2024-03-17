@@ -9,7 +9,7 @@ import { UserRepository } from '@database';
 /* Auth */
 import { JWT } from '@auth';
 
-class RefreshAuth {
+class RefreshAuthController {
     /**
      * Handles the request and generates a new token for the user.
      *
@@ -36,4 +36,4 @@ class RefreshAuth {
     }
 }
 
-export default RefreshAuth;
+export default RefreshAuthController;

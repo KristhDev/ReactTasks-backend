@@ -1,5 +1,9 @@
+import fs from 'fs';
+import path from 'path';
 import nodemailer, { Transporter } from 'nodemailer';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
+import { htmlToText } from 'nodemailer-html-to-text';
+import ejs from 'ejs';
 
 /* Auth */
 import { EmailError, SendEmailOptions } from '@auth';
@@ -25,6 +29,8 @@ class EmailService {
                 pass: process.env.EMAIL_PASSWORD
             }
         });
+
+        EmailService.transporter.use('compile', htmlToText());
     }
 
     /**
@@ -38,18 +44,34 @@ class EmailService {
      */
     public static async sendEmailVerification({ email, token, name }: SendEmailOptions): Promise<void> {
         try {
+            const templateString = fs.readFileSync(path.join(__dirname, '../templates/email-template.ejs'), 'utf8');
+
+            const data = {
+                helpText: 'Si no has sido tú quién ha creado esta cuenta, puedes ignorar este correo.',
+                linkText: 'Verificar correo',
+                name,
+                text: 'Te enviamos este correo para verificar tu cuenta.',
+                title: 'Verificación de correo',
+                url: `${ process.env.CLIENT_URL }/verify-email?token=${ token }`
+            }
+
+            const html = ejs.render(templateString, data);
+
             await EmailService.transporter.sendMail({
                 from: `no-reply <${ process.env.EMAIL_USER }>`,
                 to: email,
-                subject: 'Verificación de correo - ReactTasks',
+                subject: `${ data.title } - ReactTasks`,
                 text: `
                     Hola, ${ name }.
-                    Te enviamos este correo para verificar tu cuenta.
+                    ${ data.text }
 
-                    Haz click en el siguiente enlace:
+                    Has click en el siguiente enlace:
 
-                    https://localhost:3000/verify-email?token=${ token }
-                `
+                    ${ data.url }
+
+                    ${ data.helpText }
+                `,
+                html
             });
         } 
         catch (error) {
@@ -67,18 +89,34 @@ class EmailService {
      */
     public static async sendEmailResetPassword({ email, token, name }: SendEmailOptions): Promise<void> {
         try {
+            const templateString = fs.readFileSync(path.join(__dirname, '../templates/email-template.ejs'), 'utf8');
+
+            const data = {
+                helpText: 'Si no has sido tú quién solicito un restablecimiento de contraseña, puedes ignorar este correo.',
+                linkText: 'Reestablecer contraseña',
+                name,
+                text: 'Te enviamos este correo para reestablecer tu contraseña.',
+                title: 'Reestablecer contraseña',
+                url: `${ process.env.CLIENT_URL }/reset-password?token=${ token }`
+            }
+
+            const html = ejs.render(templateString, data);
+
             await EmailService.transporter.sendMail({
                 from: `no-reply <${ process.env.EMAIL_USER }>`,
                 to: email,
-                subject: 'Reestablecer contraseña - ReactTasks',
+                subject: `${ data.title } - ReactTasks`,
                 text: `
                     Hola, ${ name }.
-                    Te enviamos este correo para reestablecer tu contraseña.
+                    ${ data.text }
 
-                    Haz click en el siguiente enlace:
+                    Has click en el siguiente enlace:
 
-                    https://localhost:3000/reset-password?token=${ token }
-                `
+                    ${ data.url }
+
+                    ${ data.helpText }
+                `,
+                html
             });
         } 
         catch (error) {

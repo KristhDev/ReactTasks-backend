@@ -30,6 +30,7 @@ export const checkAuth = async (req: Request, res: JsonResponse, next: NextFunct
 
         if (!user) return Http.notFound(res, AuthErrorMessages.NOT_FOUND);
         if (!user.verified) return Http.badRequest(res, AuthErrorMessages.UNVERIFIED);
+
         req.auth = { user, token }
 
         return next();

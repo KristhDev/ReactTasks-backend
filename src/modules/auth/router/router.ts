@@ -9,7 +9,7 @@ import { checkAuth, checkAuthSecret, checkVerificationToken, userExists } from '
 /* Controllers */
 import {
     ChangePasswordController,
-    RefreshAuth,
+    RefreshAuthController,
     RemoveTokensController,
     RemoveVerificationsController,
     ResetPasswordController,
@@ -44,7 +44,7 @@ router.post(
 router.get(
     usersRoutes.REFRESH,
     checkAuth,
-    RefreshAuth.handler
+    RefreshAuthController.handler
 );
 
 router.post(
