@@ -1,4 +1,4 @@
-import { z, ZodIssueCode } from 'zod';
+import { number, z, ZodIssueCode } from 'zod';
 
 /* Tasks */
 import { Constants, TaskErrorMessages } from '@tasks';
@@ -9,14 +9,16 @@ export const taskSchema = z.object({
             required_error: TaskErrorMessages.TITLE_REQUIRED,
             invalid_type_error: TaskErrorMessages.TITLE_TYPE 
         })
-        .min(5, TaskErrorMessages.TITLE_MIN_LENGTH),
+        .min(5, TaskErrorMessages.TITLE_MIN_LENGTH)
+        .refine(data => data && isNaN(Number(data)), { message: TaskErrorMessages.TITLE_TYPE }),
 
     description: z
         .string({
             required_error: TaskErrorMessages.DESCRIPTION_REQUIRED,
             invalid_type_error: TaskErrorMessages.DESCRIPTION_TYPE
         })
-        .min(10, TaskErrorMessages.DESCRIPTION_MIN_LENGTH),
+        .min(10, TaskErrorMessages.DESCRIPTION_MIN_LENGTH)
+        .refine(data => data && isNaN(Number(data)), { message: TaskErrorMessages.DESCRIPTION_TYPE }),
 
     deadline: z
         .string({

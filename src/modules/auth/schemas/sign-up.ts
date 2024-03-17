@@ -15,14 +15,16 @@ export const SignUpSchema = z.object({
             required_error: AuthErrorMessages.NAME_REQUIRED,
             invalid_type_error: AuthErrorMessages.NAME_TYPE 
         })
-        .min(3, AuthErrorMessages.NAME_MIN_LENGTH),
+        .min(3, AuthErrorMessages.NAME_MIN_LENGTH)
+        .refine(data => data && isNaN(Number(data)), { message: AuthErrorMessages.NAME_TYPE }),
 
     lastname: z
         .string({
             required_error: AuthErrorMessages.LASTNAME_REQUIRED,
             invalid_type_error: AuthErrorMessages.LASTNAME_TYPE
         })
-        .min(5, AuthErrorMessages.LASTNAME_MIN_LENGTH),
+        .min(5, AuthErrorMessages.LASTNAME_MIN_LENGTH)
+        .refine(data => data && isNaN(Number(data)), { message: AuthErrorMessages.LASTNAME_TYPE }),
 
     email: z
         .string({
