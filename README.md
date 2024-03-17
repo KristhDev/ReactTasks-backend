@@ -445,7 +445,7 @@ Y listo, la aplicación ya estará corriendo localmente.
 ### 4.9) Endpoints
 Le comparto el siguiente enlace con una documentación de Postman con todos los endpoints de la API:
 
-[Click aquí](https://kristhdev.github.io/ReactTasks-backend/)
+[Click aquí](https://documenter.getpostman.com/view/27429207/2sA2xnx9oe)
 
 <br>
 
