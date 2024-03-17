@@ -15,11 +15,11 @@ test de la aplicación.
 </p>
 
 <p align="center">
-  <a href="https://creativecommons.org/licenses/by/4.0/">
-    <img 
-      alt="License: Attribution 4.0 International"
-      src="https://img.shields.io/badge/License-Attribution%204.0%20International-blue.svg"
-    />
+  <a href="https://creativecommons.org/licenses/by/4.0">
+    <img alt="License: Attribution 4.0 International" src="https://img.shields.io/badge/License-Attribution%204.0%20International-blue.svg" />
+  </a>
+  <a href="https://api.reacttasks.com">
+    <img alt="Api Version" src="https://img.shields.io/badge/Version-%201.0.0%20-brightgreen.svg" />
   </a>
 </p>
 
