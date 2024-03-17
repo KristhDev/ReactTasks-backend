@@ -10,6 +10,9 @@ logs/
 # Node.js
 node_modules/
 
+# Env
+.env
+
 # Tests
 __snapshots__/
 coverage/
