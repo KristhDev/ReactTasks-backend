@@ -1,4 +1,4 @@
-import { number, z, ZodIssueCode } from 'zod';
+import { z, ZodIssueCode } from 'zod';
 
 /* Tasks */
 import { Constants, TaskErrorMessages } from '@tasks';
