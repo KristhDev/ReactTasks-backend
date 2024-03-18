@@ -1,3 +1,4 @@
+/* Server */
 import { ServerErrorMessages } from '@server';
 
 describe('Test in util errors of server module', () => {

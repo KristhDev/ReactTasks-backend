@@ -1,3 +1,4 @@
+/* Auth */
 import { AuthErrorMessages, EmailError, JWTError, JWTErrorMessages, VerificationsErrorMessages } from '@auth';
 
 describe('Test in util errors of auth module', () => {

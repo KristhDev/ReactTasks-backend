@@ -1,3 +1,4 @@
+/* Auth */
 import { Encrypt } from '@auth';
 
 describe('Test in util Encrypt of auth module', () => {

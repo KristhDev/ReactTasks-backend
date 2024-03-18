@@ -1,5 +1,3 @@
-import { UploadedFile } from 'express-fileupload';
-
 /* Mocks */
 import { createRequestMock, createResponseMock, imageMock } from '@mocks';
 

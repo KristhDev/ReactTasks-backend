@@ -1,5 +1,6 @@
 import nodemailer from 'nodemailer';
 
+/* Auth */
 import { EmailError, EmailService } from '@auth';
 
 const sendEmailMock = jest.fn();

@@ -1,7 +1,11 @@
+/* Test */
+import { request } from '@test';
+
+/* Server */
+import { Http, ServerErrorMessages } from '@server';
+
 /* Database */
 import { Database } from '@database';
-import { Http, ServerErrorMessages } from '@server';
-import { request } from '@test';
 
 const database = new Database();
 
