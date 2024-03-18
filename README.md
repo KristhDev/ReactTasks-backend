@@ -19,7 +19,7 @@ test de la aplicación.
     <img alt="License: Attribution 4.0 International" src="https://img.shields.io/badge/License-Attribution%204.0%20International-blue.svg" />
   </a>
   <a href="https://api.reacttasks.com">
-    <img alt="Api Version" src="https://img.shields.io/badge/Version-%201.0.0%20-brightgreen.svg" />
+    <img alt="Api Version" src="https://github.com/KristhDev/ReactTasks-backend/releases/tag/v1.0.0" />
   </a>
 </p>
 
