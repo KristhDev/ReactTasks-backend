@@ -18,8 +18,8 @@ test de la aplicación.
   <a href="https://creativecommons.org/licenses/by/4.0">
     <img alt="License: Attribution 4.0 International" src="https://img.shields.io/badge/License-Attribution%204.0%20International-blue.svg" />
   </a>
-  <a href="https://github.com/KristhDev/ReactTasks-backend/releases/tag/v1.0.0">
-    <img alt="Api Version" src="https://img.shields.io/badge/Version-%201.0.0%20-brightgreen.svg" />
+  <a href="https://github.com/KristhDev/ReactTasks-backend/releases/tag/v1.0.1">
+    <img alt="Api Version" src="https://img.shields.io/badge/Version-%201.0.1%20-brightgreen.svg" />
   </a>
 </p>
 
