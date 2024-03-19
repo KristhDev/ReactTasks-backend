@@ -36,7 +36,6 @@ const taskSchema = new Schema({
     collection: 'tasks',
 });
 
-taskSchema.index({ title: 'text', description: 'text' });
 taskSchema.plugin(mongoosePagination);
 
 const Task = model<ITask, Pagination<ITask>>('Task', taskSchema);
