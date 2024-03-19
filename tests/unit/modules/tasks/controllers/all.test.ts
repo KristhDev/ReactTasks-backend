@@ -88,11 +88,19 @@ describe('Test in IndexTaskController of tasks module', () => {
 
         await IndexTaskController.handler(req, res);
 
+        const queryDB = {
+            userId: userMock._id,
+            $or: [ 
+                { title: { $regex: query, $options: 'i' } }, 
+                { description: { $regex: query, $options: 'i' } } 
+            ] 
+        }
+
         expect(paginateTaskSpy).toHaveBeenCalledTimes(1);
         expect(paginateTaskSpy).toHaveBeenCalledWith({
             limit: 12,
             page,
-            query: { userId: userMock._id, $text: { $search: `/${ query }/` } },
+            query: queryDB,
             sort: { createdAt: -1 }
         });
 
