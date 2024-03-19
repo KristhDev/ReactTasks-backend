@@ -68,7 +68,7 @@ describe('Test in TaskRepository of database module', () => {
     it('should delete many tasks', async () => {
         deleteManyTaskSpy.mockResolvedValue({ acknowledged: true, deletedCount: 1 });
 
-        await TaskRepository.deleteOne({ _id: taskMock._id });
+        await TaskRepository.deleteMany({ _id: taskMock._id });
 
         expect(deleteManyTaskSpy).toHaveBeenCalledTimes(1);
         expect(deleteManyTaskSpy).toHaveBeenCalledWith({ _id: taskMock._id }, undefined);
@@ -78,7 +78,7 @@ describe('Test in TaskRepository of database module', () => {
         deleteManyTaskSpy.mockImplementation(() => { throw new Error('Database error'); });
 
         try {
-            await TaskRepository.deleteOne({ _id: taskMock._id });
+            await TaskRepository.deleteMany({ _id: taskMock._id });
             expect(true).toBeFalsy();
         } 
         catch (error) {
