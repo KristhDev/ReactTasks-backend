@@ -19,7 +19,7 @@ export class TasksSeeder {
             const users = await UserRepository.find({}, { _id: true });
             if (users.length === 0) throw new SeederError('No users found to create tasks for');
 
-            const tasks = Array.from({ length: users.length * 10 }, () => ({
+            const tasks = Array.from({ length: users.length * 30 }, () => ({
                 userId: faker.helpers.arrayElement(users)._id,
                 title: faker.lorem.words({ min: 2, max: 3 }),
                 description: faker.lorem.paragraph(),
