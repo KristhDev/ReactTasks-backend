@@ -24,7 +24,15 @@ class IndexTaskController {
             let queryDB = { userId: user._id };
 
             if (isNaN(page) || page < 1) page = 1;
-            if (query.trim().length > 0) queryDB = Object.assign(queryDB, { $text: { $search: `/${ query }/` } });
+
+            if (query.trim().length > 0) {
+                queryDB = Object.assign(queryDB, { 
+                    $or: [ 
+                        { title: { $regex: query, $options: 'i' } }, 
+                        { description: { $regex: query, $options: 'i' } } 
+                    ] 
+                });
+            }
 
             const result = await TaskRepository.paginate({ limit: 12, page, query: queryDB, sort: { createdAt: -1 } });
 
