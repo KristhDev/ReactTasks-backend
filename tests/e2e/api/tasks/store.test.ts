@@ -30,7 +30,7 @@ describe('Test in Store Task Endpoint', () => {
 
     it('should create task of authenticated user', async () => {
         const user = await UserRepository.findOne({ email: 'tester@gmail.com' });
-        await TaskRepository.deleteMany({ userId: user?._id });
+        await ({ userId: user?._id });
 
         const token = JWT.generateToken({ id: user?.id! });
 

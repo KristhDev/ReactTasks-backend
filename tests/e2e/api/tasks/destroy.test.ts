@@ -94,8 +94,6 @@ describe('Test in Destroy Task Endpoint', () => {
     });
 
     it('should faild because token is revoked', async () => {
-        await TaskRepository.deleteMany({});
-
         const user = await UserRepository.findOne({ email: 'tester@gmail.com' });
         const jwt = JWT.generateToken({ id: user?.id! });
 
