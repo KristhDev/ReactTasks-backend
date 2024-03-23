@@ -52,7 +52,7 @@ class EmailService {
                 name,
                 text: 'Te enviamos este correo para verificar tu cuenta.',
                 title: 'Verificación de correo',
-                url: `${ process.env.CLIENT_URL }/verify-email?token=${ token }`
+                url: `${ process.env.CLIENT_URL }/auth/verify-email?token=${ token }`
             }
 
             const html = ejs.render(templateString, data);
@@ -97,7 +97,7 @@ class EmailService {
                 name,
                 text: 'Te enviamos este correo para reestablecer tu contraseña.',
                 title: 'Reestablecer contraseña',
-                url: `${ process.env.CLIENT_URL }/reset-password?token=${ token }`
+                url: `${ process.env.CLIENT_URL }/auth/change-password?token=${ token }`
             }
 
             const html = ejs.render(templateString, data);

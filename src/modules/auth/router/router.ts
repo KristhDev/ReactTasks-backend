@@ -9,10 +9,10 @@ import { checkAuth, checkAuthSecret, checkVerificationToken, userExists } from '
 /* Controllers */
 import {
     ChangePasswordController,
+    ForgotPasswordController,
     RefreshAuthController,
     RemoveTokensController,
     RemoveVerificationsController,
-    ResetPasswordController,
     SendEmailVerificationController,
     SignInController,
     SignOutController,
@@ -74,10 +74,10 @@ router.put(
 );
 
 router.post(
-    usersRoutes.RESET_PASSWORD,
+    usersRoutes.FORGOT_PASSWORD,
     (req, res, next) => validateRequest(req, res, next, EmailSchema),
     userExists,
-    ResetPasswordController.handler
+    ForgotPasswordController.handler
 );
 
 router.put(
