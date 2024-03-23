@@ -15,7 +15,7 @@ const sendEmailResetPasswordSpy = jest.spyOn(EmailService, 'sendEmailResetPasswo
 
 const database = new Database();
 
-describe('Test in Reset Password Endpoint', () => {
+describe('Test in Forgot Password Endpoint', () => {
     beforeAll(async () => {
         await database.connect();
     });
@@ -33,7 +33,7 @@ describe('Test in Reset Password Endpoint', () => {
         await VerificationRepository.deleteOne({ userId: user?._id });
 
         const resp = await request
-            .post('/api/auth/reset-password')
+            .post('/api/auth/forgot-password')
             .send({ email: 'tester@gmail.com' });
 
         expect(resp.status).toBe(Http.OK);
@@ -55,7 +55,7 @@ describe('Test in Reset Password Endpoint', () => {
 
     it('should faild user not found', async () => {
         const resp = await request
-            .post('/api/auth/reset-password')
+            .post('/api/auth/forgot-password')
             .send({ email: 'tester-not-found@gmail.com' });
 
         expect(resp.status).toBe(Http.NOT_FOUND);
@@ -80,7 +80,7 @@ describe('Test in Reset Password Endpoint', () => {
         });
 
         const resp = await request
-            .post('/api/auth/reset-password')
+            .post('/api/auth/forgot-password')
             .send({ email: newUser.email });
 
         expect(resp.status).toBe(Http.BAD_REQUEST);
@@ -97,7 +97,7 @@ describe('Test in Reset Password Endpoint', () => {
 
     it('should faild because email is invalid', async () => {
         const resp = await request
-            .post('/api/auth/reset-password')
+            .post('/api/auth/forgot-password')
             .send({ email: 'invalid-email' });
 
         expect(resp.status).toBe(Http.BAD_REQUEST);

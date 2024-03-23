@@ -8,12 +8,12 @@ import { Http, ServerErrorMessages } from '@server';
 import { VerificationRepository } from '@database';
 
 /* Auth */
-import { AuthErrorMessages, EmailService, ResetPasswordController } from '@auth';
+import { AuthErrorMessages, EmailService, ForgotPasswordController } from '@auth';
 
 const createVerificationSpy = jest.spyOn(VerificationRepository, 'create');
 const sendEmailResetPasswordSpy = jest.spyOn(EmailService, 'sendEmailResetPassword')
 
-describe('Test in ResetPasswordController of auth module', () => {
+describe('Test in ForgotPasswordController of auth module', () => {
     const { mockClear, res } = createResponseMock();
 
     beforeEach(() => {
@@ -22,7 +22,7 @@ describe('Test in ResetPasswordController of auth module', () => {
     });
 
     it('should has handler method', () => {
-        expect(ResetPasswordController).toHaveProperty('handler');
+        expect(ForgotPasswordController).toHaveProperty('handler');
     });
 
     it('should return a success response', async () => {
@@ -31,7 +31,7 @@ describe('Test in ResetPasswordController of auth module', () => {
 
         const req = createRequestMock({ user: userVerifiedMock });
 
-        await ResetPasswordController.handler(req, res);
+        await ForgotPasswordController.handler(req, res);
 
         expect(createVerificationSpy).toHaveBeenCalledTimes(1);
         expect(createVerificationSpy).toHaveBeenCalledWith({
@@ -61,7 +61,7 @@ describe('Test in ResetPasswordController of auth module', () => {
     it('should return an error response if user is not verified', async () => {
         const req = createRequestMock({ user: userMock });
 
-        await ResetPasswordController.handler(req, res);
+        await ForgotPasswordController.handler(req, res);
 
         expect(createVerificationSpy).not.toHaveBeenCalled();
         expect(sendEmailResetPasswordSpy).not.toHaveBeenCalled();
@@ -81,7 +81,7 @@ describe('Test in ResetPasswordController of auth module', () => {
 
         const req = createRequestMock({ user: userVerifiedMock });
 
-        await ResetPasswordController.handler(req, res);
+        await ForgotPasswordController.handler(req, res);
 
         expect(createVerificationSpy).toHaveBeenCalledTimes(1);
         expect(createVerificationSpy).toHaveBeenCalledWith({
