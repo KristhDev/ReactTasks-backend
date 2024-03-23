@@ -9,7 +9,7 @@ import { VerificationRepository } from '@database';
 /* Auth */
 import { AuthErrorMessages, EmailService, JWT } from '@auth';
 
-class ResetPasswordController {
+class ForgotPasswordController {
     /**
      * Handles the request and generates a response.
      *
@@ -45,4 +45,4 @@ class ResetPasswordController {
     }
 }
 
-export default ResetPasswordController;
+export default ForgotPasswordController;
