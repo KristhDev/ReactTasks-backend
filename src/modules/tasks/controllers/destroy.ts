@@ -23,12 +23,12 @@ class DestroyTaskController {
             const task = req.task!;
 
             if (!!task?.image) await ImageService.destroy(task.image);
-            await TaskRepository.deleteOne({ _id: task._id });
+            await TaskRepository.deleteOne({ id: task.id });
 
             return Http.sendResp(res, {
                 msg: 'Has eliminado la tarea correctamente.',
                 status: Http.OK,
-                taskId: task._id
+                taskId: task.id
             });
         } 
         catch (error) {

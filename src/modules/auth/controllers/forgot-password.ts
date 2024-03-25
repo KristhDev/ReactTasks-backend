@@ -22,11 +22,11 @@ class ForgotPasswordController {
             const user = req.user!;
             if (!user.verified) return Http.badRequest(res, AuthErrorMessages.UNVERIFIED);
 
-            const token = JWT.generateToken({ id: user._id }, '30m');
+            const token = JWT.generateToken({ id: user.id }, '30m');
             const data = JWT.decodeToken(token);
             const expiresIn = new Date(data?.exp! * 1000).toISOString();
 
-            await VerificationRepository.create({ userId: user?._id, token, type: 'password', expiresIn });
+            await VerificationRepository.create({ userId: user.id, token, type: 'password', expiresIn });
 
             await EmailService.sendEmailResetPassword({
                 email: user.email,

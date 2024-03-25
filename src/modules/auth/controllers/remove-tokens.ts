@@ -17,7 +17,7 @@ class RemoveTokensController {
     public static async handler(req: Request, res: JsonResponse): Promise<JsonResponse> {
         try {
             const currentDate = new Date().toISOString();
-            await TokenRepository.deleteMany({ expiresIn: { $lte: currentDate } });
+            await TokenRepository.deleteLastExpired(currentDate);
 
             return Http.sendResp(res, {
                 msg: 'Se eliminaron todos los tokens expirados correctamente.',

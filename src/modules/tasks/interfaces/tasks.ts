@@ -12,3 +12,15 @@ export interface TaskEndpoint {
     createdAt: string;
     updatedAt: string;
 }
+
+export interface Task {
+    id: string;
+    userId: string;
+    title: string;
+    description: string;
+    image?: string;
+    deadline: string;
+    status: TaskStatus;
+    createdAt: string;
+    updatedAt: string;
+}

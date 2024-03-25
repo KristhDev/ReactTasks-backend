@@ -21,7 +21,7 @@ class IndexTaskController {
             const query = req.query.query || '';
             let page = Number(req.query.page || 1);
 
-            let queryDB = { userId: user._id };
+            let queryDB = { userId: user.id };
 
             if (isNaN(page) || page < 1) page = 1;
 
@@ -38,14 +38,10 @@ class IndexTaskController {
 
             return Http.sendResp(res, {
                 status: Http.OK,
-                tasks: result?.docs?.map((task) => TaskRepository.endpointAdapter(task as any)) || [],
+                tasks: result.tasks.map((task) => TaskRepository.toEndpoint(task)),
                 pagination: {
-                    currentPage: result?.page || 0,
-                    hasNextPage: result?.hasNextPage || false,
-                    hasPrevPage: result?.hasPrevPage || false,
-                    nextPage: result?.nextPage || 0,
-                    query,
-                    totalPages: result?.totalPages || 0
+                    ...result.pagination,
+                    query
                 }
             });
         } 

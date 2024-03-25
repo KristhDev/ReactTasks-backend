@@ -19,7 +19,7 @@ class ShowTaskController {
             const task = req.task!;
 
             return Http.sendResp(res, {
-                task: TaskRepository.endpointAdapter(task),
+                task: TaskRepository.toEndpoint(task),
                 status: Http.OK
             });
         } 

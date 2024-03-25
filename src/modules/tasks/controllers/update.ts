@@ -31,12 +31,12 @@ class UpdateTaskController {
             if (image && !!imageUrl) await ImageService.destroy(imageUrl);
             if (image) imageUrl = await ImageService.upload(image, process.env.CLOUDINARY_TASKS_FOLDER);
 
-            const updatedTask = await TaskRepository.findByIdAndUpdate(task._id, { ...body, image: imageUrl }, { new: true });
+            const updatedTask = await TaskRepository.findByIdAndUpdate(task.id, { ...body, image: imageUrl });
 
             return Http.sendResp(res, {
                 msg: 'Has actualizado la tarea correctamente.',
                 status: Http.OK,
-                task: TaskRepository.endpointAdapter(updatedTask!)
+                task: TaskRepository.toEndpoint(updatedTask!)
             });
         } 
         catch (error) {

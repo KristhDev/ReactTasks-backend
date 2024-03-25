@@ -31,7 +31,7 @@ class VerifyEmailController {
             if (user?.verified) return Http.badRequest(res, 'Tu cuenta ya ha sido verificada.');
 
             await UserRepository.findByIdAndUpdate(verification.userId, { verified: true });
-            await VerificationRepository.deleteOne({ _id: verification._id });
+            await VerificationRepository.deleteOne({ id: verification.id });
 
             return Http.sendResp(res, {
                 msg: 'Has verificado tu cuenta correctamente, ya puedes iniciar sesión.',
