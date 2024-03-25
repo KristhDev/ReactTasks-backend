@@ -16,3 +16,13 @@ export interface UserType {
     createdAt: string;
     updatedAt: string;
 }
+
+export interface VerificationType {
+    id: string;
+    userId: string;
+    token: string;
+    type: 'email' | 'password';
+    expiresIn: string;
+    createdAt: string;
+    updatedAt: string;
+}
