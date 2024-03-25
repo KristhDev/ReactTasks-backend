@@ -1,21 +1,22 @@
-import { AnyKeys, FilterQuery, MergeType, MongooseQueryOptions, ObjectId, ProjectionType, QueryOptions, UpdateQuery } from 'mongoose';
+import { FilterQuery, MongooseQueryOptions, ProjectionType, QueryOptions } from 'mongoose';
 
 /* Database */
-import { DatabaseError, User, UserModel } from '@database';
+import { CreateUserData, DatabaseError, UpdateUserData, User, UserFilter, UserModel } from '@database';
 
 /* Auth */
-import { UserEndpoint } from '@auth';
+import { UserType, UserEndpoint } from '@auth';
 
 class UserRepository {
     /**
      * Creates a new user in the database.
      *
-     * @param {AnyKeys<UserModel>} data - The data for creating the user.
-     * @return {Promise<UserModel>} The created user.
+     * @param {CreateUserData} data - The data for creating the user.
+     * @return {Promise<UserType>} The created user.
      */
-    public static async create(data: AnyKeys<UserModel>): Promise<UserModel> {
+    public static async create(data: CreateUserData): Promise<UserType> {
         try {
-            return await User.create(data);
+            const user = await User.create(data);
+            return UserRepository.toUser(user);
         } 
         catch (error) {
             throw new DatabaseError((error as any).message);
@@ -23,15 +24,14 @@ class UserRepository {
     }
 
     /**
-     * A function that deletes multiple user records based on the provided filter and options.
+     * A function that deletes multiple user records based on the provided filter.
      *
-     * @param {FilterQuery<UserModel>} filter - the filter to apply when deleting user records
-     * @param {Omit<MongooseQueryOptions<UserModel>, 'lean' | 'timestamps'>} [options] - optional query options for the delete operation
+     * @param {UserFilter} filter - the filter to apply when deleting user records
      * @return {Promise<void>} a promise that resolves when the delete operation is complete
      */
-    public static async deleteMany(filter: FilterQuery<UserModel>, options?: Omit<MongooseQueryOptions<UserModel>, 'lean' | 'timestamps'>): Promise<void> {
+    public static async deleteMany(filter: UserFilter): Promise<void> {
         try {
-            await User.deleteMany(filter, options);
+            await User.deleteMany(filter);
         } 
         catch (error) {
             throw new DatabaseError((error as any).message);
@@ -39,15 +39,14 @@ class UserRepository {
     }
 
     /**
-     * Delete one document that matches the filter.
+     * Delete one record that matches the filter.
      *
-     * @param {FilterQuery<UserModel>} filter - The filter to apply for deletion
-     * @param {Omit<MongooseQueryOptions<UserModel>, 'lean' | 'timestamps'>} [options] - The options to apply when deleting
+     * @param {UserFilter} filter - The filter to apply for deletion
      * @return {Promise<void>} A promise that resolves when the deletion is complete
      */
-    public static async deleteOne(filter: FilterQuery<UserModel>, options?: Omit<MongooseQueryOptions<UserModel>, 'lean' | 'timestamps'>): Promise<void> {
+    public static async deleteOne(filter: UserFilter): Promise<void> {
         try {
-            await User.deleteOne(filter, options);
+            await User.deleteOne(filter);
         } 
         catch (error) {
             throw new DatabaseError((error as any).message);
@@ -55,17 +54,30 @@ class UserRepository {
     }
 
     /**
-     * Converts a UserModel to a UserEndpoint object.
+     * Converts a UserType to a UserEndpoint object.
      *
-     * @param {UserModel} user - The UserModel object to be converted.
+     * @param {UserType} user - The UserModel object to be converted.
      * @return {UserEndpoint} - The converted UserEndpoint object.
      */
-    public static endpointAdapter(user: UserModel): UserEndpoint {
+    public static toEndpoint(user: UserType): UserEndpoint {
+        return {
+            id: user.id,
+            name: user.name,
+            lastname: user.lastname,
+            email: user.email,
+            createdAt: new Date(user.createdAt!).toISOString(),
+            updatedAt: new Date(user.updatedAt!).toISOString()
+        }
+    }
+
+    private static toUser(user: UserModel): UserType {
         return {
             id: user._id.toString(),
             name: user.name,
             lastname: user.lastname,
             email: user.email,
+            verified: user.verified,
+            password: user?.password,
             createdAt: new Date(user.createdAt!).toISOString(),
             updatedAt: new Date(user.updatedAt!).toISOString()
         }
@@ -96,17 +108,14 @@ class UserRepository {
      * Find a user by their ID.
      *
      * @param {string} id - The ID of the user.
-     * @param {ProjectionType<UserModel> | null} projection - The fields to include or exclude in the result.
-     * @param {QueryOptions<UserModel> | null} options - The options to apply when querying the database.
-     * @returns {Promise<UserModel | null>} A promise that resolves to the user object or null if not found.
+     * @returns {Promise<UserType | null>} A promise that resolves to the user object or null if not found.
      */
-    public static async findById(
-        id: string,
-        projection?: ProjectionType<UserModel>,
-        options?: QueryOptions<UserModel>
-    ): Promise<UserModel | null> {
+    public static async findById(id: string): Promise<UserType | null> {
         try {
-            return await User.findById(id, projection, options);
+            const user = await User.findById(id);
+            if (!user) return null;
+
+            return UserRepository.toUser(user);
         } 
         catch (error) {
             throw new DatabaseError((error as any).message);
@@ -116,18 +125,19 @@ class UserRepository {
     /**
      * Finds a user by ID and updates their information.
      *
-     * @param {ObjectId | any} id - The ID of the user to update.
-     * @param {UpdateQuery<UserModel>} update - The update object with the new information.
-     * @param {QueryOptions<UserModel> | null} options - The options for the query, if any.
-     * @return {Promise<UserModel | null>} A promise that resolves to the updated user object, or null if no user was found.
+     * @param {string} id - The ID of the user to update.
+     * @param {UpdateUserData} data - The update object with the new information.
+     * @return {Promise<UserType | null>} A promise that resolves to the updated user object, or null if no user was found.
      */
     public static async findByIdAndUpdate(
-        id?: ObjectId | any,
-        update?: UpdateQuery<UserModel>,
-        options?: QueryOptions<UserModel> | null
-    ): Promise<UserModel | null> {
+        id: string,
+        data?: UpdateUserData
+    ): Promise<UserType | null> {
         try {
-            return await User.findByIdAndUpdate(id, update, options);
+            const user = await User.findByIdAndUpdate(id, data, { new: true });
+            if (!user) return null;
+
+            return UserRepository.toUser(user);
         } 
         catch (error) {
             throw new DatabaseError((error as any).message);
@@ -137,18 +147,17 @@ class UserRepository {
     /**
      * Finds a single user that matches the given filter.
      *
-     * @param {FilterQuery<UserModel>} filter - The filter to apply when searching for the user.
-     * @param {ProjectionType<UserModel> | null} projection - The fields to include or exclude in the result.
-     * @param {QueryOptions<UserModel> | null} options - The options to apply when querying the database.
-     * @return {Promise<UserModel | null>} A promise that resolves with the found user or null if no user is found.
+     * @param {UserFilter} filter - The filter to apply when searching for the user.
+     * @return {Promise<UserType | null>} A promise that resolves with the found user or null if no user is found.
      */
     public static async findOne(
-        filter: FilterQuery<UserModel>,
-        projection?: ProjectionType<UserModel>,
-        options?: QueryOptions<UserModel>
-    ): Promise<UserModel | null> {
+        filter: UserFilter
+    ): Promise<UserType | null> {
         try {
-            return await User.findOne(filter, projection, options);
+            const user = await User.findOne({ ...filter });
+            if (!user) return null;
+
+            return UserRepository.toUser(user);
         } 
         catch (error) {
             throw new DatabaseError((error as any).message);
@@ -158,12 +167,13 @@ class UserRepository {
     /**
      * Asynchronously inserts multiple data into the database.
      *
-     * @param {AnyKeys<UserModel>[]} data - The data to be inserted into the database.
+     * @param {CreateUserData[]} data - The data to be inserted into the database.
      * @return {Promise<MergeType<UserModel, Omit<AnyKeys<UserModel>, '_id'>>[]} The inserted data.
      */
-    public static async insertMany(data: AnyKeys<UserModel>[]): Promise<MergeType<UserModel, Omit<AnyKeys<UserModel>, '_id'>>[]> {
+    public static async insertMany(data: CreateUserData[]): Promise<UserType[]> {
         try {
-            return await User.insertMany(data);
+            const users = await User.insertMany(data);
+            return users.map((user) => UserRepository.toUser(user as any));
         } 
         catch (error) {
             throw new DatabaseError((error as any).message);
