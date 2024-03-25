@@ -18,7 +18,7 @@ class RemoveVerificationsController {
     public static async handler(req: Request, res: JsonResponse): Promise<JsonResponse> {
         try {
             const currentDate = new Date().toISOString();
-            await VerificationRepository.deleteMany({ expiresIn: { $lte: currentDate } });
+            await VerificationRepository.deleteLastExpired(currentDate);
 
             return Http.sendResp(res, {
                 msg: 'Se eliminaron todas las verificaciones expiradas correctamente.',
