@@ -1,19 +1,19 @@
 /* Database */
-import { Verification, VerificationModel, DatabaseError, CreateVerificationData, VerificationFilter } from '@database';
+import { VerificationSchema, VerificationModel, DatabaseError, CreateVerificationData, VerificationFilter } from '@database';
 
 /* Auth */
-import { VerificationType } from '@auth';
+import { Verification } from '@auth';
 
 class VerificationRepository {
     /**
      * Creates a new Verification in the database.
      *
      * @param {CreateVerificationData} data - The data to create the VerificationModel object.
-     * @return {Promise<VerificationType>} A promise that resolves with the created VerificationModel object.
+     * @return {Promise<Verification>} A promise that resolves with the created VerificationModel object.
      */
-    public static async create(data: CreateVerificationData): Promise<VerificationType> {
+    public static async create(data: CreateVerificationData): Promise<Verification> {
         try {
-            const verification = await Verification.create({ ...data });
+            const verification = await VerificationSchema.create({ ...data });
             return VerificationRepository.toVerification(verification);
         } 
         catch (error) {
@@ -29,7 +29,7 @@ class VerificationRepository {
      */
     public static async deleteLastExpired(date: Date | string | number): Promise<void> {
         try {
-            await Verification.deleteMany({ expiresIn: { $lte: date } });
+            await VerificationSchema.deleteMany({ expiresIn: { $lte: date } });
         } 
         catch (error) {
             throw new DatabaseError((error as any).message);
@@ -44,7 +44,7 @@ class VerificationRepository {
      */
     public static async deleteMany(filter: VerificationFilter): Promise<void> {
         try {
-            await Verification.deleteMany({ ...filter });
+            await VerificationSchema.deleteMany({ ...filter });
         } 
         catch (error) {
             throw new DatabaseError((error as any).message);
@@ -58,7 +58,7 @@ class VerificationRepository {
      */
     public static async deleteOne(filter: VerificationFilter): Promise<void> {
         try {
-            await Verification.deleteOne({ ...filter });
+            await VerificationSchema.deleteOne({ ...filter });
         } 
         catch (error) {
             throw new DatabaseError((error as any).message);
@@ -69,11 +69,11 @@ class VerificationRepository {
      * Finds a single record in the verifications that matches the given filter.
      *
      * @param {VerificationFilter} filter - The filter to apply when searching for the document.
-     * @return {Promise<VerificationType | null>} - A promise that resolves with the matching document, or null if no document is found.
+     * @return {Promise<Verification | null>} - A promise that resolves with the matching document, or null if no document is found.
      */
-    public static async findOne(filter: VerificationFilter): Promise<VerificationType | null> {
+    public static async findOne(filter: VerificationFilter): Promise<Verification | null> {
         try {
-            const verification = await Verification.findOne(filter);
+            const verification = await VerificationSchema.findOne(filter);
             if (!verification) return null;
 
             return VerificationRepository.toVerification(verification);
@@ -83,7 +83,7 @@ class VerificationRepository {
         }
     }
 
-    private static toVerification(verification: VerificationModel): VerificationType {
+    private static toVerification(verification: VerificationModel): Verification {
         return {
             id: verification._id.toString(),
             userId: verification.userId,

@@ -1,4 +1,4 @@
-export { default as Verification } from './verification';
-export { default as Task } from './task';
-export { default as Token } from './token';
-export { default as User } from './user';
+export { default as VerificationSchema } from './verification';
+export { default as TaskSchema } from './task';
+export { default as TokenSchema } from './token';
+export { default as UserSchema } from './user';

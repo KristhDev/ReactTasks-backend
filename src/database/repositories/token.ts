@@ -1,7 +1,7 @@
 import { AnyKeys, FilterQuery, MongooseQueryOptions, ProjectionType, QueryOptions } from 'mongoose';
 
 /* Database */
-import { DatabaseError, Token, TokenModel } from '@database';
+import { DatabaseError, TokenSchema, TokenModel } from '@database';
 
 class TokenRepository {
     /**
@@ -12,7 +12,7 @@ class TokenRepository {
      */
     public static async create(data: AnyKeys<TokenModel>): Promise<TokenModel> {
         try {
-            return await Token.create(data);
+            return await TokenSchema.create(data);
         } 
         catch (error) {
             throw new DatabaseError((error as any).message);
@@ -28,7 +28,7 @@ class TokenRepository {
      */
     public static async deleteMany(filter: FilterQuery<TokenModel>, options?: Omit<MongooseQueryOptions<TokenModel>, 'lean' | 'timestamps'>): Promise<void> {
         try {
-            await Token.deleteMany(filter, options);
+            await TokenSchema.deleteMany(filter, options);
         }
         catch (error) {
             throw new DatabaseError((error as any).message);
@@ -44,7 +44,7 @@ class TokenRepository {
      */
     public static async deleteOne(filter: FilterQuery<TokenModel>, options?: Omit<MongooseQueryOptions<TokenModel>, 'lean' | 'timestamps'>): Promise<void> {
         try {
-            await Token.deleteOne(filter, options);
+            await TokenSchema.deleteOne(filter, options);
         } 
         catch (error) {
             throw new DatabaseError((error as any).message);
@@ -63,7 +63,7 @@ class TokenRepository {
         options?: QueryOptions<TokenModel>
     ): Promise<TokenModel | null> {
         try {
-            return await Token.findOne(filter, projection, options);
+            return await TokenSchema.findOne(filter, projection, options);
         } 
         catch (error) {
             throw new DatabaseError((error as any).message);

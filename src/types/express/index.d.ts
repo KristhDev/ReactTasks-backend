@@ -1,14 +1,14 @@
-import { UserType } from '@auth';
+import { User } from '@auth';
 import { TaskModel } from '@database';
 
 declare module 'express' {
     interface Request {
         auth?: {
-            user: UserType;
+            user: User;
             token: string;
         },
         task?: TaskModel;
         tokenExpiration?: string;
-        user?: UserType;
+        user?: User;
     }
 }

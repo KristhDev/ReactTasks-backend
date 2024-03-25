@@ -6,7 +6,7 @@ export interface UserEndpoint {
     createdAt: string;
     updatedAt: string;
 }
-export interface UserType {
+export interface User {
     id: string;
     name: string;
     lastname: string;
@@ -17,7 +17,7 @@ export interface UserType {
     updatedAt: string;
 }
 
-export interface VerificationType {
+export interface Verification {
     id: string;
     userId: string;
     token: string;

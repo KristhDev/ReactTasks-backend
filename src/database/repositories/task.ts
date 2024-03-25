@@ -2,7 +2,7 @@ import { AnyKeys, FilterQuery, MergeType, MongooseQueryOptions, ObjectId, Projec
 import { PaginationModel, PaginationOptions } from 'mongoose-paginate-ts';
 
 /* Database */
-import { DatabaseError, Task, ITask, TaskModel } from '@database';
+import { DatabaseError, TaskSchema, ITask, TaskModel } from '@database';
 
 /* Tasks */
 import { TaskEndpoint } from '@tasks';
@@ -16,7 +16,7 @@ class TaskRepository {
      */
     public static async create(data: AnyKeys<TaskModel>): Promise<TaskModel> {
         try {
-            return await Task.create(data);
+            return await TaskSchema.create(data);
         } 
         catch (error) {
             throw new DatabaseError((error as any).message);
@@ -32,7 +32,7 @@ class TaskRepository {
      */
     public static async deleteMany(filter?: FilterQuery<TaskModel>, options?: Omit<MongooseQueryOptions<TaskModel>, 'lean' | 'timestamps'>): Promise<void> {
         try {
-            await Task.deleteMany(filter, options);
+            await TaskSchema.deleteMany(filter, options);
         } 
         catch (error) {
             throw new DatabaseError((error as any).message);
@@ -48,7 +48,7 @@ class TaskRepository {
      */
     public static async deleteOne(filter?: FilterQuery<TaskModel>, options?: Omit<MongooseQueryOptions<TaskModel>, 'lean' | 'timestamps'>): Promise<void> {
         try {
-            await Task.deleteOne(filter, options);
+            await TaskSchema.deleteOne(filter, options);
         } 
         catch (error) {
             throw new DatabaseError((error as any).message);
@@ -89,7 +89,7 @@ class TaskRepository {
         options?: QueryOptions<TaskModel>
     ): Promise<TaskModel | null> {
         try {
-            return await Task.findOne(filter, projection, options);
+            return await TaskSchema.findOne(filter, projection, options);
         } 
         catch (error) {
             throw new DatabaseError((error as any).message);
@@ -110,7 +110,7 @@ class TaskRepository {
         options?: QueryOptions<TaskModel> | null
     ): Promise<TaskModel | null> {
         try {
-            return await Task.findByIdAndUpdate(id, update, options);
+            return await TaskSchema.findByIdAndUpdate(id, update, options);
         } 
         catch (error) {
             throw new DatabaseError((error as any).message);
@@ -125,7 +125,7 @@ class TaskRepository {
      */
     public static async insertMany(data: AnyKeys<TaskModel>[]): Promise<MergeType<TaskModel, Omit<AnyKeys<TaskModel>, '_id'>>[]> {
         try {
-            return await Task.insertMany(data);
+            return await TaskSchema.insertMany(data);
         }
         catch (error) {
             throw new DatabaseError((error as any).message);
@@ -140,7 +140,7 @@ class TaskRepository {
      */
     public static async paginate(options: PaginationOptions): Promise<PaginationModel<ITask> | undefined> {
         try {
-            return await Task.paginate(options);
+            return await TaskSchema.paginate(options);
         } 
         catch (error) {
             throw new DatabaseError((error as any).message);

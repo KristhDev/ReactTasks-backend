@@ -1,21 +1,21 @@
 import { FilterQuery, MongooseQueryOptions, ProjectionType, QueryOptions } from 'mongoose';
 
 /* Database */
-import { CreateUserData, DatabaseError, UpdateUserData, User, UserFilter, UserModel } from '@database';
+import { CreateUserData, DatabaseError, UpdateUserData, UserSchema, UserFilter, UserModel } from '@database';
 
 /* Auth */
-import { UserType, UserEndpoint } from '@auth';
+import { User, UserEndpoint } from '@auth';
 
 class UserRepository {
     /**
      * Creates a new user in the database.
      *
      * @param {CreateUserData} data - The data for creating the user.
-     * @return {Promise<UserType>} The created user.
+     * @return {Promise<User>} The created user.
      */
-    public static async create(data: CreateUserData): Promise<UserType> {
+    public static async create(data: CreateUserData): Promise<User> {
         try {
-            const user = await User.create(data);
+            const user = await UserSchema.create(data);
             return UserRepository.toUser(user);
         } 
         catch (error) {
@@ -31,7 +31,7 @@ class UserRepository {
      */
     public static async deleteMany(filter: UserFilter): Promise<void> {
         try {
-            await User.deleteMany(filter);
+            await UserSchema.deleteMany(filter);
         } 
         catch (error) {
             throw new DatabaseError((error as any).message);
@@ -46,7 +46,7 @@ class UserRepository {
      */
     public static async deleteOne(filter: UserFilter): Promise<void> {
         try {
-            await User.deleteOne(filter);
+            await UserSchema.deleteOne(filter);
         } 
         catch (error) {
             throw new DatabaseError((error as any).message);
@@ -56,10 +56,10 @@ class UserRepository {
     /**
      * Converts a UserType to a UserEndpoint object.
      *
-     * @param {UserType} user - The UserModel object to be converted.
+     * @param {User} user - The UserModel object to be converted.
      * @return {UserEndpoint} - The converted UserEndpoint object.
      */
-    public static toEndpoint(user: UserType): UserEndpoint {
+    public static toEndpoint(user: User): UserEndpoint {
         return {
             id: user.id,
             name: user.name,
@@ -70,7 +70,13 @@ class UserRepository {
         }
     }
 
-    private static toUser(user: UserModel): UserType {
+    /**
+     * Converts a UserModel object to a User object.
+     *
+     * @param {UserModel} user - The UserModel object to convert.
+     * @return {User} The converted User object.
+     */
+    private static toUser(user: UserModel): User {
         return {
             id: user._id.toString(),
             name: user.name,
@@ -97,7 +103,7 @@ class UserRepository {
         options?: QueryOptions<UserModel>
     ): Promise<UserModel[]> {
         try {
-            return await User.find(filter, projection, options);
+            return await UserSchema.find(filter, projection, options);
         }
         catch (error) {
             throw new DatabaseError((error as any).message);
@@ -108,11 +114,11 @@ class UserRepository {
      * Find a user by their ID.
      *
      * @param {string} id - The ID of the user.
-     * @returns {Promise<UserType | null>} A promise that resolves to the user object or null if not found.
+     * @returns {Promise<User | null>} A promise that resolves to the user object or null if not found.
      */
-    public static async findById(id: string): Promise<UserType | null> {
+    public static async findById(id: string): Promise<User | null> {
         try {
-            const user = await User.findById(id);
+            const user = await UserSchema.findById(id);
             if (!user) return null;
 
             return UserRepository.toUser(user);
@@ -127,14 +133,14 @@ class UserRepository {
      *
      * @param {string} id - The ID of the user to update.
      * @param {UpdateUserData} data - The update object with the new information.
-     * @return {Promise<UserType | null>} A promise that resolves to the updated user object, or null if no user was found.
+     * @return {Promise<User | null>} A promise that resolves to the updated user object, or null if no user was found.
      */
     public static async findByIdAndUpdate(
         id: string,
         data?: UpdateUserData
-    ): Promise<UserType | null> {
+    ): Promise<User | null> {
         try {
-            const user = await User.findByIdAndUpdate(id, data, { new: true });
+            const user = await UserSchema.findByIdAndUpdate(id, data, { new: true });
             if (!user) return null;
 
             return UserRepository.toUser(user);
@@ -148,13 +154,13 @@ class UserRepository {
      * Finds a single user that matches the given filter.
      *
      * @param {UserFilter} filter - The filter to apply when searching for the user.
-     * @return {Promise<UserType | null>} A promise that resolves with the found user or null if no user is found.
+     * @return {Promise<User | null>} A promise that resolves with the found user or null if no user is found.
      */
     public static async findOne(
         filter: UserFilter
-    ): Promise<UserType | null> {
+    ): Promise<User | null> {
         try {
-            const user = await User.findOne({ ...filter });
+            const user = await UserSchema.findOne({ ...filter });
             if (!user) return null;
 
             return UserRepository.toUser(user);
@@ -170,9 +176,9 @@ class UserRepository {
      * @param {CreateUserData[]} data - The data to be inserted into the database.
      * @return {Promise<MergeType<UserModel, Omit<AnyKeys<UserModel>, '_id'>>[]} The inserted data.
      */
-    public static async insertMany(data: CreateUserData[]): Promise<UserType[]> {
+    public static async insertMany(data: CreateUserData[]): Promise<User[]> {
         try {
-            const users = await User.insertMany(data);
+            const users = await UserSchema.insertMany(data);
             return users.map((user) => UserRepository.toUser(user as any));
         } 
         catch (error) {
