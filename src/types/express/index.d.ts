@@ -1,5 +1,5 @@
 import { User } from '@auth';
-import { TaskModel } from '@database';
+import { Task } from '@tasks';
 
 declare module 'express' {
     interface Request {
@@ -7,7 +7,7 @@ declare module 'express' {
             user: User;
             token: string;
         },
-        task?: TaskModel;
+        task?: Task;
         tokenExpiration?: string;
         user?: User;
     }
