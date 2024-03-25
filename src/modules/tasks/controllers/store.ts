@@ -34,7 +34,7 @@ class StoreTaskController {
             return Http.sendResp(res, {
                 msg: 'Has agregado la tarea correctamente.',
                 status: Http.CREATED,
-                task: TaskRepository.endpointAdapter(task)
+                task: TaskRepository.toEndpoint(task)
             });
         }
         catch (error) {
