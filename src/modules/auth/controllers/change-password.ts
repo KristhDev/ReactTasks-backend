@@ -24,7 +24,7 @@ class ChangePasswordController {
             if (match) return Http.badRequest(res, AuthErrorMessages.NEW_PASSWORD);
 
             const hash = Encrypt.createHash(password);
-            await UserRepository.findByIdAndUpdate(user._id, { password: hash });
+            await UserRepository.findByIdAndUpdate(user.id, { password: hash });
 
             if (revokeToken) await JWT.revokeToken(token);
 

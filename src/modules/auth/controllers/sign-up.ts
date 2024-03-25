@@ -30,7 +30,7 @@ class SignUpController {
             const data = JWT.decodeToken(token);
             const expiresIn = new Date(data?.exp! * 1000).toISOString();
 
-            await VerificationRepository.create({ userId: user?._id, token, type: 'email', expiresIn });
+            await VerificationRepository.create({ userId: user.id, token, type: 'email', expiresIn });
 
             await EmailService.sendEmailVerification({
                 email: body.email,

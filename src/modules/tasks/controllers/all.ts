@@ -21,7 +21,7 @@ class IndexTaskController {
             const query = req.query.query || '';
             let page = Number(req.query.page || 1);
 
-            let queryDB = { userId: user._id };
+            let queryDB = { userId: user.id };
 
             if (isNaN(page) || page < 1) page = 1;
 

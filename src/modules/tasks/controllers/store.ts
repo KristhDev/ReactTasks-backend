@@ -29,7 +29,7 @@ class StoreTaskController {
             let imageUrl = '';
             if (image) imageUrl = await ImageService.upload(image, process.env.CLOUDINARY_TASKS_FOLDER);
 
-            const task = await TaskRepository.create({ ...body, image: imageUrl, userId: user._id });
+            const task = await TaskRepository.create({ ...body, image: imageUrl, userId: user.id });
 
             return Http.sendResp(res, {
                 msg: 'Has agregado la tarea correctamente.',

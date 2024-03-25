@@ -21,12 +21,12 @@ class RefreshAuthController {
         try {
             const { token, user } = req.auth!;
 
-            const newToken = JWT.generateToken({ id: user._id });
+            const newToken = JWT.generateToken({ id: user.id });
             await JWT.revokeToken(token);
 
             return Http.sendResp(res, {
                 status: Http.OK,
-                user: UserRepository.endpointAdapter(user),
+                user: UserRepository.toEndpoint(user),
                 token: newToken
             });
         } 

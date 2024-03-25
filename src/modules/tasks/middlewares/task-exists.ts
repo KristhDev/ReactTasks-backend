@@ -27,7 +27,7 @@ export const taskExists = async (req: Request, res: JsonResponse, next: NextFunc
         const validId = DatabaseValidations.validateId(taskId);
         if (!validId) return Http.notFound(res, TaskErrorMessages.NOT_FOUND);
 
-        const task = await TaskRepository.findOne({ _id: taskId, userId: user._id });
+        const task = await TaskRepository.findOne({ _id: taskId, userId: user.id });
         if (!task) return Http.notFound(res, TaskErrorMessages.NOT_FOUND);
 
         req.task = task;
