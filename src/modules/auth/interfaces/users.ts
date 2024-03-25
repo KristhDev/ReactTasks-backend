@@ -26,3 +26,11 @@ export interface Verification {
     createdAt: string;
     updatedAt: string;
 }
+
+export interface Token {
+    id: string;
+    token: string;
+    expiresIn: string;
+    createdAt?: string;
+    updatedAt?: string;
+}
