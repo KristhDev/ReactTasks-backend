@@ -20,12 +20,12 @@ class UpdateUserController {
             const { user } = req.auth!;
             const { name, lastname } = req.body;
 
-            const userUpdated = await UserRepository.findByIdAndUpdate(user._id, { name, lastname }, { new: true });
+            const userUpdated = await UserRepository.findByIdAndUpdate(user.id, { name, lastname });
 
             return Http.sendResp(res, {
                 msg: 'Has actualizado tus datos correctamente.',
                 status: Http.OK,
-                user: UserRepository.endpointAdapter(userUpdated!),
+                user: UserRepository.toEndpoint(userUpdated!),
             });
         } 
         catch (error) {

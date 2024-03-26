@@ -1,3 +1,4 @@
+export { default as BaseRepository } from './base';
 export { default as VerificationRepository } from './verification';
 export { default as TaskRepository } from './task';
 export { default as TokenRepository } from './token';

@@ -20,11 +20,11 @@ class ChangeStatusTaskController {
             const { status } = req.body;
             const task = req.task!;
 
-            const updatedTask = await TaskRepository.findByIdAndUpdate(task._id, { status }, { new: true });
+            const updatedTask = await TaskRepository.findByIdAndUpdate(task.id, { status });
 
             return Http.sendResp(res, {
                 status: Http.OK,
-                task: TaskRepository.endpointAdapter(updatedTask!)
+                task: TaskRepository.toEndpoint(updatedTask!)
             });
         } 
         catch (error) {

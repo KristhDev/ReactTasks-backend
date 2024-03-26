@@ -1,18 +1,27 @@
-import { AnyKeys, FilterQuery, MongooseQueryOptions, ProjectionType, QueryOptions } from 'mongoose';
-
 /* Database */
-import { Verification, VerificationModel, DatabaseError } from '@database';
+import { 
+    BaseRepository, 
+    CreateVerificationData, 
+    DatabaseError, 
+    VerificationFilter, 
+    VerificationModel, 
+    VerificationSchema
+} from '@database';
+
+/* Auth */
+import { Verification } from '@auth';
 
 class VerificationRepository {
     /**
-     * Creates a new VerificationModel object in the database.
+     * Creates a new Verification in the database.
      *
-     * @param {AnyKeys<VerificationModel>} data - The data to create the VerificationModel object.
-     * @return {Promise<VerificationModel>} A promise that resolves with the created VerificationModel object.
+     * @param {CreateVerificationData} data - The data to create the VerificationModel object.
+     * @return {Promise<Verification>} A promise that resolves with the created VerificationModel object.
      */
-    public static async create(data: AnyKeys<VerificationModel>): Promise<VerificationModel> {
+    public static async create(data: CreateVerificationData): Promise<Verification> {
         try {
-            return await Verification.create(data);
+            const verification = await VerificationSchema.create({ ...data });
+            return VerificationRepository.toVerification(verification);
         } 
         catch (error) {
             throw new DatabaseError((error as any).message);
@@ -20,15 +29,14 @@ class VerificationRepository {
     }
 
     /**
-     * Delete multiple documents from the database that match the given filter.
+     * Delete all expired verifications from the database based on the provided date.
      *
-     * @param {FilterQuery<VerificationModel>} filter - The filter to apply when deleting documents.
-     * @param {Omit<MongooseQueryOptions<VerificationModel>, 'lean' | 'timestamps'>} [options] - The options to use when deleting documents.
-     * @return {Promise<void>} A Promise that resolves when the documents are successfully deleted.
+     * @param {Date | string | number} date - The date indicating the expiration threshold.
+     * @return {Promise<void>} A Promise that resolves when the deletions are completed.
      */
-    public static async deleteMany(filter: FilterQuery<VerificationModel>, options?: Omit<MongooseQueryOptions<VerificationModel>, 'lean' | 'timestamps'>): Promise<void> {
+    public static async deleteLastExpired(date: Date | string | number): Promise<void> {
         try {
-            await Verification.deleteMany(filter, options);
+            await VerificationSchema.deleteMany({ expiresIn: { $lte: date } });
         } 
         catch (error) {
             throw new DatabaseError((error as any).message);
@@ -36,15 +44,15 @@ class VerificationRepository {
     }
 
     /**
-     * Deletes one document from the verification collection based on the provided filter.
+     * Delete multiple records from the database that match the given filter.
      *
-     * @param {FilterQuery<VerificationModel>} filter - The filter to apply for deletion.
-     * @param {Omit<MongooseQueryOptions<VerificationModel>, 'lean' | 'timestamps'>} [options] - Optional query options.
-     * @return {Promise<void>} - A promise that resolves when the document is deleted successfully.
+     * @param {VerificationFilter} filter - The filter to apply when deleting records.
+     * @return {Promise<void>} A Promise that resolves when the records are successfully deleted.
      */
-    public static async deleteOne(filter: FilterQuery<VerificationModel>, options?: Omit<MongooseQueryOptions<VerificationModel>, 'lean' | 'timestamps'>): Promise<void> {
+    public static async deleteMany(filter: VerificationFilter): Promise<void> {
         try {
-            await Verification.deleteOne(filter, options);
+            const filterParsed = BaseRepository.parseFilterOptions<VerificationFilter>(filter);
+            await VerificationSchema.deleteMany({ ...filterParsed });
         } 
         catch (error) {
             throw new DatabaseError((error as any).message);
@@ -52,23 +60,55 @@ class VerificationRepository {
     }
 
     /**
-     * Finds a single document in the Verification collection that matches the given filter.
+     * Deletes one record from the verifications based on the provided filter.
      *
-     * @param {FilterQuery<VerificationModel>} filter - The filter to apply when searching for the document.
-     * @param {ProjectionType<VerificationModel>} [projection] - The fields to include or exclude in the result.
-     * @param {QueryOptions<VerificationModel>} [options] - The options to apply when querying the database.
-     * @return {Promise<VerificationModel | null>} - A promise that resolves with the matching document, or null if no document is found.
+     * @param {VerificationFilter} filter - The filter to apply for deletion.
      */
-    public static async findOne(
-        filter: FilterQuery<VerificationModel>,
-        projection?: ProjectionType<VerificationModel>,
-        options?: QueryOptions<VerificationModel>
-    ): Promise<VerificationModel | null> {
+    public static async deleteOne(filter: VerificationFilter): Promise<void> {
         try {
-            return await Verification.findOne(filter, projection, options);
+            const filterParsed = BaseRepository.parseFilterOptions<VerificationFilter>(filter);
+            await VerificationSchema.deleteOne({ ...filterParsed });
         } 
         catch (error) {
             throw new DatabaseError((error as any).message);
+        }
+    }
+
+    /**
+     * Finds a single record in the verifications that matches the given filter.
+     *
+     * @param {VerificationFilter} filter - The filter to apply when searching for the document.
+     * @return {Promise<Verification | null>} - A promise that resolves with the matching document, or null if no document is found.
+     */
+    public static async findOne(filter: VerificationFilter): Promise<Verification | null> {
+        try {
+            const filterParsed = BaseRepository.parseFilterOptions<VerificationFilter>(filter);
+
+            const verification = await VerificationSchema.findOne({ ...filterParsed });
+            if (!verification) return null;
+
+            return VerificationRepository.toVerification(verification);
+        } 
+        catch (error) {
+            throw new DatabaseError((error as any).message);
+        }
+    }
+
+    /**
+     * Converts a VerificationModel object to a Verification object.
+     *
+     * @param {VerificationModel} verification - the VerificationModel to be converted
+     * @return {Verification} the converted Verification object
+     */
+    private static toVerification(verification: VerificationModel): Verification {
+        return {
+            id: verification._id.toString(),
+            userId: verification.userId,
+            token: verification.token,
+            type: verification.type,
+            expiresIn: verification.expiresIn,
+            createdAt: new Date(verification.createdAt!).toISOString(),
+            updatedAt: new Date(verification.updatedAt!).toISOString()
         }
     }
 }

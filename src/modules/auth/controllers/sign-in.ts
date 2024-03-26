@@ -25,12 +25,12 @@ class SignInController {
             const match = Encrypt.compareHash(password, user?.password!);
             if (!match) return Http.badRequest(res, AuthErrorMessages.INVALID_CREDENTIALS);
 
-            const token = JWT.generateToken({ id: user?._id });
+            const token = JWT.generateToken({ id: user.id });
 
             return Http.sendResp(res, {
                 msg: 'Has ingresado correctamente.', 
                 status: Http.OK,
-                user: UserRepository.endpointAdapter(user!),
+                user: UserRepository.toEndpoint(user!),
                 token
             });
         } 
