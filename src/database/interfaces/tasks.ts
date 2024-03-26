@@ -47,8 +47,8 @@ export interface TaskFilter {
 export interface TaskPaginateOptions {
     limit: number;
     page: number;
-    query: TaskFilter;
-    sort: { [key: string]: number };
+    query?: TaskFilter;
+    sort?: { [key: string]: number };
 }
 
 export interface TasksPaginated {

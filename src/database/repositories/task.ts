@@ -1,5 +1,6 @@
 /* Database */
 import {
+    BaseRepository,
     DatabaseError,
     TaskSchema,
     TaskModel,
@@ -7,7 +8,7 @@ import {
     TaskFilter,
     UpdateTaskData,
     TaskPaginateOptions,
-    TasksPaginated 
+    TasksPaginated, 
 } from '@database';
 
 /* Tasks */
@@ -38,7 +39,8 @@ class TaskRepository {
      */
     public static async deleteMany(filter: TaskFilter): Promise<void> {
         try {
-            await TaskSchema.deleteMany({ ...filter });
+            const filterParsed = BaseRepository.parseFilterOptions<TaskFilter>(filter);
+            await TaskSchema.deleteMany({ ...filterParsed });
         } 
         catch (error) {
             throw new DatabaseError((error as any).message);
@@ -53,50 +55,11 @@ class TaskRepository {
      */
     public static async deleteOne(filter: TaskFilter): Promise<void> {
         try {
-            await TaskSchema.deleteOne(filter);
+            const filterParsed = BaseRepository.parseFilterOptions<TaskFilter>(filter);
+            await TaskSchema.deleteOne({ ...filterParsed });
         } 
         catch (error) {
             throw new DatabaseError((error as any).message);
-        }
-    }
-
-    /**
-     * Converts a TaskModel object to a TaskEndpoint object.
-     *
-     * @param {TaskModel} task - The TaskModel object to be converted.
-     * @return {TaskEndpoint} - The converted TaskEndpoint object.
-     */
-    public static toEndpoint(task: Task): TaskEndpoint {
-        return {
-            id: task.id,
-            userId: task.userId.toString(),
-            title: task.title,
-            description: task.description,
-            image: task?.image,
-            deadline: new Date(task.deadline).toISOString(),
-            status: task.status,
-            createdAt: new Date(task.createdAt!).toISOString(),
-            updatedAt: new Date(task.updatedAt!).toISOString()
-        }
-    }
-
-    /**
-     * Converts a TaskModel object to a Task object.
-     *
-     * @param {TaskModel} task - The TaskModel object to convert.
-     * @return {Task} The converted Task object.
-     */
-    private static toTask(task: TaskModel): Task {
-        return {
-            id: task._id.toString(),
-            userId: task.userId.toString(),
-            title: task.title,
-            description: task.description,
-            image: task?.image,
-            deadline: new Date(task.deadline).toISOString(),
-            status: task.status,
-            createdAt: new Date(task.createdAt!).toISOString(),
-            updatedAt: new Date(task.updatedAt!).toISOString()
         }
     }
 
@@ -108,7 +71,12 @@ class TaskRepository {
      */
     public static async findOne(filter: TaskFilter): Promise<Task | null> {
         try {
-            return await TaskSchema.findOne({ ...filter });
+            const filterParsed = BaseRepository.parseFilterOptions<TaskFilter>(filter);
+
+            const task = await TaskSchema.findOne({ ...filterParsed });
+            if (!task) return null;
+
+            return TaskRepository.toTask(task);
         } 
         catch (error) {
             throw new DatabaseError((error as any).message);
@@ -173,6 +141,46 @@ class TaskRepository {
         } 
         catch (error) {
             throw new DatabaseError((error as any).message);
+        }
+    }
+
+    /**
+     * Converts a Task to a TaskEndpoint object.
+     *
+     * @param {TaskModel} task - The TaskModel object to be converted.
+     * @return {TaskEndpoint} - The converted TaskEndpoint object.
+     */
+    public static toEndpoint(task: Task): TaskEndpoint {
+        return {
+            id: task.id,
+            userId: task.userId.toString(),
+            title: task.title,
+            description: task.description,
+            image: task?.image,
+            deadline: new Date(task.deadline).toISOString(),
+            status: task.status,
+            createdAt: new Date(task.createdAt!).toISOString(),
+            updatedAt: new Date(task.updatedAt!).toISOString()
+        }
+    }
+
+    /**
+     * Converts a TaskModel object to a Task object.
+     *
+     * @param {TaskModel} task - The TaskModel object to convert.
+     * @return {Task} The converted Task object.
+     */
+    private static toTask(task: TaskModel): Task {
+        return {
+            id: task._id.toString(),
+            userId: task.userId.toString(),
+            title: task.title,
+            description: task.description,
+            image: task?.image,
+            deadline: new Date(task.deadline).toISOString(),
+            status: task.status,
+            createdAt: new Date(task.createdAt!).toISOString(),
+            updatedAt: new Date(task.updatedAt!).toISOString()
         }
     }
 }

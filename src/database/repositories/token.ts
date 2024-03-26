@@ -1,7 +1,5 @@
-import { AnyKeys, FilterQuery, MongooseQueryOptions, ProjectionType, QueryOptions } from 'mongoose';
-
 /* Database */
-import { DatabaseError, TokenSchema, TokenModel, CreateTokenData, TokenFilter } from '@database';
+import { BaseRepository, CreateTokenData, DatabaseError, TokenSchema, TokenModel, TokenFilter } from '@database';
 
 /* Auth */
 import { Token } from '@auth';
@@ -46,7 +44,8 @@ class TokenRepository {
      */
     public static async deleteMany(filter: TokenFilter): Promise<void> {
         try {
-            await TokenSchema.deleteMany({ ...filter });
+            const filterParsed = BaseRepository.parseFilterOptions<TokenFilter>(filter);
+            await TokenSchema.deleteMany({ ...filterParsed });
         }
         catch (error) {
             throw new DatabaseError((error as any).message);
@@ -61,7 +60,8 @@ class TokenRepository {
      */
     public static async deleteOne(filter: TokenFilter): Promise<void> {
         try {
-            await TokenSchema.deleteOne({ ...filter });
+            const filterParsed = BaseRepository.parseFilterOptions<TokenFilter>(filter);
+            await TokenSchema.deleteOne({ ...filterParsed });
         } 
         catch (error) {
             throw new DatabaseError((error as any).message);
@@ -76,7 +76,8 @@ class TokenRepository {
      */
     public static async findOne(filter: TokenFilter): Promise<Token | null> {
         try {
-            const token = await TokenSchema.findOne({ ...filter });
+            const filterParsed = BaseRepository.parseFilterOptions<TokenFilter>(filter);
+            const token = await TokenSchema.findOne({ ...filterParsed });
             if (!token) return null;
 
             return TokenRepository.toToken(token);

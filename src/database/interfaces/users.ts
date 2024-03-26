@@ -36,3 +36,14 @@ export interface UserFilter {
     verified?: boolean;
     password?: string;
 }
+
+export interface UserSelectOptions {
+    id?: boolean;
+    name?: boolean;
+    lastname?: boolean;
+    email?: boolean;
+    verified?: boolean;
+    password?: boolean;
+    createdAt?: boolean;
+    updatedAt?: boolean;
+}
