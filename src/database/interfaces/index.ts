@@ -1,3 +1,4 @@
+export * from './repositories';
 export * from './tasks';
 export * from './tokens';
 export * from './users';

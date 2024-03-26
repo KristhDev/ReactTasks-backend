@@ -1,5 +1,12 @@
 /* Database */
-import { VerificationSchema, VerificationModel, DatabaseError, CreateVerificationData, VerificationFilter } from '@database';
+import { 
+    BaseRepository, 
+    CreateVerificationData, 
+    DatabaseError, 
+    VerificationFilter, 
+    VerificationModel, 
+    VerificationSchema
+} from '@database';
 
 /* Auth */
 import { Verification } from '@auth';
@@ -44,7 +51,8 @@ class VerificationRepository {
      */
     public static async deleteMany(filter: VerificationFilter): Promise<void> {
         try {
-            await VerificationSchema.deleteMany({ ...filter });
+            const filterParsed = BaseRepository.parseFilterOptions<VerificationFilter>(filter);
+            await VerificationSchema.deleteMany({ ...filterParsed });
         } 
         catch (error) {
             throw new DatabaseError((error as any).message);
@@ -58,7 +66,8 @@ class VerificationRepository {
      */
     public static async deleteOne(filter: VerificationFilter): Promise<void> {
         try {
-            await VerificationSchema.deleteOne({ ...filter });
+            const filterParsed = BaseRepository.parseFilterOptions<VerificationFilter>(filter);
+            await VerificationSchema.deleteOne({ ...filterParsed });
         } 
         catch (error) {
             throw new DatabaseError((error as any).message);
@@ -73,7 +82,9 @@ class VerificationRepository {
      */
     public static async findOne(filter: VerificationFilter): Promise<Verification | null> {
         try {
-            const verification = await VerificationSchema.findOne(filter);
+            const filterParsed = BaseRepository.parseFilterOptions<VerificationFilter>(filter);
+
+            const verification = await VerificationSchema.findOne({ ...filterParsed });
             if (!verification) return null;
 
             return VerificationRepository.toVerification(verification);
@@ -83,6 +94,12 @@ class VerificationRepository {
         }
     }
 
+    /**
+     * Converts a VerificationModel object to a Verification object.
+     *
+     * @param {VerificationModel} verification - the VerificationModel to be converted
+     * @return {Verification} the converted Verification object
+     */
     private static toVerification(verification: VerificationModel): Verification {
         return {
             id: verification._id.toString(),
