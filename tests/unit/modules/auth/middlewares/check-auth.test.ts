@@ -5,7 +5,7 @@ import { createRequestMock, createResponseMock, userVerifiedMock } from '@mocks'
 import { Http, ServerErrorMessages } from '@server';
 
 /* Database */
-import { UserModel, UserRepository } from '@database';
+import { UserRepository } from '@database';
 
 /* Auth */
 import { AuthErrorMessages, JWT, JWTError, JWTErrorMessages, checkAuth } from '@auth';
@@ -93,7 +93,7 @@ describe('Test in middleware checkAuth of auth module', () => {
 
     it('should not call next function because user is unverified', async () => {
         validateTokenSpy.mockResolvedValue(tokenData as any);
-        findByIdUserSpy.mockResolvedValue({ ...userVerifiedMock, verified: false } as UserModel);
+        findByIdUserSpy.mockResolvedValue({ ...userVerifiedMock, verified: false });
 
         const req = createRequestMock({
             headers: {

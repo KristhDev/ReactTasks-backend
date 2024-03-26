@@ -35,7 +35,7 @@ describe('Test in ForgotPasswordController of auth module', () => {
 
         expect(createVerificationSpy).toHaveBeenCalledTimes(1);
         expect(createVerificationSpy).toHaveBeenCalledWith({
-            userId: userVerifiedMock._id,
+            userId: userVerifiedMock.id,
             type: 'password',
             expiresIn: expect.any(String),
             token: expect.any(String),
@@ -85,7 +85,7 @@ describe('Test in ForgotPasswordController of auth module', () => {
 
         expect(createVerificationSpy).toHaveBeenCalledTimes(1);
         expect(createVerificationSpy).toHaveBeenCalledWith({
-            userId: userVerifiedMock._id,
+            userId: userVerifiedMock.id,
             type: 'password',
             expiresIn: expect.any(String),
             token: expect.any(String),

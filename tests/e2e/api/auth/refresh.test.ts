@@ -34,7 +34,7 @@ describe('Test in Refresh Endpoint', () => {
         expect(resp.body).toEqual({
             status: Http.OK,
             token: expect.any(String),
-            user: UserRepository.endpointAdapter(user!)
+            user: UserRepository.toEndpoint(user!)
         });
 
         await Promise.all([

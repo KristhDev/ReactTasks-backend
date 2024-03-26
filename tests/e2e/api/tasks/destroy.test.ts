@@ -25,19 +25,19 @@ describe('Test in Destroy Task Endpoint', () => {
     it('should delete task of authenticated user', async () => {
         const user = await UserRepository.findOne({ email: 'tester@gmail.com' });
 
-        await TaskRepository.deleteMany({ userId: user?._id });
+        await TaskRepository.deleteMany({ userId: user?.id });
 
         const token = JWT.generateToken({ id: user?.id! });
 
         const task = await TaskRepository.create({
             title: 'test title',
             description: 'test description',
-            userId: user?._id!,
+            userId: user?.id!,
             deadline: new Date().toISOString()
         });
 
         const resp = await request
-            .delete(`/api/tasks/${ task?._id }`)
+            .delete(`/api/tasks/${ task?.id }`)
             .set('Authorization', `Bearer ${ token }`);
 
         expect(resp.status).toBe(Http.OK);
@@ -45,10 +45,10 @@ describe('Test in Destroy Task Endpoint', () => {
         expect(resp.body).toEqual({
             msg: 'Has eliminado la tarea correctamente.',
             status: Http.OK,
-            taskId: task?._id.toString(),
+            taskId: task?.id.toString(),
         });
 
-        await TaskRepository.deleteOne({ _id: task?._id });
+        await TaskRepository.deleteOne({ _id: task?.id });
     });
 
     it('should faild because task not found', async () => {

@@ -50,7 +50,7 @@ describe('Test in StoreTaskController of tasks module', () => {
             title: taskMock.title,
             description: taskMock.description,
             deadline: taskMock.deadline,
-            userId: userMock._id,
+            userId: userMock.id,
             image: ''
         });
 
@@ -61,7 +61,7 @@ describe('Test in StoreTaskController of tasks module', () => {
         expect(res.json).toHaveBeenCalledWith({
             msg: 'Has agregado la tarea correctamente.',
             status: Http.CREATED,
-            task: TaskRepository.endpointAdapter(taskMock)
+            task: TaskRepository.toEndpoint(taskMock)
         });
     });
 
@@ -94,7 +94,7 @@ describe('Test in StoreTaskController of tasks module', () => {
             title: taskMock.title,
             description: taskMock.description,
             deadline: taskMock.deadline,
-            userId: userMock._id,
+            userId: userMock.id,
             image: imageUrlMock
         });
 
@@ -105,7 +105,7 @@ describe('Test in StoreTaskController of tasks module', () => {
         expect(res.json).toHaveBeenCalledWith({
             msg: 'Has agregado la tarea correctamente.',
             status: Http.CREATED,
-            task: TaskRepository.endpointAdapter(taskMock)
+            task: TaskRepository.toEndpoint(taskMock)
         });
     });
 
@@ -130,7 +130,7 @@ describe('Test in StoreTaskController of tasks module', () => {
             title: taskMock.title,
             description: taskMock.description,
             deadline: taskMock.deadline,
-            userId: userMock._id,
+            userId: userMock.id,
             image: ''
         });
 

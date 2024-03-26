@@ -34,7 +34,7 @@ describe('Test in DestroyTaskController of tasks module', () => {
         await DestroyTaskController.handler(req, res);
 
         expect(deleteOneTaskSpy).toHaveBeenCalledTimes(1);
-        expect(deleteOneTaskSpy).toHaveBeenCalledWith({ _id: taskMock._id });
+        expect(deleteOneTaskSpy).toHaveBeenCalledWith({ id: taskMock.id });
 
         expect(res.status).toHaveBeenCalledTimes(1);
         expect(res.status).toHaveBeenCalledWith(Http.OK);
@@ -43,7 +43,7 @@ describe('Test in DestroyTaskController of tasks module', () => {
         expect(res.json).toHaveBeenCalledWith({
             msg: 'Has eliminado la tarea correctamente.',
             status: Http.OK,
-            taskId: taskMock._id
+            taskId: taskMock.id
         });
     });
 
@@ -56,7 +56,7 @@ describe('Test in DestroyTaskController of tasks module', () => {
         await DestroyTaskController.handler(req, res);
 
         expect(deleteOneTaskSpy).toHaveBeenCalledTimes(1);
-        expect(deleteOneTaskSpy).toHaveBeenCalledWith({ _id: taskMock._id });
+        expect(deleteOneTaskSpy).toHaveBeenCalledWith({ id: taskMock.id });
 
         expect(imageDestroySpy).toHaveBeenCalledTimes(1);
         expect(imageDestroySpy).toHaveBeenCalledWith(imageUrlMock);
@@ -68,7 +68,7 @@ describe('Test in DestroyTaskController of tasks module', () => {
         expect(res.json).toHaveBeenCalledWith({
             msg: 'Has eliminado la tarea correctamente.',
             status: Http.OK,
-            taskId: taskMock._id
+            taskId: taskMock.id
         });
     });
 
@@ -80,7 +80,7 @@ describe('Test in DestroyTaskController of tasks module', () => {
         await DestroyTaskController.handler(req, res);
 
         expect(deleteOneTaskSpy).toHaveBeenCalledTimes(1);
-        expect(deleteOneTaskSpy).toHaveBeenCalledWith({ _id: taskMock._id });
+        expect(deleteOneTaskSpy).toHaveBeenCalledWith({ id: taskMock.id });
 
         expect(res.status).toHaveBeenCalledTimes(1);
         expect(res.status).toHaveBeenCalledWith(Http.INTERNAL_SERVER_ERROR);

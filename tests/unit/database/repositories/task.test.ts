@@ -1,16 +1,16 @@
 /* Mocks */
-import { taskMock } from '@mocks';
+import { taskMock, taskModelMock } from '@mocks';
 
 /* Database */
-import { DatabaseError, Task, TaskRepository } from '@database';
+import { DatabaseError, TaskSchema, TaskRepository } from '@database';
 
-const createTaskSpy = jest.spyOn(Task, 'create');
-const deleteManyTaskSpy = jest.spyOn(Task, 'deleteMany');
-const deleteOneTaskSpy = jest.spyOn(Task, 'deleteOne');
-const findOneTaskSpy = jest.spyOn(Task, 'findOne');
-const findByIdAndUpdateTaskSpy = jest.spyOn(Task, 'findByIdAndUpdate');
-const insertManyTaskSpy = jest.spyOn(Task, 'insertMany');
-const paginateTaskSpy = jest.spyOn(Task, 'paginate');
+const createTaskSpy = jest.spyOn(TaskSchema, 'create');
+const deleteManyTaskSpy = jest.spyOn(TaskSchema, 'deleteMany');
+const deleteOneTaskSpy = jest.spyOn(TaskSchema, 'deleteOne');
+const findOneTaskSpy = jest.spyOn(TaskSchema, 'findOne');
+const findByIdAndUpdateTaskSpy = jest.spyOn(TaskSchema, 'findByIdAndUpdate');
+const insertManyTaskSpy = jest.spyOn(TaskSchema, 'insertMany');
+const paginateTaskSpy = jest.spyOn(TaskSchema, 'paginate');
 
 describe('Test in TaskRepository of database module', () => {
     beforeEach(() => {
@@ -18,22 +18,28 @@ describe('Test in TaskRepository of database module', () => {
     });
 
     it('should create task', async () => {
-        createTaskSpy.mockResolvedValue(taskMock as any);
+        createTaskSpy.mockResolvedValue(taskModelMock as any);
 
         const task = await TaskRepository.create({
-            userId: taskMock.userId,
-            title: taskMock.title,
-            description: taskMock.description,
-            deadline: taskMock.deadline
+            userId: taskModelMock.userId,
+            title: taskModelMock.title,
+            description: taskModelMock.description,
+            deadline: taskModelMock.deadline
         });
 
-        expect(task).toEqual(taskMock);
+        expect(task).toEqual({
+            ...taskMock,
+            deadline: new Date(task.deadline).toISOString(),
+            createdAt: new Date(taskMock.createdAt).toISOString(),
+            updatedAt: new Date(taskMock.updatedAt).toISOString()
+        });
+
         expect(createTaskSpy).toHaveBeenCalledTimes(1);
         expect(createTaskSpy).toHaveBeenCalledWith({
-            userId: taskMock.userId,
-            title: taskMock.title,
-            description: taskMock.description,
-            deadline: taskMock.deadline
+            userId: taskModelMock.userId,
+            title: taskModelMock.title,
+            description: taskModelMock.description,
+            deadline: taskModelMock.deadline
         });
     });
 
@@ -41,11 +47,11 @@ describe('Test in TaskRepository of database module', () => {
         createTaskSpy.mockImplementation(() => { throw new Error('Database error'); });
 
         try {
-            const task = await TaskRepository.create({
-                userId: taskMock.userId,
-                title: taskMock.title,
-                description: taskMock.description,
-                deadline: taskMock.deadline
+            await TaskRepository.create({
+                userId: taskModelMock.userId,
+                title: taskModelMock.title,
+                description: taskModelMock.description,
+                deadline: taskModelMock.deadline
             });
 
             expect(true).toBeFalsy();
@@ -53,10 +59,10 @@ describe('Test in TaskRepository of database module', () => {
         catch (error) {
             expect(createTaskSpy).toHaveBeenCalledTimes(1);
             expect(createTaskSpy).toHaveBeenCalledWith({
-                userId: taskMock.userId,
-                title: taskMock.title,
-                description: taskMock.description,
-                deadline: taskMock.deadline
+                userId: taskModelMock.userId,
+                title: taskModelMock.title,
+                description: taskModelMock.description,
+                deadline: taskModelMock.deadline
             });
 
             expect(error).toBeInstanceOf(DatabaseError);
@@ -68,22 +74,22 @@ describe('Test in TaskRepository of database module', () => {
     it('should delete many tasks', async () => {
         deleteManyTaskSpy.mockResolvedValue({ acknowledged: true, deletedCount: 1 });
 
-        await TaskRepository.deleteMany({ _id: taskMock._id });
+        await TaskRepository.deleteMany({ id: taskMock.id });
 
         expect(deleteManyTaskSpy).toHaveBeenCalledTimes(1);
-        expect(deleteManyTaskSpy).toHaveBeenCalledWith({ _id: taskMock._id }, undefined);
+        expect(deleteManyTaskSpy).toHaveBeenCalledWith({ _id: taskMock.id });
     });
 
     it('should throw error in delete many tasks', async () => {
         deleteManyTaskSpy.mockImplementation(() => { throw new Error('Database error'); });
 
         try {
-            await TaskRepository.deleteMany({ _id: taskMock._id });
+            await TaskRepository.deleteMany({ id: taskMock.id });
             expect(true).toBeFalsy();
         } 
         catch (error) {
             expect(deleteManyTaskSpy).toHaveBeenCalledTimes(1);
-            expect(deleteManyTaskSpy).toHaveBeenCalledWith({ _id: taskMock._id }, undefined);
+            expect(deleteManyTaskSpy).toHaveBeenCalledWith({ _id: taskMock.id });
 
             expect(error).toBeInstanceOf(DatabaseError);
             expect(error).toHaveProperty('name', 'DatabaseError');
@@ -94,22 +100,22 @@ describe('Test in TaskRepository of database module', () => {
     it('should delete one task', async () => {
         deleteOneTaskSpy.mockResolvedValue({ acknowledged: true, deletedCount: 1 });
 
-        await TaskRepository.deleteOne({ _id: taskMock._id });
+        await TaskRepository.deleteOne({ id: taskMock.id });
 
         expect(deleteOneTaskSpy).toHaveBeenCalledTimes(1);
-        expect(deleteOneTaskSpy).toHaveBeenCalledWith({ _id: taskMock._id }, undefined);
+        expect(deleteOneTaskSpy).toHaveBeenCalledWith({ _id: taskMock.id });
     });
 
     it('should throw error in delete one task', async () => {
         deleteOneTaskSpy.mockImplementation(() => { throw new Error('Database error'); });
 
         try {
-            await TaskRepository.deleteOne({ _id: taskMock._id });
+            await TaskRepository.deleteOne({ id: taskMock.id });
             expect(true).toBeFalsy();
         } 
         catch (error) {
             expect(deleteOneTaskSpy).toHaveBeenCalledTimes(1);
-            expect(deleteOneTaskSpy).toHaveBeenCalledWith({ _id: taskMock._id }, undefined);
+            expect(deleteOneTaskSpy).toHaveBeenCalledWith({ _id: taskMock.id });
 
             expect(error).toBeInstanceOf(DatabaseError);
             expect(error).toHaveProperty('name', 'DatabaseError');
@@ -117,12 +123,12 @@ describe('Test in TaskRepository of database module', () => {
         }
     });
 
-    it('should transform a TaskModel object to a TaskEndpoint object', () => {
-        const taskEndpoint = TaskRepository.endpointAdapter(taskMock);
+    it('should transform a Task object to a TaskEndpoint object', () => {
+        const taskEndpoint = TaskRepository.toEndpoint(taskMock);
 
         expect(taskEndpoint).toEqual({
-            id: taskMock._id.toString(),
-            userId: taskMock.userId.toString(),
+            id: taskMock.id,
+            userId: taskMock.userId,
             title: taskMock.title,
             description: taskMock.description,
             deadline: taskMock.deadline,
@@ -133,25 +139,32 @@ describe('Test in TaskRepository of database module', () => {
     });
 
     it('should find one task', async () => {
-        findOneTaskSpy.mockResolvedValue(taskMock);
+        findOneTaskSpy.mockResolvedValue(taskModelMock);
 
-        const task = await TaskRepository.findOne({ _id: taskMock._id });
+        const task = await TaskRepository.findOne({ id: taskModelMock._id });
 
-        expect(task).toEqual(taskMock);
+        expect(task).toEqual({
+            ...taskMock,
+            image: taskMock.image,
+            deadline: new Date(task!.deadline).toISOString(),
+            createdAt: new Date(taskMock.createdAt).toISOString(),
+            updatedAt: new Date(taskMock.updatedAt).toISOString()
+        });
+
         expect(findOneTaskSpy).toHaveBeenCalledTimes(1);
-        expect(findOneTaskSpy).toHaveBeenCalledWith({ _id: taskMock._id }, undefined, undefined);
+        expect(findOneTaskSpy).toHaveBeenCalledWith({ _id: taskModelMock._id });
     });
 
     it('should throw error in find one task', async () => {
         findOneTaskSpy.mockImplementation(() => { throw new Error('Database error'); });
 
         try {
-            const task = await TaskRepository.findOne({ _id: taskMock._id });
+            await TaskRepository.findOne({ id: taskMock.id });
             expect(true).toBeFalsy();
         } 
         catch (error) {
             expect(findOneTaskSpy).toHaveBeenCalledTimes(1);
-            expect(findOneTaskSpy).toHaveBeenCalledWith({ _id: taskMock._id }, undefined, undefined);
+            expect(findOneTaskSpy).toHaveBeenCalledWith({ _id: taskMock.id });
 
             expect(error).toBeInstanceOf(DatabaseError);
             expect(error).toHaveProperty('name', 'DatabaseError');
@@ -160,25 +173,32 @@ describe('Test in TaskRepository of database module', () => {
     });
 
     it('should find by id and update task', async () => {
-        findByIdAndUpdateTaskSpy.mockResolvedValue(taskMock);
+        findByIdAndUpdateTaskSpy.mockResolvedValue(taskModelMock);
 
-        const task = await TaskRepository.findByIdAndUpdate(taskMock._id, { title: taskMock.title }, { new: true });
+        const task = await TaskRepository.findByIdAndUpdate(taskMock.id, { title: taskMock.title });
 
-        expect(task).toEqual(taskMock);
+        expect(task).toEqual({
+            ...taskMock,
+            image: taskMock.image,
+            deadline: new Date(task!.deadline).toISOString(),
+            createdAt: new Date(taskMock.createdAt).toISOString(),
+            updatedAt: new Date(taskMock.updatedAt).toISOString()
+        });
+
         expect(findByIdAndUpdateTaskSpy).toHaveBeenCalledTimes(1);
-        expect(findByIdAndUpdateTaskSpy).toHaveBeenCalledWith(taskMock._id, { title: taskMock.title }, { new: true });
+        expect(findByIdAndUpdateTaskSpy).toHaveBeenCalledWith(taskMock.id, { title: taskMock.title }, { new: true });
     });
 
     it('should throw error in find by id and update task', async () => {
         findByIdAndUpdateTaskSpy.mockImplementation(() => { throw new Error('Database error'); });
 
         try {
-            const task = await TaskRepository.findByIdAndUpdate(taskMock._id, { title: taskMock.title }, { new: true });
+            await TaskRepository.findByIdAndUpdate(taskMock.id, { title: taskMock.title });
             expect(true).toBeFalsy();
         }
         catch (error) {
             expect(findByIdAndUpdateTaskSpy).toHaveBeenCalledTimes(1);
-            expect(findByIdAndUpdateTaskSpy).toHaveBeenCalledWith(taskMock._id, { title: taskMock.title }, { new: true });
+            expect(findByIdAndUpdateTaskSpy).toHaveBeenCalledWith(taskMock.id, { title: taskMock.title }, { new: true });
 
             expect(error).toBeInstanceOf(DatabaseError);
             expect(error).toHaveProperty('name', 'DatabaseError');
@@ -187,18 +207,34 @@ describe('Test in TaskRepository of database module', () => {
     });
 
     it('should insert many tasks', async () => {
-        insertManyTaskSpy.mockResolvedValue([ taskMock, taskMock ]);
+        insertManyTaskSpy.mockResolvedValue([ taskModelMock, taskModelMock ]);
 
         const tasks = await TaskRepository.insertMany([ 
-            { userId: taskMock.userId, title: taskMock.title, description: taskMock.description, deadline: taskMock.deadline },
-            { userId: taskMock.userId, title: taskMock.title, description: taskMock.description, deadline: taskMock.deadline }
+            { userId: taskModelMock.userId, title: taskModelMock.title, description: taskModelMock.description, deadline: taskModelMock.deadline },
+            { userId: taskModelMock.userId, title: taskModelMock.title, description: taskModelMock.description, deadline: taskModelMock.deadline }
         ]);
 
-        expect(tasks).toEqual([ taskMock, taskMock ]);
+        expect(tasks).toEqual([
+            {
+                ...taskMock,
+                image: taskMock.image,
+                deadline: expect.any(String),
+                createdAt: new Date(taskMock.createdAt).toISOString(),
+                updatedAt: new Date(taskMock.updatedAt).toISOString()
+            },
+            {
+                ...taskMock,
+                image: taskMock.image,
+                deadline: expect.any(String),
+                createdAt: new Date(taskMock.createdAt).toISOString(),
+                updatedAt: new Date(taskMock.updatedAt).toISOString()
+            }
+        ]);
+
         expect(insertManyTaskSpy).toHaveBeenCalledTimes(1);
         expect(insertManyTaskSpy).toHaveBeenCalledWith([
-            { userId: taskMock.userId, title: taskMock.title, description: taskMock.description, deadline: taskMock.deadline },
-            { userId: taskMock.userId, title: taskMock.title, description: taskMock.description, deadline: taskMock.deadline }
+            { userId: taskModelMock.userId, title: taskModelMock.title, description: taskModelMock.description, deadline: taskModelMock.deadline },
+            { userId: taskModelMock.userId, title: taskModelMock.title, description: taskModelMock.description, deadline: taskModelMock.deadline }
         ]);
     });
 
@@ -206,9 +242,9 @@ describe('Test in TaskRepository of database module', () => {
         insertManyTaskSpy.mockImplementation(() => { throw new Error('Database error'); });
 
         try {
-            const tasks = await TaskRepository.insertMany([
-                { userId: taskMock.userId, title: taskMock.title, description: taskMock.description, deadline: taskMock.deadline },
-                { userId: taskMock.userId, title: taskMock.title, description: taskMock.description, deadline: taskMock.deadline }
+            await TaskRepository.insertMany([
+                { userId: taskModelMock.userId, title: taskModelMock.title, description: taskModelMock.description, deadline: taskModelMock.deadline },
+                { userId: taskModelMock.userId, title: taskModelMock.title, description: taskModelMock.description, deadline: taskModelMock.deadline }
             ]);
 
             expect(true).toBeFalsy();
@@ -216,8 +252,8 @@ describe('Test in TaskRepository of database module', () => {
         catch (error) {
             expect(insertManyTaskSpy).toHaveBeenCalledTimes(1);
             expect(insertManyTaskSpy).toHaveBeenCalledWith([
-                { userId: taskMock.userId, title: taskMock.title, description: taskMock.description, deadline: taskMock.deadline },
-                { userId: taskMock.userId, title: taskMock.title, description: taskMock.description, deadline: taskMock.deadline }
+                { userId: taskModelMock.userId, title: taskModelMock.title, description: taskMock.description, deadline: taskModelMock.deadline },
+                { userId: taskModelMock.userId, title: taskModelMock.title, description: taskModelMock.description, deadline: taskModelMock.deadline }
             ]);
 
             expect(error).toBeInstanceOf(DatabaseError);
@@ -228,7 +264,7 @@ describe('Test in TaskRepository of database module', () => {
 
     it('should paginate tasks', async () => {
         paginateTaskSpy.mockResolvedValue({
-            docs: [ taskMock ],
+            docs: [ taskModelMock ],
             totalDocs: 1,
             limit: 10,
             page: 1,
@@ -243,16 +279,22 @@ describe('Test in TaskRepository of database module', () => {
         const result = await TaskRepository.paginate({ limit: 10, page: 1 });
 
         expect(result).toEqual({
-            docs: result?.docs,
-            totalDocs: result?.totalDocs,
-            limit: result?.limit,
-            page: result?.page,
-            hasNextPage: result?.hasNextPage,
-            hasPrevPage: result?.hasPrevPage,
-            nextPage: result?.nextPage,
-            prevPage: result?.prevPage,
-            totalPages: result?.totalPages,
-            pagingCounter: result?.pagingCounter
+            tasks: [
+                {
+                    ...taskMock,
+                    image: taskMock.image,
+                    deadline: new Date(taskModelMock.deadline).toISOString(),
+                    createdAt: new Date(taskMock.createdAt).toISOString(),
+                    updatedAt: new Date(taskMock.updatedAt).toISOString()
+                }
+            ],
+            pagination: {
+                currentPage: 1,
+                hasNextPage: false,
+                hasPrevPage: false,
+                nextPage: 1,
+                totalPages: 1
+            }
         });
 
         expect(paginateTaskSpy).toHaveBeenCalledTimes(1);

@@ -1,17 +1,17 @@
 /* Mocks */
-import { createRequestMock, createResponseMock, taskMock, userMock } from '@mocks';
+import { createRequestMock, createResponseMock, taskMock, taskModelMock, userMock } from '@mocks';
 
 /* Server */
 import { Http } from '@server';
 
 /* Database */
-import { Task } from '@database';
+import { TaskSchema } from '@database';
 
 /* Modules */
 import { AuthErrorMessages } from '@auth';
 import { TaskErrorMessages, taskExists } from '@tasks';
 
-const findOneTaskSpy = jest.spyOn(Task, 'findOne');
+const findOneTaskSpy = jest.spyOn(TaskSchema, 'findOne');
 
 describe('Test in taskExists middleware of tasks module', () => {
     const { mockClear, res, next: nextMock } = createResponseMock();
@@ -27,11 +27,18 @@ describe('Test in taskExists middleware of tasks module', () => {
             params: { taskId: taskMock.id } 
         });
 
-        findOneTaskSpy.mockResolvedValue(taskMock);
+        findOneTaskSpy.mockResolvedValue(taskModelMock);
 
         await taskExists(req, res, nextMock);
 
-        expect(req.task).toEqual(taskMock);
+        expect(req.task).toEqual({
+            ...taskMock,
+            image: taskMock.image,
+            deadline: expect.any(String),
+            createdAt: new Date(taskMock.createdAt).toISOString(),
+            updatedAt: new Date(taskMock.updatedAt).toISOString()
+        });
+
         expect(nextMock).toHaveBeenCalledTimes(1);
     });
 

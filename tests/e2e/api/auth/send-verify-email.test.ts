@@ -57,8 +57,8 @@ describe('Test in Send Email Verification Endpoint', () => {
             token: expect.any(String)
         });
 
-        await UserRepository.deleteOne({ _id: newUser._id });
-        await VerificationRepository.deleteOne({ userId: newUser._id });
+        await UserRepository.deleteOne({ id: newUser.id });
+        await VerificationRepository.deleteOne({ userId: newUser.id });
     });
 
     it('should faild because user not found', async () => {
@@ -98,7 +98,7 @@ describe('Test in Send Email Verification Endpoint', () => {
             status: Http.BAD_REQUEST
         });
 
-        await UserRepository.deleteOne({ _id: newUser._id });
+        await UserRepository.deleteOne({ id: newUser.id });
     });
 
     it('should faild because email is invalid', async () => {

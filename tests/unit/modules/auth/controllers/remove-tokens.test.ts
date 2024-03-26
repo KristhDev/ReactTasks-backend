@@ -10,7 +10,7 @@ import { TokenRepository } from '@database';
 /* Modules */
 import { RemoveTokensController } from '@auth';
 
-const deleteManyTokenSpy = jest.spyOn(TokenRepository, 'deleteMany');
+const deleteLastExpiredTokenSpy = jest.spyOn(TokenRepository, 'deleteLastExpired');
 
 describe('Test in RemoveTokensController of auth module', () => {
     const { mockClear, res } = createResponseMock();
@@ -25,13 +25,13 @@ describe('Test in RemoveTokensController of auth module', () => {
     });
 
     it('should return a success response', async () => {
-        deleteManyTokenSpy.mockResolvedValue(null as any);
+        deleteLastExpiredTokenSpy.mockResolvedValue(null as any);
         const req = createRequestMock();
 
         await RemoveTokensController.handler(req, res);
 
-        expect(deleteManyTokenSpy).toHaveBeenCalledTimes(1);
-        expect(deleteManyTokenSpy).toHaveBeenCalledWith({ expiresIn: { $lte: expect.any(String) } });
+        expect(deleteLastExpiredTokenSpy).toHaveBeenCalledTimes(1);
+        expect(deleteLastExpiredTokenSpy).toHaveBeenCalledWith(expect.any(String));
 
         expect(res.status).toHaveBeenCalledTimes(1);
         expect(res.status).toHaveBeenCalledWith(Http.OK);
@@ -44,13 +44,13 @@ describe('Test in RemoveTokensController of auth module', () => {
     });
 
     it('should return internal server error', async () => {
-        deleteManyTokenSpy.mockRejectedValue(new Error('Database error'));
+        deleteLastExpiredTokenSpy.mockRejectedValue(new Error('Database error'));
         const req = createRequestMock();
 
         await RemoveTokensController.handler(req, res);
 
-        expect(deleteManyTokenSpy).toHaveBeenCalledTimes(1);
-        expect(deleteManyTokenSpy).toHaveBeenCalledWith({ expiresIn: { $lte: expect.any(String) } });
+        expect(deleteLastExpiredTokenSpy).toHaveBeenCalledTimes(1);
+        expect(deleteLastExpiredTokenSpy).toHaveBeenCalledWith(expect.any(String));
 
         expect(res.status).toHaveBeenCalledTimes(1);
         expect(res.status).toHaveBeenCalledWith(Http.INTERNAL_SERVER_ERROR);

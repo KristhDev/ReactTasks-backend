@@ -44,7 +44,7 @@ describe('Test in UpdateTaskController of tasks module', () => {
         expect(uploadImageSpy).not.toHaveBeenCalled();
 
         expect(findByIdAndUpdateTaskSpy).toHaveBeenCalledTimes(1);
-        expect(findByIdAndUpdateTaskSpy).toHaveBeenCalledWith(taskMock._id, { ...bodyMock, image: undefined }, { new: true });
+        expect(findByIdAndUpdateTaskSpy).toHaveBeenCalledWith(taskMock.id, { ...bodyMock, image: undefined });
 
         expect(res.status).toHaveBeenCalledTimes(1);
         expect(res.status).toHaveBeenCalledWith(Http.OK);
@@ -53,7 +53,7 @@ describe('Test in UpdateTaskController of tasks module', () => {
         expect(res.json).toHaveBeenCalledWith({
             msg: 'Has actualizado la tarea correctamente.',
             status: Http.OK,
-            task: TaskRepository.endpointAdapter(taskMock)
+            task: TaskRepository.toEndpoint(taskMock)
         });
     });
 
@@ -85,7 +85,7 @@ describe('Test in UpdateTaskController of tasks module', () => {
         expect(uploadImageSpy).toHaveBeenCalledWith(imageMock, process.env.CLOUDINARY_TASKS_FOLDER);
 
         expect(findByIdAndUpdateTaskSpy).toHaveBeenCalledTimes(1);
-        expect(findByIdAndUpdateTaskSpy).toHaveBeenCalledWith(taskMock._id, { ...bodyMock, image: newImageUrlMock }, { new: true });
+        expect(findByIdAndUpdateTaskSpy).toHaveBeenCalledWith(taskMock.id, { ...bodyMock, image: newImageUrlMock });
 
         expect(res.status).toHaveBeenCalledTimes(1);
         expect(res.status).toHaveBeenCalledWith(Http.OK);
@@ -94,7 +94,7 @@ describe('Test in UpdateTaskController of tasks module', () => {
         expect(res.json).toHaveBeenCalledWith({
             msg: 'Has actualizado la tarea correctamente.',
             status: Http.OK,
-            task: TaskRepository.endpointAdapter({ ...taskMock, image: newImageUrlMock } as any) 
+            task: TaskRepository.toEndpoint({ ...taskMock, image: newImageUrlMock } as any) 
         });
     });
 
@@ -115,7 +115,7 @@ describe('Test in UpdateTaskController of tasks module', () => {
         expect(uploadImageSpy).not.toHaveBeenCalled();
 
         expect(findByIdAndUpdateTaskSpy).toHaveBeenCalledTimes(1);
-        expect(findByIdAndUpdateTaskSpy).toHaveBeenCalledWith(taskMock._id, { ...bodyMock, image: imageUrlMock }, { new: true });
+        expect(findByIdAndUpdateTaskSpy).toHaveBeenCalledWith(taskMock.id, { ...bodyMock, image: imageUrlMock });
 
         expect(res.status).toHaveBeenCalledTimes(1);
         expect(res.status).toHaveBeenCalledWith(Http.INTERNAL_SERVER_ERROR);

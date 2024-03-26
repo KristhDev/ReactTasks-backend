@@ -58,7 +58,7 @@ describe('Test in SignUp Endpoint', () => {
         });
 
         const user = await UserRepository.findOne({ email: data.email });
-        await VerificationRepository.deleteOne({ userId: user?._id });
+        await VerificationRepository.deleteOne({ userId: user?.id });
         await UserRepository.deleteOne({ email: data.email });
     });
 

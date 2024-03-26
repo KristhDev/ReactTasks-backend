@@ -60,7 +60,7 @@ describe('Test in VerifyEmailController of auth module', () => {
         expect(findByIdAndUpdateUserSpy).toHaveBeenCalledWith(verificationEmailMock.userId, { verified: true });
 
         expect(deleteOneVerificationSpy).toHaveBeenCalledTimes(1);
-        expect(deleteOneVerificationSpy).toHaveBeenCalledWith({ _id: verificationEmailMock._id });
+        expect(deleteOneVerificationSpy).toHaveBeenCalledWith({ id: verificationEmailMock.id });
 
         expect(res.status).toHaveBeenCalledTimes(1);
         expect(res.status).toHaveBeenCalledWith(Http.OK);

@@ -35,7 +35,7 @@ describe('Test in SignIn Endpoint', () => {
         expect(resp.body).toEqual({
             msg: 'Has ingresado correctamente.',
             status: Http.OK,
-            user: UserRepository.endpointAdapter(user!),
+            user: UserRepository.toEndpoint(user!),
             token: expect.any(String)
         });
     });
@@ -79,7 +79,7 @@ describe('Test in SignIn Endpoint', () => {
 
     it('should fail because user is not verified', async () => {
         const user = await UserRepository.findOne({ email: credentials.email });
-        await UserRepository.findByIdAndUpdate(user!._id, { verified: false });
+        await UserRepository.findByIdAndUpdate(user!.id, { verified: false });
 
         const resp = await request
             .post('/api/auth/signin')
@@ -92,6 +92,6 @@ describe('Test in SignIn Endpoint', () => {
             status: Http.BAD_REQUEST
         });
 
-        await UserRepository.findByIdAndUpdate(user!._id, { verified: true });
+        await UserRepository.findByIdAndUpdate(user!.id, { verified: true });
     });
 });

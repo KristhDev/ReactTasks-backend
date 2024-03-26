@@ -30,11 +30,11 @@ describe('Test in Update Task Endpoint', () => {
 
     it('should update task of authenticated user', async () => {
         const user = await UserRepository.findOne({ email: 'tester@gmail.com' });
-        await TaskRepository.deleteMany({ userId: user?._id });
+        await TaskRepository.deleteMany({ userId: user?.id });
 
         const task = await TaskRepository.create({
             ...data,
-            userId: user?._id
+            userId: user!.id
         });
 
         const token = JWT.generateToken({ id: user?.id! });
@@ -50,25 +50,25 @@ describe('Test in Update Task Endpoint', () => {
             msg: 'Has actualizado la tarea correctamente.',
             status: Http.OK,
             task: {
-                ...TaskRepository.endpointAdapter(task),
+                ...TaskRepository.toEndpoint(task),
                 title: data.description,
                 updatedAt: expect.any(String)
             }
         });
 
-        await TaskRepository.deleteOne({ userId: user?._id });
+        await TaskRepository.deleteOne({ userId: user?.id });
     });
 
     it('should update task with empty body', async () => {
         const user = await UserRepository.findOne({ email: 'tester@gmail.com' });
-        await TaskRepository.deleteMany({ userId: user?._id });
+        await TaskRepository.deleteMany({ userId: user?.id });
 
         const task = await TaskRepository.create({
             ...data,
-            userId: user?._id
+            userId: user!.id
         });
 
-        const token = JWT.generateToken({ id: user?._id });
+        const token = JWT.generateToken({ id: user?.id });
 
         const resp = await request
             .put(`/api/tasks/${ task.id }`)
@@ -80,17 +80,17 @@ describe('Test in Update Task Endpoint', () => {
             msg: 'Has actualizado la tarea correctamente.',
             status: Http.OK,
             task: {
-                ...TaskRepository.endpointAdapter(task),
+                ...TaskRepository.toEndpoint(task),
                 updatedAt: expect.any(String)
             }
         });
 
-        await TaskRepository.deleteOne({ userId: user?._id });
+        await TaskRepository.deleteOne({ userId: user?.id });
     });
 
     it('should faild because task not found', async () => {
         const user = await UserRepository.findOne({ email: 'tester@gmail.com' });
-        const token = JWT.generateToken({ id: user?._id });
+        const token = JWT.generateToken({ id: user?.id });
 
         const resp = await request
             .put('/api/tasks/task-not-found')
@@ -107,14 +107,14 @@ describe('Test in Update Task Endpoint', () => {
 
     it('should faild because body is invalid', async () => {
         const user = await UserRepository.findOne({ email: 'tester@gmail.com' });
-        await TaskRepository.deleteMany({ userId: user?._id });
+        await TaskRepository.deleteMany({ userId: user?.id });
 
         const task = await TaskRepository.create({
             ...data,
-            userId: user?._id
+            userId: user!.id
         });
 
-        const token = JWT.generateToken({ id: user?._id });
+        const token = JWT.generateToken({ id: user?.id });
 
         const resp = await request
             .put(`/api/tasks/${ task.id }`)
@@ -128,7 +128,7 @@ describe('Test in Update Task Endpoint', () => {
             status: Http.BAD_REQUEST
         });
 
-        await TaskRepository.deleteOne({ userId: user?._id });
+        await TaskRepository.deleteOne({ userId: user?.id });
     });
 
     it('should faild because user is unauthenticated', async () => {

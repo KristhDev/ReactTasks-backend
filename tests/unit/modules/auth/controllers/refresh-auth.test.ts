@@ -26,7 +26,7 @@ describe('Test in RefreshAuthController of auth module', () => {
 
     it('should return a success response', async () => {
         revokeToken.mockImplementation(() => Promise.resolve());
-        const oldToken = JWT.generateToken({ id: userMock._id });
+        const oldToken = JWT.generateToken({ id: userMock.id });
 
         const req = createRequestMock({
             auth: {
@@ -46,14 +46,14 @@ describe('Test in RefreshAuthController of auth module', () => {
         expect(res.json).toHaveBeenCalledTimes(1);
         expect(res.json).toHaveBeenCalledWith({
             status: Http.OK,
-            user: UserRepository.endpointAdapter(userMock),
+            user: UserRepository.toEndpoint(userMock),
             token: expect.any(String)
         });
     });
 
     it('should return an internal server error', async () => {
         revokeToken.mockRejectedValue(new Error('Database error'));
-        const oldToken = JWT.generateToken({ id: userMock._id });
+        const oldToken = JWT.generateToken({ id: userMock.id });
 
         const req = createRequestMock({
             auth: {

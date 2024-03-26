@@ -41,7 +41,7 @@ describe('Test in ChangeStatusTaskController of tasks module', () => {
         await ChangeStatusTaskController.handler(req, res);
 
         expect(findByIdAndUpdateTaskSpy).toHaveBeenCalledTimes(1);
-        expect(findByIdAndUpdateTaskSpy).toHaveBeenCalledWith(taskMock._id, { status: newStatus }, { new: true });
+        expect(findByIdAndUpdateTaskSpy).toHaveBeenCalledWith(taskMock.id, { status: newStatus });
 
         expect(res.status).toHaveBeenCalledTimes(1);
         expect(res.status).toHaveBeenCalledWith(Http.OK);
@@ -49,7 +49,7 @@ describe('Test in ChangeStatusTaskController of tasks module', () => {
         expect(res.json).toHaveBeenCalledTimes(1);
         expect(res.json).toHaveBeenCalledWith({
             status: Http.OK,
-            task: TaskRepository.endpointAdapter(updatedTaskMock as any)
+            task: TaskRepository.toEndpoint(updatedTaskMock as any)
         });
     });
 
@@ -64,7 +64,7 @@ describe('Test in ChangeStatusTaskController of tasks module', () => {
         await ChangeStatusTaskController.handler(req, res);
 
         expect(findByIdAndUpdateTaskSpy).toHaveBeenCalledTimes(1);
-        expect(findByIdAndUpdateTaskSpy).toHaveBeenCalledWith(taskMock._id, { status: newStatus }, { new: true });
+        expect(findByIdAndUpdateTaskSpy).toHaveBeenCalledWith(taskMock.id, { status: newStatus });
 
         expect(res.status).toHaveBeenCalledTimes(1);
         expect(res.status).toHaveBeenCalledWith(Http.INTERNAL_SERVER_ERROR);

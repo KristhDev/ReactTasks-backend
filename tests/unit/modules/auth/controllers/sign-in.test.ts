@@ -51,7 +51,7 @@ describe('Test in SignInController of auth module', () => {
         expect(compareHashSpy).toHaveBeenCalledWith(bodyMock.password, userVerfiedHashedPassMock.password);
 
         expect(generateTokenSpy).toHaveBeenCalledTimes(1);
-        expect(generateTokenSpy).toHaveBeenCalledWith({ id: userVerfiedHashedPassMock._id });
+        expect(generateTokenSpy).toHaveBeenCalledWith({ id: userVerfiedHashedPassMock.id });
 
         expect(res.status).toHaveBeenCalledTimes(1);
         expect(res.status).toHaveBeenCalledWith(Http.OK);
@@ -60,7 +60,7 @@ describe('Test in SignInController of auth module', () => {
         expect(res.json).toHaveBeenCalledWith({
             msg: 'Has ingresado correctamente.',
             status: Http.OK,
-            user: UserRepository.endpointAdapter(userVerfiedHashedPassMock),
+            user: UserRepository.toEndpoint(userVerfiedHashedPassMock),
             token: expect.any(String)
         });
     });

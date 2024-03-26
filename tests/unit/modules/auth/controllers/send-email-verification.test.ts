@@ -38,7 +38,7 @@ describe('Test in SendEmailVerificationController of auth module', () => {
             expiresIn: expect.any(String),
             token: expect.any(String),
             type: 'email',
-            userId: userMock._id
+            userId: userMock.id
         });
 
         expect(sendEmailVerificationSpy).toHaveBeenCalledTimes(1);
@@ -88,7 +88,7 @@ describe('Test in SendEmailVerificationController of auth module', () => {
             expiresIn: expect.any(String),
             token: expect.any(String),
             type: 'email',
-            userId: userMock._id
+            userId: userMock.id
         });
 
         expect(sendEmailVerificationSpy).not.toHaveBeenCalled();

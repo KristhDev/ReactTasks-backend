@@ -47,7 +47,7 @@ describe('Test in SignUpController of auth module', () => {
 
         expect(createVerificationSpy).toHaveBeenCalledTimes(1);
         expect(createVerificationSpy).toHaveBeenCalledWith({
-            userId: userHashedPassMock._id,
+            userId: userHashedPassMock.id,
             token: expect.any(String),
             type: 'email',
             expiresIn: expect.any(String)

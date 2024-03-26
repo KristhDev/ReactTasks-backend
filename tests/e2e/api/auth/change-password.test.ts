@@ -31,9 +31,9 @@ describe('Test in Change Password Endpoint', () => {
 
     it('should change user password', async () => {
         const user = await UserRepository.findOne({ email: 'tester@gmail.com' });
-        const token = JWT.generateToken({ id: user?._id });
+        const token = JWT.generateToken({ id: user?.id });
 
-        await UserRepository.findByIdAndUpdate(user!._id, { password: Encrypt.createHash(oldPassword) });
+        await UserRepository.findByIdAndUpdate(user!.id, { password: Encrypt.createHash(oldPassword) });
 
         const resp = await request
             .put('/api/auth/change-password')
@@ -47,7 +47,7 @@ describe('Test in Change Password Endpoint', () => {
             status: Http.OK
         });
 
-        await UserRepository.findByIdAndUpdate(user!._id, { password: Encrypt.createHash(oldPassword) });
+        await UserRepository.findByIdAndUpdate(user!.id, { password: Encrypt.createHash(oldPassword) });
     });
 
     it('should faild because user is unauthenticated', async () => {
@@ -81,7 +81,7 @@ describe('Test in Change Password Endpoint', () => {
 
     it('should faild because token is expired', async () => {
         const user = await UserRepository.findOne({ email: 'tester@gmail.com' });
-        const token = JWT.generateToken({ id: user?._id }, '1s');
+        const token = JWT.generateToken({ id: user?.id }, '1s');
 
         await new Promise((resolve) => setTimeout(resolve, 2000));
 
@@ -100,7 +100,7 @@ describe('Test in Change Password Endpoint', () => {
 
     it('should faild because token is revoked', async () => {
         const user = await UserRepository.findOne({ email: 'tester@gmail.com' });
-        const token = JWT.generateToken({ id: user?._id });
+        const token = JWT.generateToken({ id: user?.id });
 
         await JWT.revokeToken(token);
 
@@ -121,7 +121,7 @@ describe('Test in Change Password Endpoint', () => {
 
     it('should faild because request body is invalid', async () => {
         const user = await UserRepository.findOne({ email: 'tester@gmail.com' });
-        const token = JWT.generateToken({ id: user?._id });
+        const token = JWT.generateToken({ id: user?.id });
 
         const resp = await request
             .put('/api/auth/change-password')
@@ -137,7 +137,7 @@ describe('Test in Change Password Endpoint', () => {
 
     it('should faild because passwords do not match', async () => {
         const user = await UserRepository.findOne({ email: 'tester@gmail.com' });
-        const token = JWT.generateToken({ id: user?._id });
+        const token = JWT.generateToken({ id: user?.id });
 
         const resp = await request
             .put('/api/auth/change-password')
@@ -157,7 +157,7 @@ describe('Test in Change Password Endpoint', () => {
 
     it('should faild because new password is the same as old', async () => {
         const user = await UserRepository.findOne({ email: 'tester@gmail.com' });
-        const token = JWT.generateToken({ id: user?._id });
+        const token = JWT.generateToken({ id: user?.id });
 
         const resp = await request
             .put('/api/auth/change-password')

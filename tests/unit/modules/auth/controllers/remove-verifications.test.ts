@@ -10,7 +10,7 @@ import { VerificationRepository } from '@database';
 /* Modules */
 import { RemoveVerificationsController } from '@auth';
 
-const deleteManyVerificationSpy = jest.spyOn(VerificationRepository, 'deleteMany');
+const deleteLastExpiredVerificationSpy = jest.spyOn(VerificationRepository, 'deleteLastExpired');
 
 describe('Test in RemoveVerificationsController of auth module', () => {
     const { mockClear, res } = createResponseMock();
@@ -25,13 +25,13 @@ describe('Test in RemoveVerificationsController of auth module', () => {
     });
 
     it('should return a success response', async () => {
-        deleteManyVerificationSpy.mockResolvedValue(null as any);
+        deleteLastExpiredVerificationSpy.mockResolvedValue(null as any);
         const req = createRequestMock();
 
         await RemoveVerificationsController.handler(req, res);
 
-        expect(deleteManyVerificationSpy).toHaveBeenCalledTimes(1);
-        expect(deleteManyVerificationSpy).toHaveBeenCalledWith({ expiresIn: { $lte: expect.any(String) } });
+        expect(deleteLastExpiredVerificationSpy).toHaveBeenCalledTimes(1);
+        expect(deleteLastExpiredVerificationSpy).toHaveBeenCalledWith(expect.any(String));
 
         expect(res.status).toHaveBeenCalledTimes(1);
         expect(res.status).toHaveBeenCalledWith(Http.OK);
@@ -44,13 +44,13 @@ describe('Test in RemoveVerificationsController of auth module', () => {
     });
 
     it('should return internal server error', async () => {
-        deleteManyVerificationSpy.mockRejectedValue(new Error('Database error'));
+        deleteLastExpiredVerificationSpy.mockRejectedValue(new Error('Database error'));
         const req = createRequestMock();
 
         await RemoveVerificationsController.handler(req, res);
 
-        expect(deleteManyVerificationSpy).toHaveBeenCalledTimes(1);
-        expect(deleteManyVerificationSpy).toHaveBeenCalledWith({ expiresIn: { $lte: expect.any(String) } });
+        expect(deleteLastExpiredVerificationSpy).toHaveBeenCalledTimes(1);
+        expect(deleteLastExpiredVerificationSpy).toHaveBeenCalledWith(expect.any(String));
 
         expect(res.status).toHaveBeenCalledTimes(1);
         expect(res.status).toHaveBeenCalledWith(Http.INTERNAL_SERVER_ERROR);

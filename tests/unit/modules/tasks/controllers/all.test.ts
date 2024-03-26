@@ -35,13 +35,15 @@ describe('Test in IndexTaskController of tasks module', () => {
 
     it('should return tasks and pagination', async () => {
         paginateTaskSpy.mockResolvedValue({
-            docs: [ taskMock ],
-            page: paginationMock.currentPage,
-            hasNextPage: paginationMock.hasNextPage,
-            hasPrevPage: paginationMock.hasPrevPage,
-            nextPage: paginationMock.nextPage,
-            totalPages: paginationMock.totalPages,
-        } as any);
+            tasks: [ taskMock ],
+            pagination: {
+                currentPage: paginationMock.currentPage,
+                hasNextPage: paginationMock.hasNextPage,
+                hasPrevPage: paginationMock.hasPrevPage,
+                nextPage: paginationMock.nextPage,
+                totalPages: paginationMock.totalPages,
+            }
+        });
 
         const req = createRequestMock({
             auth: { user: userMock },
@@ -53,7 +55,7 @@ describe('Test in IndexTaskController of tasks module', () => {
         expect(paginateTaskSpy).toHaveBeenCalledWith({
             limit: 12,
             page: 1,
-            query: { userId: userMock._id },
+            query: { userId: userMock.id },
             sort: { createdAt: -1 }
         });
 
@@ -63,7 +65,7 @@ describe('Test in IndexTaskController of tasks module', () => {
         expect(res.json).toHaveBeenCalledTimes(1);
         expect(res.json).toHaveBeenCalledWith({
             status: Http.OK,
-            tasks: [ TaskRepository.endpointAdapter(taskMock) ],
+            tasks: [ TaskRepository.toEndpoint(taskMock) ],
             pagination: paginationMock
         });
     });
@@ -73,13 +75,15 @@ describe('Test in IndexTaskController of tasks module', () => {
         const page = 2;
 
         paginateTaskSpy.mockResolvedValue({
-            docs: [ taskMock ],
-            page,
-            hasNextPage: paginationMock.hasNextPage,
-            hasPrevPage: paginationMock.hasPrevPage,
-            nextPage: page,
-            totalPages: page,
-        } as any);
+            tasks: [ taskMock ],
+            pagination: {
+                currentPage: page,
+                hasNextPage: paginationMock.hasNextPage,
+                hasPrevPage: paginationMock.hasPrevPage,
+                nextPage: page,
+                totalPages: page,
+            }
+        });
 
         const req = createRequestMock({
             auth: { user: userMock },
@@ -89,7 +93,7 @@ describe('Test in IndexTaskController of tasks module', () => {
         await IndexTaskController.handler(req, res);
 
         const queryDB = {
-            userId: userMock._id,
+            userId: userMock.id,
             $or: [ 
                 { title: { $regex: query, $options: 'i' } }, 
                 { description: { $regex: query, $options: 'i' } } 
@@ -110,7 +114,7 @@ describe('Test in IndexTaskController of tasks module', () => {
         expect(res.json).toHaveBeenCalledTimes(1);
         expect(res.json).toHaveBeenCalledWith({
             status: Http.OK,
-            tasks: [ TaskRepository.endpointAdapter(taskMock) ],
+            tasks: [ TaskRepository.toEndpoint(taskMock) ],
             pagination: {
                 ...paginationMock,
                 query,
@@ -134,7 +138,7 @@ describe('Test in IndexTaskController of tasks module', () => {
         expect(paginateTaskSpy).toHaveBeenCalledWith({
             limit: 12,
             page: 1,
-            query: { userId: userMock._id },
+            query: { userId: userMock.id },
             sort: { createdAt: -1 }
         });
 

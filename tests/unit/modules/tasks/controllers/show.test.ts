@@ -32,7 +32,7 @@ describe('Test in ShowTaskController of tasks module', () => {
 
         expect(res.json).toHaveBeenCalledTimes(1);
         expect(res.json).toHaveBeenCalledWith({
-            task: TaskRepository.endpointAdapter(taskMock), 
+            task: TaskRepository.toEndpoint(taskMock), 
             status: Http.OK 
         });
     });

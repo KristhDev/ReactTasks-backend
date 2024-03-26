@@ -38,13 +38,13 @@ describe('Test in Update User Endpoint', () => {
             status: Http.OK,
             msg: 'Has actualizado tus datos correctamente.',
             user: {
-                ...UserRepository.endpointAdapter(user!),
+                ...UserRepository.toEndpoint(user!),
                 name: newName,
                 updatedAt: expect.any(String)
             }
         });
 
-        await UserRepository.findByIdAndUpdate(user!._id, { name: newName });
+        await UserRepository.findByIdAndUpdate(user!.id, { name: newName });
     });
 
     it('should faild because user is unauthenticated', async () => {

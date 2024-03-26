@@ -30,7 +30,7 @@ describe('Test in Forgot Password Endpoint', () => {
 
     it('should send email reset password', async () => {
         const user = await UserRepository.findOne({ email: 'tester@gmail.com' });
-        await VerificationRepository.deleteOne({ userId: user?._id });
+        await VerificationRepository.deleteOne({ userId: user?.id });
 
         const resp = await request
             .post('/api/auth/forgot-password')
@@ -50,7 +50,7 @@ describe('Test in Forgot Password Endpoint', () => {
             token: expect.any(String)
         });
 
-        await VerificationRepository.deleteOne({ userId: user?._id });
+        await VerificationRepository.deleteOne({ userId: user?.id });
     });
 
     it('should faild user not found', async () => {
@@ -92,7 +92,7 @@ describe('Test in Forgot Password Endpoint', () => {
 
         expect(sendEmailResetPasswordSpy).toHaveBeenCalledTimes(0);
 
-        await UserRepository.deleteOne({ _id: newUser._id });
+        await UserRepository.deleteOne({ id: newUser.id });
     });
 
     it('should faild because email is invalid', async () => {

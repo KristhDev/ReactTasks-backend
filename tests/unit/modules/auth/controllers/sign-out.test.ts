@@ -10,7 +10,7 @@ import { JWT, SignOutController } from '@auth';
 const revokeToken = jest.spyOn(JWT, 'revokeToken');
 
 describe('Test in SignOutController of auth module', () => {
-    const token = JWT.generateToken({ id: userMock._id });
+    const token = JWT.generateToken({ id: userMock.id });
     const { mockClear, res } = createResponseMock();
 
     beforeEach(() => {

@@ -27,19 +27,19 @@ describe('Test in Show Task Endpoint', () => {
         const token = JWT.generateToken({ id: user?.id! });
 
         const task = await TaskRepository.create({
-            userId: user?._id!,
+            userId: user?.id!,
             title: 'test',
             description: 'test',
             deadline: new Date().toISOString(),
         });
 
         const resp = await request
-            .get(`/api/tasks/${ task?._id }`)
+            .get(`/api/tasks/${ task?.id }`)
             .set('Authorization', `Bearer ${ token }`);
 
         expect(resp.status).toBe(Http.OK);
 
-        const taskEndpoint = TaskRepository.endpointAdapter(task);
+        const taskEndpoint = TaskRepository.toEndpoint(task);
         delete taskEndpoint.image;
 
         expect(resp.body).toEqual({
@@ -47,7 +47,7 @@ describe('Test in Show Task Endpoint', () => {
             task: taskEndpoint
         });
 
-        await TaskRepository.deleteOne({ _id: task?._id });
+        await TaskRepository.deleteOne({ _id: task?.id });
     });
 
     it('should faild because task not found', async () => {

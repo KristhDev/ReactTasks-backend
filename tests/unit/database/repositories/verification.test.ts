@@ -1,17 +1,12 @@
 /* Database */
-import { DatabaseError, Verification, VerificationModel, VerificationRepository } from '@database';
+import { DatabaseError, VerificationSchema, VerificationRepository } from '@database';
 
-const verificationMock: VerificationModel = {
-    _id: '65cad8ccb2092e00addead85',
-    id: '65cad8ccb2092e00addead85',
-    token: 'token',
-    type: 'email',
-    expiresIn: new Date().toISOString()
-} as VerificationModel;
+/* Mocks */
+import { verificationEmailMock, verificationEmailModelMock } from '@mocks';
 
-const createVerificationSpy = jest.spyOn(Verification, 'create');
-const deleteOneVerificationSpy = jest.spyOn(Verification, 'deleteOne');
-const findOneVerificationSpy = jest.spyOn(Verification, 'findOne');
+const createVerificationSpy = jest.spyOn(VerificationSchema, 'create');
+const deleteOneVerificationSpy = jest.spyOn(VerificationSchema, 'deleteOne');
+const findOneVerificationSpy = jest.spyOn(VerificationSchema, 'findOne');
 
 describe('Test in VerificationRepository of database module', () => {
     beforeEach(() => {
@@ -19,20 +14,28 @@ describe('Test in VerificationRepository of database module', () => {
     });
 
     it('should create verification', async () => {
-        createVerificationSpy.mockResolvedValue(verificationMock as any);
+        createVerificationSpy.mockResolvedValue(verificationEmailModelMock as any);
 
         const verification = await VerificationRepository.create({
-            token: verificationMock.token,
-            type: verificationMock.type,
-            expiresIn: verificationMock.expiresIn
+            userId: verificationEmailModelMock.userId,
+            token: verificationEmailModelMock.token,
+            type: verificationEmailModelMock.type,
+            expiresIn: verificationEmailModelMock.expiresIn
         });
 
-        expect(verification).toEqual(verificationMock);
+        expect(verification).toEqual({
+            ...verificationEmailMock,
+            expiresIn: expect.any(String),
+            createdAt: expect.any(String),
+            updatedAt: expect.any(String)
+        });
+
         expect(createVerificationSpy).toHaveBeenCalledTimes(1);
         expect(createVerificationSpy).toHaveBeenCalledWith({
-            expiresIn: verificationMock.expiresIn,
-            type: verificationMock.type,
-            token: verificationMock.token
+            userId: verificationEmailModelMock.userId,
+            expiresIn: verificationEmailModelMock.expiresIn,
+            type: verificationEmailModelMock.type,
+            token: verificationEmailModelMock.token
         });
     });
 
@@ -40,10 +43,11 @@ describe('Test in VerificationRepository of database module', () => {
         createVerificationSpy.mockImplementation(() => { throw new Error('Database error'); });
 
         try {
-            const verification = await VerificationRepository.create({
-                expiresIn: verificationMock.expiresIn,
-                type: verificationMock.type,
-                token: verificationMock.token
+            await VerificationRepository.create({
+                userId: verificationEmailModelMock.userId,
+                expiresIn: verificationEmailModelMock.expiresIn,
+                type: verificationEmailModelMock.type,
+                token: verificationEmailModelMock.token
             });
 
             expect(true).toBeFalsy();
@@ -51,9 +55,10 @@ describe('Test in VerificationRepository of database module', () => {
         catch (error) {
             expect(createVerificationSpy).toHaveBeenCalledTimes(1);
             expect(createVerificationSpy).toHaveBeenCalledWith({
-                expiresIn: verificationMock.expiresIn,
-                type: verificationMock.type,
-                token: verificationMock.token
+                userId: verificationEmailModelMock.userId,
+                expiresIn: verificationEmailModelMock.expiresIn,
+                type: verificationEmailModelMock.type,
+                token: verificationEmailModelMock.token
             });
 
             expect(error).toBeInstanceOf(DatabaseError);
@@ -63,24 +68,24 @@ describe('Test in VerificationRepository of database module', () => {
     });
 
     it('should delete one verification', async () => {
-        deleteOneVerificationSpy.mockResolvedValue({ acknowledged: true, deletedCount: 1 });
+        deleteOneVerificationSpy.mockResolvedValue({} as any);
 
-        await VerificationRepository.deleteOne({ _id: verificationMock._id });
+        await VerificationRepository.deleteOne({ id: verificationEmailModelMock._id });
 
         expect(deleteOneVerificationSpy).toHaveBeenCalledTimes(1);
-        expect(deleteOneVerificationSpy).toHaveBeenCalledWith({ _id: verificationMock._id }, undefined);
+        expect(deleteOneVerificationSpy).toHaveBeenCalledWith({ _id: verificationEmailModelMock._id });
     });
 
     it('should throw error in delete one verification', async () => {
         deleteOneVerificationSpy.mockImplementation(() => { throw new Error('Database error'); });
 
         try {
-            await VerificationRepository.deleteOne({ _id: verificationMock._id });
+            await VerificationRepository.deleteOne({ id: verificationEmailModelMock._id });
             expect(true).toBeFalsy();
         } 
         catch (error) {
             expect(deleteOneVerificationSpy).toHaveBeenCalledTimes(1);
-            expect(deleteOneVerificationSpy).toHaveBeenCalledWith({ _id: verificationMock._id }, undefined);
+            expect(deleteOneVerificationSpy).toHaveBeenCalledWith({ _id: verificationEmailModelMock._id });
 
             expect(error).toBeInstanceOf(DatabaseError);
             expect(error).toHaveProperty('name', 'DatabaseError');
@@ -89,25 +94,31 @@ describe('Test in VerificationRepository of database module', () => {
     });
 
     it('should find one verification', async () => {
-        findOneVerificationSpy.mockResolvedValue(verificationMock);
+        findOneVerificationSpy.mockResolvedValue(verificationEmailModelMock);
 
-        const verification = await VerificationRepository.findOne({ _id: verificationMock._id });
+        const verification = await VerificationRepository.findOne({ id: verificationEmailModelMock._id });
 
-        expect(verification).toEqual(verificationMock);
+        expect(verification).toEqual({
+            ...verificationEmailMock,
+            expiresIn: expect.any(String),
+            createdAt: expect.any(String),
+            updatedAt: expect.any(String)
+        });
+
         expect(findOneVerificationSpy).toHaveBeenCalledTimes(1);
-        expect(findOneVerificationSpy).toHaveBeenCalledWith({ _id: verificationMock._id }, undefined, undefined);
+        expect(findOneVerificationSpy).toHaveBeenCalledWith({ _id: verificationEmailModelMock._id });
     });
 
     it('should throw error in find one verification', async () => {
         findOneVerificationSpy.mockImplementation(() => { throw new Error('Database error'); });
 
         try {
-            const verification = await VerificationRepository.findOne({ _id: verificationMock._id });
+            await VerificationRepository.findOne({ id: verificationEmailModelMock._id });
             expect(true).toBeFalsy();
         } 
         catch (error) {
             expect(findOneVerificationSpy).toHaveBeenCalledTimes(1);
-            expect(findOneVerificationSpy).toHaveBeenCalledWith({ _id: verificationMock._id }, undefined, undefined);
+            expect(findOneVerificationSpy).toHaveBeenCalledWith({ _id: verificationEmailModelMock._id });
 
             expect(error).toBeInstanceOf(DatabaseError);
             expect(error).toHaveProperty('name', 'DatabaseError');

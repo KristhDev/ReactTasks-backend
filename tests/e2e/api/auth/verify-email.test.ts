@@ -36,7 +36,7 @@ describe('Test in Verify Email Endpoint', () => {
         const data = JWT.decodeToken(token);
         const expiresIn = new Date(data?.exp! * 1000).toISOString();
 
-        await VerificationRepository.create({ userId: newUser?._id, token, type: 'email', expiresIn });
+        await VerificationRepository.create({ userId: newUser?.id, token, type: 'email', expiresIn });
 
         const resp = await request
             .get('/api/auth/verify-email')
@@ -49,8 +49,8 @@ describe('Test in Verify Email Endpoint', () => {
             status: Http.OK
         });
 
-        await UserRepository.deleteOne({ _id: newUser._id });
-        await VerificationRepository.deleteOne({ userId: newUser._id });
+        await UserRepository.deleteOne({ id: newUser.id });
+        await VerificationRepository.deleteOne({ userId: newUser.id });
     });
 
     it('should faild because token isnt provided', async () => {
@@ -92,7 +92,7 @@ describe('Test in Verify Email Endpoint', () => {
         const data = JWT.decodeToken(token);
         const expiresIn = new Date(data?.exp! * 1000).toISOString();
 
-        await VerificationRepository.create({ userId: newUser?._id, token, type: 'email', expiresIn });
+        await VerificationRepository.create({ userId: newUser?.id, token, type: 'email', expiresIn });
 
         await new Promise(resolve => setTimeout(resolve, 2000));
 
@@ -107,7 +107,7 @@ describe('Test in Verify Email Endpoint', () => {
             status: Http.BAD_REQUEST
         });
 
-        await UserRepository.deleteOne({ _id: newUser._id });
-        await VerificationRepository.deleteOne({ userId: newUser._id });
+        await UserRepository.deleteOne({ id: newUser.id });
+        await VerificationRepository.deleteOne({ userId: newUser.id });
     });
 });

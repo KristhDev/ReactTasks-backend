@@ -13,7 +13,7 @@ import { AuthErrorMessages, ChangePasswordController, JWT } from '@auth';
 const revokeTokenSpy = jest.spyOn(JWT, 'revokeToken');
 const findByIdAndUpdateUserSpy = jest.spyOn(UserRepository, 'findByIdAndUpdate');
 const newPassword = 'new-password-test';
-const token = JWT.generateToken({ id: userVerfiedHashedPassMock._id });
+const token = JWT.generateToken({ id: userVerfiedHashedPassMock.id });
 
 describe('Test in ChangePasswordController of auth module', () => {
     const { mockClear, res } = createResponseMock();
@@ -41,7 +41,7 @@ describe('Test in ChangePasswordController of auth module', () => {
         await ChangePasswordController.handler(req, res);
 
         expect(findByIdAndUpdateUserSpy).toHaveBeenCalledTimes(1);
-        expect(findByIdAndUpdateUserSpy).toHaveBeenCalledWith(userVerfiedHashedPassMock._id, { password: expect.any(String) });
+        expect(findByIdAndUpdateUserSpy).toHaveBeenCalledWith(userVerfiedHashedPassMock.id, { password: expect.any(String) });
 
         expect(revokeTokenSpy).not.toHaveBeenCalled();
 
@@ -69,7 +69,7 @@ describe('Test in ChangePasswordController of auth module', () => {
         await ChangePasswordController.handler(req, res);
 
         expect(findByIdAndUpdateUserSpy).toHaveBeenCalledTimes(1);
-        expect(findByIdAndUpdateUserSpy).toHaveBeenCalledWith(userVerfiedHashedPassMock._id, { password: expect.any(String) });
+        expect(findByIdAndUpdateUserSpy).toHaveBeenCalledWith(userVerfiedHashedPassMock.id, { password: expect.any(String) });
 
         expect(revokeTokenSpy).toHaveBeenCalledTimes(1);
         expect(revokeTokenSpy).toHaveBeenCalledWith(token);
@@ -124,7 +124,7 @@ describe('Test in ChangePasswordController of auth module', () => {
         await ChangePasswordController.handler(req, res);
 
         expect(findByIdAndUpdateUserSpy).toHaveBeenCalledTimes(1);
-        expect(findByIdAndUpdateUserSpy).toHaveBeenCalledWith(userVerfiedHashedPassMock._id, { password: expect.any(String) });
+        expect(findByIdAndUpdateUserSpy).toHaveBeenCalledWith(userVerfiedHashedPassMock.id, { password: expect.any(String) });
 
         expect(revokeTokenSpy).not.toHaveBeenCalled();
 

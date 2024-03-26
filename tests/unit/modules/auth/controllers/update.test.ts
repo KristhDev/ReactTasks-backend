@@ -29,7 +29,7 @@ describe('Test in UpdateUserController of auth module', () => {
     });
 
     it('should return a success response', async () => {
-        findByIdAndUpdateUserSpy.mockResolvedValue({ ...userVerifiedMock, ...bodyMock } as any);
+        findByIdAndUpdateUserSpy.mockResolvedValue({ ...userVerifiedMock, ...bodyMock });
 
         const req = createRequestMock({
             auth: { user: userVerifiedMock },
@@ -39,7 +39,7 @@ describe('Test in UpdateUserController of auth module', () => {
         await UpdateUserController.handler(req, res);
 
         expect(findByIdAndUpdateUserSpy).toHaveBeenCalledTimes(1);
-        expect(findByIdAndUpdateUserSpy).toHaveBeenCalledWith(userVerifiedMock._id, bodyMock, { new: true });
+        expect(findByIdAndUpdateUserSpy).toHaveBeenCalledWith(userVerifiedMock.id, bodyMock);
 
         expect(res.status).toHaveBeenCalledTimes(1);
         expect(res.status).toHaveBeenCalledWith(Http.OK);
@@ -48,7 +48,7 @@ describe('Test in UpdateUserController of auth module', () => {
         expect(res.json).toHaveBeenCalledWith({
             msg: 'Has actualizado tus datos correctamente.',
             status: Http.OK,
-            user: UserRepository.endpointAdapter({ ...userVerifiedMock, ...bodyMock } as any),
+            user: UserRepository.toEndpoint({ ...userVerifiedMock, ...bodyMock } as any),
         });
     });
 
@@ -63,7 +63,7 @@ describe('Test in UpdateUserController of auth module', () => {
         await UpdateUserController.handler(req, res);
 
         expect(findByIdAndUpdateUserSpy).toHaveBeenCalledTimes(1);
-        expect(findByIdAndUpdateUserSpy).toHaveBeenCalledWith(userVerifiedMock._id, bodyMock, { new: true });
+        expect(findByIdAndUpdateUserSpy).toHaveBeenCalledWith(userVerifiedMock.id, bodyMock);
 
         expect(res.status).toHaveBeenCalledTimes(1);
         expect(res.status).toHaveBeenCalledWith(Http.INTERNAL_SERVER_ERROR);

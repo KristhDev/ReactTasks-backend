@@ -24,19 +24,19 @@ describe('Test in Change Status Task Endpoint', () => {
 
     it('should change status of task', async () => {
         const user = await UserRepository.findOne({ email: 'tester@gmail.com' });
-        await TaskRepository.deleteMany({ userId: user?._id });
+        await TaskRepository.deleteMany({ userId: user?.id });
 
         const token = JWT.generateToken({ id: user?.id! });
 
         const task = await TaskRepository.create({
             title: 'test title',
             description: 'test description',
-            userId: user?._id!,
+            userId: user?.id!,
             deadline: new Date().toISOString()
         });
 
         const resp = await request
-            .put(`/api/tasks/${ task?._id }/change-status`)
+            .put(`/api/tasks/${ task?.id }/change-status`)
             .set('Authorization', `Bearer ${ token }`)
             .send({ status: 'completed' });
 
@@ -45,13 +45,13 @@ describe('Test in Change Status Task Endpoint', () => {
         expect(resp.body).toEqual({
             status: Http.OK,
             task: {
-                ...TaskRepository.endpointAdapter(task),
+                ...TaskRepository.toEndpoint(task),
                 status: 'completed',
                 updatedAt: expect.any(String)
             }
         });
 
-        await TaskRepository.deleteOne({ _id: task?._id });
+        await TaskRepository.deleteOne({ _id: task?.id });
     });
 
     it('should faild because task not found', async () => {
@@ -73,18 +73,18 @@ describe('Test in Change Status Task Endpoint', () => {
 
     it('should faild body is invalid', async () => {
         const user = await UserRepository.findOne({ email: 'tester@gmail.com' });
-        await TaskRepository.deleteMany({ userId: user?._id });
+        await TaskRepository.deleteMany({ userId: user?.id });
         const token = JWT.generateToken({ id: user?.id! });
 
         const task = await TaskRepository.create({
             title: 'test title',
             description: 'test description',
-            userId: user?._id!,
+            userId: user?.id!,
             deadline: new Date().toISOString()
         });
 
         const resp = await request
-            .put(`/api/tasks/${ task?._id }/change-status`)
+            .put(`/api/tasks/${ task?.id }/change-status`)
             .set('Authorization', `Bearer ${ token }`);
 
         expect(resp.status).toBe(Http.BAD_REQUEST);
@@ -94,7 +94,7 @@ describe('Test in Change Status Task Endpoint', () => {
             status: Http.BAD_REQUEST
         });
 
-        await TaskRepository.deleteOne({ userId: user?._id });
+        await TaskRepository.deleteOne({ userId: user?.id });
     });
 
     it('should faild because user is unauthenticated', async () => {
