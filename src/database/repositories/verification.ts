@@ -77,8 +77,8 @@ class VerificationRepository {
     /**
      * Finds a single record in the verifications that matches the given filter.
      *
-     * @param {VerificationFilter} filter - The filter to apply when searching for the document.
-     * @return {Promise<Verification | null>} - A promise that resolves with the matching document, or null if no document is found.
+     * @param {VerificationFilter} filter - The filter to apply when searching for the record.
+     * @return {Promise<Verification | null>} - A promise that resolves with the matching record, or null if no record is found.
      */
     public static async findOne(filter: VerificationFilter): Promise<Verification | null> {
         try {

@@ -86,9 +86,9 @@ class TaskRepository {
     /**
      * Finds a record by its ID and updates it.
      *
-     * @param {string} id - The ID of the document to find and update.
-     * @param {UpdateTaskData} data - The update to apply to the document.
-     * @return {Promise<Task | null>} A promise that resolves to the updated document, or null if not found.
+     * @param {string} id - The ID of the record to find and update.
+     * @param {UpdateTaskData} data - The update to apply to the record.
+     * @return {Promise<Task | null>} A promise that resolves to the updated record, or null if not found.
      */
     public static async findByIdAndUpdate(id: string, data?: UpdateTaskData): Promise<Task | null> {
         try {
