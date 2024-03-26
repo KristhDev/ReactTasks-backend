@@ -4,6 +4,10 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  ip@=2.0.0: '>=2.0.1'
+  express@<4.19.2: '>=4.19.2'
+
 dependencies:
   bcryptjs:
     specifier: ^2.4.3
@@ -21,7 +25,7 @@ dependencies:
     specifier: ^3.1.9
     version: 3.1.9
   express:
-    specifier: ^4.18.3
+    specifier: '>=4.19.2'
     version: 4.19.2
   express-fileupload:
     specifier: ^1.4.3
