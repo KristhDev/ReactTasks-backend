@@ -54,6 +54,34 @@ describe('Test in TokenRepository of database module', () => {
         }
     });
 
+    it('should delete last expired tokens', async () => {
+        deleteManyTokenSpy.mockResolvedValue({ acknowledged: true, deletedCount: 1 });
+
+        const date = new Date().toISOString();
+        await TokenRepository.deleteLastExpired(date);
+
+        expect(deleteManyTokenSpy).toHaveBeenCalledTimes(1);
+        expect(deleteManyTokenSpy).toHaveBeenCalledWith({ expiresIn: { $lte: date } });
+    });
+
+    it('should throw error in delete last expired tokens', async () => {
+        deleteManyTokenSpy.mockImplementation(() => { throw new Error('Database error'); });
+        const date = new Date().toISOString();
+
+        try {
+            await TokenRepository.deleteLastExpired(date);
+            expect(true).toBeFalsy();
+        } 
+        catch (error) {
+            expect(deleteManyTokenSpy).toHaveBeenCalledTimes(1);
+            expect(deleteManyTokenSpy).toHaveBeenCalledWith({ expiresIn: { $lte: date } });
+
+            expect(error).toBeInstanceOf(DatabaseError);
+            expect(error).toHaveProperty('name', 'DatabaseError');
+            expect(error).toHaveProperty('message', 'Database error');
+        }
+    });
+
     it('should delete many tokens', async () => {
         deleteManyTokenSpy.mockResolvedValue({ acknowledged: true, deletedCount: 1 });
 

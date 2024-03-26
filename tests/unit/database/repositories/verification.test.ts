@@ -6,6 +6,7 @@ import { verificationEmailMock, verificationEmailModelMock } from '@mocks';
 
 const createVerificationSpy = jest.spyOn(VerificationSchema, 'create');
 const deleteOneVerificationSpy = jest.spyOn(VerificationSchema, 'deleteOne');
+const deleteManyVerificationSpy = jest.spyOn(VerificationSchema, 'deleteMany');
 const findOneVerificationSpy = jest.spyOn(VerificationSchema, 'findOne');
 
 describe('Test in VerificationRepository of database module', () => {
@@ -60,6 +61,60 @@ describe('Test in VerificationRepository of database module', () => {
                 type: verificationEmailModelMock.type,
                 token: verificationEmailModelMock.token
             });
+
+            expect(error).toBeInstanceOf(DatabaseError);
+            expect(error).toHaveProperty('name', 'DatabaseError');
+            expect(error).toHaveProperty('message', 'Database error');
+        }
+    });
+
+    it('should delete last expired verifications', async () => {
+        deleteManyVerificationSpy.mockResolvedValue({ acknowledged: true, deletedCount: 1 });
+
+        const date = new Date().toISOString();
+        await VerificationRepository.deleteLastExpired(date);
+
+        expect(deleteManyVerificationSpy).toHaveBeenCalledTimes(1);
+        expect(deleteManyVerificationSpy).toHaveBeenCalledWith({ expiresIn: { $lte: date } });
+    });
+
+    it('should throw error in delete last expired verifications', async () => {
+        deleteManyVerificationSpy.mockImplementation(() => { throw new Error('Database error'); });
+        const date = new Date().toISOString();
+
+        try {
+            await VerificationRepository.deleteLastExpired(date);
+            expect(true).toBeFalsy();
+        } 
+        catch (error) {
+            expect(deleteManyVerificationSpy).toHaveBeenCalledTimes(1);
+            expect(deleteManyVerificationSpy).toHaveBeenCalledWith({ expiresIn: { $lte: date } });
+
+            expect(error).toBeInstanceOf(DatabaseError);
+            expect(error).toHaveProperty('name', 'DatabaseError');
+            expect(error).toHaveProperty('message', 'Database error');
+        }
+    });
+
+    it('should delete many verifications', async () => {
+        deleteManyVerificationSpy.mockResolvedValue({ acknowledged: true, deletedCount: 1 });
+
+        await VerificationRepository.deleteMany({ id: verificationEmailMock.id });
+
+        expect(deleteManyVerificationSpy).toHaveBeenCalledTimes(1);
+        expect(deleteManyVerificationSpy).toHaveBeenCalledWith({ _id: verificationEmailMock.id });
+    });
+
+    it('should throw error in delete many verifications', async () => {
+        deleteManyVerificationSpy.mockImplementation(() => { throw new Error('Database error'); });
+
+        try {
+            await VerificationRepository.deleteMany({ id: verificationEmailMock.id });
+            expect(true).toBeFalsy();
+        } 
+        catch (error) {
+            expect(deleteManyVerificationSpy).toHaveBeenCalledTimes(1);
+            expect(deleteManyVerificationSpy).toHaveBeenCalledWith({ _id: verificationEmailMock.id });
 
             expect(error).toBeInstanceOf(DatabaseError);
             expect(error).toHaveProperty('name', 'DatabaseError');
