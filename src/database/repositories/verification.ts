@@ -31,10 +31,10 @@ class VerificationRepository {
     /**
      * Delete all expired verifications from the database based on the provided date.
      *
-     * @param {Date | string | number} date - The date indicating the expiration threshold.
+     * @param {string} date - The date indicating the expiration threshold.
      * @return {Promise<void>} A Promise that resolves when the deletions are completed.
      */
-    public static async deleteLastExpired(date: Date | string | number): Promise<void> {
+    public static async deleteLastExpired(date: string): Promise<void> {
         try {
             await VerificationSchema.deleteMany({ expiresIn: { $lte: date } });
         } 
