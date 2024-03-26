@@ -134,7 +134,6 @@ class Logger {
      */
     public static info(message: string): void {
         Logger.log.info(message);
-        Logger.logtail.flush();
     }
 
     /**
