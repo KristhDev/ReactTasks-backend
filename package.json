@@ -52,5 +52,8 @@
     "rimraf": "^5.0.5",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.4.2"
+  },
+  "overrides": {
+    "ip": "^2.0.1"
   }
 }
