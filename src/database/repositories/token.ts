@@ -13,7 +13,7 @@ class TokenRepository {
      */
     public static async create(data: CreateTokenData): Promise<Token> {
         try {
-            const token = await TokenSchema.create(data);
+            const token = await TokenSchema.create({ ...data });
             return TokenRepository.toToken(token);
         } 
         catch (error) {
@@ -24,10 +24,10 @@ class TokenRepository {
     /**
      * Delete all expired tokens based on the provided date.
      *
-     * @param {Date | string | number} date - The date to compare token expiration against.
+     * @param {string} date - The date to compare token expiration against.
      * @return {Promise<void>} Promise that resolves with no value on successful deletion.
      */
-    public static async deleteLastExpired(date: Date | string | number): Promise<void> {
+    public static async deleteLastExpired(date: string): Promise<void> {
         try {
             await TokenSchema.deleteMany({ expiresIn: { $lte: date } });
         } 

@@ -22,7 +22,7 @@ class UserRepository {
      */
     public static async create(data: CreateUserData): Promise<User> {
         try {
-            const user = await UserSchema.create(data);
+            const user = await UserSchema.create({ ...data });
             return UserRepository.toUser(user);
         } 
         catch (error) {
