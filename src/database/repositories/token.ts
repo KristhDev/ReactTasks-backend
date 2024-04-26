@@ -94,13 +94,15 @@ class TokenRepository {
      * @return {Token} The converted Token object.
      */
     private static toToken(token: TokenModel): Token {
-        return {
-            id: token._id.toString(),
-            expiresIn: token.expiresIn,
-            token: token.token,
-            createdAt: new Date(token.createdAt!).toISOString(),
-            updatedAt: new Date(token.updatedAt!).toISOString()
-        }
+        let tokenToReturn: Token = {} as Token;
+
+        if (token._id) tokenToReturn.id = token._id.toString();
+        if (token.expiresIn) tokenToReturn.expiresIn = token.expiresIn;
+        if (token.token) tokenToReturn.token = token.token;
+        if (token.createdAt) tokenToReturn.createdAt = new Date(token.createdAt).toISOString();
+        if (token.updatedAt) tokenToReturn.updatedAt = new Date(token.updatedAt).toISOString();
+
+        return tokenToReturn;
     }
 }
 

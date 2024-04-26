@@ -162,14 +162,16 @@ class UserRepository {
      * @return {UserEndpoint} - The converted UserEndpoint object.
      */
     public static toEndpoint(user: User): UserEndpoint {
-        return {
-            id: user.id,
-            name: user.name,
-            lastname: user.lastname,
-            email: user.email,
-            createdAt: new Date(user.createdAt!).toISOString(),
-            updatedAt: new Date(user.updatedAt!).toISOString()
-        }
+        let userEndpoint: UserEndpoint = {} as UserEndpoint;
+
+        if (user.id) userEndpoint.id = user.id.toString();
+        if (user.name) userEndpoint.name = user.name;
+        if (user.lastname) userEndpoint.lastname = user.lastname;
+        if (user.email) userEndpoint.email = user.email;
+        if (user.createdAt) userEndpoint.createdAt = new Date(user.createdAt!).toISOString();
+        if (user.updatedAt) userEndpoint.updatedAt = new Date(user.updatedAt!).toISOString();
+
+        return userEndpoint;
     }
 
     /**
@@ -179,16 +181,18 @@ class UserRepository {
      * @return {User} The converted User object.
      */
     private static toUser(user: UserModel): User {
-        return {
-            id: user._id.toString(),
-            name: user.name,
-            lastname: user.lastname,
-            email: user.email,
-            verified: user.verified,
-            password: user?.password,
-            createdAt: new Date(user.createdAt!).toISOString(),
-            updatedAt: new Date(user.updatedAt!).toISOString()
-        }
+        let userToReturn: User = {} as User;
+
+        if (user._id) userToReturn.id = user?._id?.toString();
+        if (user.name) userToReturn.name = user.name;
+        if (user.lastname) userToReturn.lastname = user.lastname;
+        if (user.email) userToReturn.email = user.email;
+        if (user.verified) userToReturn.verified = user.verified;
+        if (user.password) userToReturn.password = user.password;
+        if (user.createdAt) userToReturn.createdAt = new Date(user.createdAt!).toISOString();
+        if (user.updatedAt) userToReturn.updatedAt = new Date(user.updatedAt!).toISOString();
+
+        return userToReturn;
     }
 }
 

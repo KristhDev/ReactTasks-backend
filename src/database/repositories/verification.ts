@@ -101,15 +101,17 @@ class VerificationRepository {
      * @return {Verification} the converted Verification object
      */
     private static toVerification(verification: VerificationModel): Verification {
-        return {
-            id: verification._id.toString(),
-            userId: verification.userId,
-            token: verification.token,
-            type: verification.type,
-            expiresIn: verification.expiresIn,
-            createdAt: new Date(verification.createdAt!).toISOString(),
-            updatedAt: new Date(verification.updatedAt!).toISOString()
-        }
+        let verificationToReturn: Verification = {} as Verification;
+
+        if (verification._id) verificationToReturn.id = verification._id.toString();
+        if (verification.userId) verificationToReturn.userId = verification.userId;
+        if (verification.token) verificationToReturn.token = verification.token;
+        if (verification.type) verificationToReturn.type = verification.type;
+        if (verification.expiresIn) verificationToReturn.expiresIn = verification.expiresIn;
+        if (verification.createdAt) verificationToReturn.createdAt = new Date(verification.createdAt!).toISOString();
+        if (verification.updatedAt) verificationToReturn.updatedAt = new Date(verification.updatedAt!).toISOString();
+
+        return verificationToReturn;
     }
 }
 
