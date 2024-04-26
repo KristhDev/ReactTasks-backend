@@ -153,15 +153,15 @@ class TaskRepository {
     public static toEndpoint(task: Task): TaskEndpoint {
         let taskEndpoint: TaskEndpoint = {} as TaskEndpoint;
 
-        if (task.id) taskEndpoint.id = task.id.toString();
-        if (task.userId) taskEndpoint.userId = task.userId.toString();
-        if (task.title) taskEndpoint.title = task.title;
-        if (task.description) taskEndpoint.description = task.description;
-        if (task.image) taskEndpoint.image = task.image;
-        if (task.deadline) taskEndpoint.deadline = new Date(task.deadline).toISOString();
-        if (task.status) taskEndpoint.status = task.status;
-        if (task.createdAt) taskEndpoint.createdAt = new Date(task.createdAt!).toISOString();
-        if (task.updatedAt) taskEndpoint.updatedAt = new Date(task.updatedAt!).toISOString();
+        if ('id' in task) taskEndpoint.id = task.id.toString();
+        if ('userId' in task) taskEndpoint.userId = task.userId.toString();
+        if ('title' in task) taskEndpoint.title = task.title;
+        if ('description' in task) taskEndpoint.description = task.description;
+        if ('image' in task) taskEndpoint.image = task.image;
+        if ('deadline' in task) taskEndpoint.deadline = new Date(task.deadline).toISOString();
+        if ('status' in task) taskEndpoint.status = task.status;
+        if ('createdAt' in task) taskEndpoint.createdAt = new Date(task.createdAt!).toISOString();
+        if ('updatedAt' in task) taskEndpoint.updatedAt = new Date(task.updatedAt!).toISOString();
 
         return taskEndpoint;
     }
@@ -175,15 +175,15 @@ class TaskRepository {
     private static toTask(task: TaskModel): Task {
         let taskToReturn: Task = {} as Task;
 
-        if (task._id) taskToReturn.id = task._id.toString();
-        if (task.userId) taskToReturn.userId = task.userId.toString();
-        if (task.title) taskToReturn.title = task.title;
-        if (task.description) taskToReturn.description = task.description;
-        if (task.image) taskToReturn.image = task.image;
-        if (task.deadline) taskToReturn.deadline = new Date(task.deadline).toISOString();
-        if (task.status) taskToReturn.status = task.status;
-        if (task.createdAt) taskToReturn.createdAt = new Date(task.createdAt!).toISOString();
-        if (task.updatedAt) taskToReturn.updatedAt = new Date(task.updatedAt!).toISOString();
+        if ('_id' in task) taskToReturn.id = task._id.toString();
+        if ('userId' in task) taskToReturn.userId = task.userId.toString();
+        if ('title' in task) taskToReturn.title = task.title;
+        if ('description' in task) taskToReturn.description = task.description;
+        if ('image' in task) taskToReturn.image = task.image;
+        if ('deadline' in task) taskToReturn.deadline = new Date(task.deadline).toISOString();
+        if ('status' in task) taskToReturn.status = task.status;
+        if ('createdAt' in task) taskToReturn.createdAt = new Date(task.createdAt!).toISOString();
+        if ('updatedAt' in task) taskToReturn.updatedAt = new Date(task.updatedAt!).toISOString();
 
         return taskToReturn;
     }

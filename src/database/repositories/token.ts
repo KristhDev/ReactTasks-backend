@@ -96,11 +96,11 @@ class TokenRepository {
     private static toToken(token: TokenModel): Token {
         let tokenToReturn: Token = {} as Token;
 
-        if (token._id) tokenToReturn.id = token._id.toString();
-        if (token.expiresIn) tokenToReturn.expiresIn = token.expiresIn;
-        if (token.token) tokenToReturn.token = token.token;
-        if (token.createdAt) tokenToReturn.createdAt = new Date(token.createdAt).toISOString();
-        if (token.updatedAt) tokenToReturn.updatedAt = new Date(token.updatedAt).toISOString();
+        if ('_id' in token) tokenToReturn.id = token._id.toString();
+        if ('expiresIn' in token) tokenToReturn.expiresIn = token.expiresIn;
+        if ('token' in token) tokenToReturn.token = token.token;
+        if ('createdAt' in token) tokenToReturn.createdAt = new Date(token.createdAt!).toISOString();
+        if ('updatedAt' in token) tokenToReturn.updatedAt = new Date(token.updatedAt!).toISOString();
 
         return tokenToReturn;
     }

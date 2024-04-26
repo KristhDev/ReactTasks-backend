@@ -164,12 +164,12 @@ class UserRepository {
     public static toEndpoint(user: User): UserEndpoint {
         let userEndpoint: UserEndpoint = {} as UserEndpoint;
 
-        if (user.id) userEndpoint.id = user.id.toString();
-        if (user.name) userEndpoint.name = user.name;
-        if (user.lastname) userEndpoint.lastname = user.lastname;
-        if (user.email) userEndpoint.email = user.email;
-        if (user.createdAt) userEndpoint.createdAt = new Date(user.createdAt!).toISOString();
-        if (user.updatedAt) userEndpoint.updatedAt = new Date(user.updatedAt!).toISOString();
+        if ('id' in user) userEndpoint.id = user.id.toString();
+        if ('name' in user) userEndpoint.name = user.name;
+        if ('lastname' in user) userEndpoint.lastname = user.lastname;
+        if ('email' in user) userEndpoint.email = user.email;
+        if ('createdAt' in user) userEndpoint.createdAt = new Date(user.createdAt!).toISOString();
+        if ('updatedAt' in user) userEndpoint.updatedAt = new Date(user.updatedAt!).toISOString();
 
         return userEndpoint;
     }
@@ -183,14 +183,14 @@ class UserRepository {
     private static toUser(user: UserModel): User {
         let userToReturn: User = {} as User;
 
-        if (user._id) userToReturn.id = user?._id?.toString();
-        if (user.name) userToReturn.name = user.name;
-        if (user.lastname) userToReturn.lastname = user.lastname;
-        if (user.email) userToReturn.email = user.email;
-        if (user.verified) userToReturn.verified = user.verified;
-        if (user.password) userToReturn.password = user.password;
-        if (user.createdAt) userToReturn.createdAt = new Date(user.createdAt!).toISOString();
-        if (user.updatedAt) userToReturn.updatedAt = new Date(user.updatedAt!).toISOString();
+        if ('_id' in user) userToReturn.id = user?._id?.toString();
+        if ('name' in user) userToReturn.name = user.name;
+        if ('lastname' in user) userToReturn.lastname = user.lastname;
+        if ('email' in user) userToReturn.email = user.email;
+        if ('verified' in user) userToReturn.verified = user.verified;
+        if ('password' in user) userToReturn.password = user.password;
+        if ('createdAt' in user) userToReturn.createdAt = new Date(user.createdAt!).toISOString();
+        if ('updatedAt' in user) userToReturn.updatedAt = new Date(user.updatedAt!).toISOString();
 
         return userToReturn;
     }
