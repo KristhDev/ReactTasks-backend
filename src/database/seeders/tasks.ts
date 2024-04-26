@@ -22,7 +22,7 @@ export class TasksSeeder {
             const tasks = Array.from({ length: users.length * 30 }, () => ({
                 userId: faker.helpers.arrayElement(users).id,
                 title: faker.lorem.words({ min: 2, max: 3 }),
-                description: faker.lorem.paragraph(),
+                description: faker.lorem.paragraph(25),
                 deadline: faker.date.future().toISOString(),
                 status: faker.helpers.arrayElement<TaskStatus>([ 'completed', 'in-progress', 'pending' ])
             }));
