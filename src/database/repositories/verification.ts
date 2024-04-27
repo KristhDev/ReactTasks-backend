@@ -108,8 +108,8 @@ class VerificationRepository {
         if ('token' in verification) verificationToReturn.token = verification.token;
         if ('type' in verification) verificationToReturn.type = verification.type;
         if ('expiresIn' in verification) verificationToReturn.expiresIn = verification.expiresIn;
-        if ('createdAt' in verification) verificationToReturn.createdAt = new Date(verification.createdAt!).toISOString();
-        if ('updatedAt' in verification) verificationToReturn.updatedAt = new Date(verification.updatedAt!).toISOString();
+        if (!!verification.createdAt) verificationToReturn.createdAt = new Date(verification.createdAt!).toISOString();
+        if (!!verification.updatedAt) verificationToReturn.updatedAt = new Date(verification.updatedAt!).toISOString();
 
         return verificationToReturn;
     }
