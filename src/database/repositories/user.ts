@@ -168,8 +168,8 @@ class UserRepository {
         if ('name' in user) userEndpoint.name = user.name;
         if ('lastname' in user) userEndpoint.lastname = user.lastname;
         if ('email' in user) userEndpoint.email = user.email;
-        if ('createdAt' in user) userEndpoint.createdAt = new Date(user.createdAt!).toISOString();
-        if ('updatedAt' in user) userEndpoint.updatedAt = new Date(user.updatedAt!).toISOString();
+        if (!!user.createdAt) userEndpoint.createdAt = new Date(user.createdAt!).toISOString();
+        if (!!user.updatedAt) userEndpoint.updatedAt = new Date(user.updatedAt!).toISOString();
 
         return userEndpoint;
     }
@@ -189,8 +189,8 @@ class UserRepository {
         if ('email' in user) userToReturn.email = user.email;
         if ('verified' in user) userToReturn.verified = user.verified;
         if ('password' in user) userToReturn.password = user.password;
-        if ('createdAt' in user) userToReturn.createdAt = new Date(user.createdAt!).toISOString();
-        if ('updatedAt' in user) userToReturn.updatedAt = new Date(user.updatedAt!).toISOString();
+        if (!!user.createdAt) userToReturn.createdAt = new Date(user.createdAt!).toISOString();
+        if (!!user.updatedAt) userToReturn.updatedAt = new Date(user.updatedAt!).toISOString();
 
         return userToReturn;
     }
