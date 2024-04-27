@@ -151,17 +151,19 @@ class TaskRepository {
      * @return {TaskEndpoint} - The converted TaskEndpoint object.
      */
     public static toEndpoint(task: Task): TaskEndpoint {
-        return {
-            id: task.id,
-            userId: task.userId.toString(),
-            title: task.title,
-            description: task.description,
-            image: task?.image,
-            deadline: new Date(task.deadline).toISOString(),
-            status: task.status,
-            createdAt: new Date(task.createdAt!).toISOString(),
-            updatedAt: new Date(task.updatedAt!).toISOString()
-        }
+        let taskEndpoint: TaskEndpoint = {} as TaskEndpoint;
+
+        if ('id' in task) taskEndpoint.id = task.id.toString();
+        if ('userId' in task) taskEndpoint.userId = task.userId.toString();
+        if ('title' in task) taskEndpoint.title = task.title;
+        if ('description' in task) taskEndpoint.description = task.description;
+        if ('image' in task) taskEndpoint.image = task.image;
+        if ('deadline' in task) taskEndpoint.deadline = new Date(task.deadline).toISOString();
+        if ('status' in task) taskEndpoint.status = task.status;
+        if ('createdAt' in task) taskEndpoint.createdAt = new Date(task.createdAt!).toISOString();
+        if ('updatedAt' in task) taskEndpoint.updatedAt = new Date(task.updatedAt!).toISOString();
+
+        return taskEndpoint;
     }
 
     /**
@@ -171,17 +173,19 @@ class TaskRepository {
      * @return {Task} The converted Task object.
      */
     private static toTask(task: TaskModel): Task {
-        return {
-            id: task._id.toString(),
-            userId: task.userId.toString(),
-            title: task.title,
-            description: task.description,
-            image: task?.image,
-            deadline: new Date(task.deadline).toISOString(),
-            status: task.status,
-            createdAt: new Date(task.createdAt!).toISOString(),
-            updatedAt: new Date(task.updatedAt!).toISOString()
-        }
+        let taskToReturn: Task = {} as Task;
+
+        if ('_id' in task) taskToReturn.id = task._id.toString();
+        if ('userId' in task) taskToReturn.userId = task.userId.toString();
+        if ('title' in task) taskToReturn.title = task.title;
+        if ('description' in task) taskToReturn.description = task.description;
+        if ('image' in task) taskToReturn.image = task.image;
+        if ('deadline' in task) taskToReturn.deadline = new Date(task.deadline).toISOString();
+        if ('status' in task) taskToReturn.status = task.status;
+        if ('createdAt' in task) taskToReturn.createdAt = new Date(task.createdAt!).toISOString();
+        if ('updatedAt' in task) taskToReturn.updatedAt = new Date(task.updatedAt!).toISOString();
+
+        return taskToReturn;
     }
 }
 
