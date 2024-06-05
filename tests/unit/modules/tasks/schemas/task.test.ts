@@ -14,7 +14,7 @@ describe('Test in schemas of tasks module', () => {
         if (!result.success) throw new Error('Result is not success - storeTaskSchema');
 
         expect(result.success).toBeTruthy();
-        expect(result.data).toEqual(data);
+        expect(result.data).toEqual({ ...data, status: 'pending' });
     });
 
     it('should return error because data is empty - storeTaskSchema', async () => {

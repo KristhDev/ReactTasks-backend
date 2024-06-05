@@ -58,6 +58,39 @@ describe('Test in Store Task Endpoint', () => {
         await TaskRepository.deleteOne({ userId: user?.id });
     });
 
+    it('should create task with specific status', async () => {
+        const user = await UserRepository.findOne({ email: 'tester@gmail.com' });
+        await TaskRepository.deleteOne({ userId: user?.id });
+
+        const token = JWT.generateToken({ id: user?.id! });
+
+        const resp = await request
+            .post('/api/tasks')
+            .set('Authorization', `Bearer ${ token }`)
+            .send({
+                ...data,
+                status: 'completed'
+            });
+
+        expect(resp.status).toBe(Http.CREATED);
+
+        expect(resp.body).toEqual({
+            msg: 'Has agregado la tarea correctamente.',
+            status: Http.CREATED,
+            task: {
+                id: expect.any(String),
+                userId: user?.id,
+                ...data,
+                image: '',
+                status: 'completed',
+                createdAt: expect.any(String),
+                updatedAt: expect.any(String)
+            }
+        });
+
+        await TaskRepository.deleteOne({ userId: user?.id });
+    });
+
     it('should faild because body is empty', async () => {
         const user = await UserRepository.findOne({ email: 'tester@gmail.com' });
         const token = JWT.generateToken({ id: user?.id! });
