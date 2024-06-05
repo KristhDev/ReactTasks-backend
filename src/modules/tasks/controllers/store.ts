@@ -22,14 +22,21 @@ class StoreTaskController {
      */
     public static async handler(req: StoreTaskRequest, res: JsonResponse): Promise<JsonResponse> {
         try {
-            const body = req.body;
+            const { title, description, deadline, status } = req.body;
             const image = req.files?.image as UploadedFile | undefined;
             const { user } = req.auth!;
 
             let imageUrl = '';
             if (image) imageUrl = await ImageService.upload(image, process.env.CLOUDINARY_TASKS_FOLDER);
 
-            const task = await TaskRepository.create({ ...body, image: imageUrl, userId: user.id });
+            const task = await TaskRepository.create({
+                userId: user.id,
+                title,
+                description,
+                deadline,
+                status,
+                image: imageUrl,
+            });
 
             return Http.sendResp(res, {
                 msg: 'Has agregado la tarea correctamente.',

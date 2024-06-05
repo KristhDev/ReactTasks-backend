@@ -22,11 +22,18 @@ class UpdateTaskController {
      */
     public static async handler(req: UpdateTaskRequest, res: JsonResponse): Promise<JsonResponse> {
         try {
-            const body = req.body;
+            const { title, deadline, description, status } = req.body;
             const image = req.files?.image as UploadedFile | undefined;
             const task = req.task!;
 
             let imageUrl = task.image;
+
+            let body = {}
+
+            if (title) body = { ...body, title }
+            if (description) body = { ...body, description }
+            if (deadline) body = { ...body, deadline }
+            if (status) body = { ...body, status }
 
             if (image && !!imageUrl) await ImageService.destroy(imageUrl);
             if (image) imageUrl = await ImageService.upload(image, process.env.CLOUDINARY_TASKS_FOLDER);
