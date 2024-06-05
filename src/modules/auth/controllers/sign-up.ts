@@ -16,14 +16,14 @@ class SignUpController {
      * @returns {Promise<JsonResponse>} The JSON response containing the result of the sign up operation.
      */
     public static async handler(req: SignUpRequest, res: JsonResponse): Promise<JsonResponse> {
-        const body = req.body;
+        const { name, lastname, email, password } = req.body;
 
         try {
             const user = await UserRepository.create({
-                name: body.name,
-                lastname: body.lastname,
-                email: body.email,
-                password: Encrypt.createHash(body.password)
+                name,
+                lastname,
+                email,
+                password: Encrypt.createHash(password)
             });
 
             const token = JWT.generateToken({ nothing: 'Nothing' }, '30m');
@@ -31,12 +31,7 @@ class SignUpController {
             const expiresIn = new Date(data?.exp! * 1000).toISOString();
 
             await VerificationRepository.create({ userId: user.id, token, type: 'email', expiresIn });
-
-            await EmailService.sendEmailVerification({
-                email: body.email,
-                name: body.name,
-                token
-            });
+            await EmailService.sendEmailVerification({ email, name, token });
 
             return Http.sendResp(res, {
                 msg: 'Te has registrado correctamente. Hemos enviado un correo de verificación al correo que nos proporcionaste, por favor confirma tu cuenta.', 
